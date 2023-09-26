@@ -1,0 +1,13 @@
+<div class="container">
+
+    <h3>My Lists</h3>
+    <div class="lists">
+        <ul>
+            <li *ngFor="let item of lists">
+                <div (click)="selectList(item)">{{item.name}}</div>
+            </li>
+        </ul>
+    </div>
+    
+    
+</div>

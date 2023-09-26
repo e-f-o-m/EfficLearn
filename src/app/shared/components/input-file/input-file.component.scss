@@ -1,0 +1,73 @@
+.file {
+    background: linear-gradient(45deg, #47CCC7, #47ccc8e3);
+    position: relative;
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    padding: 0.5rem 0.8rem;
+    font-size: .8rem;
+}
+
+.file .ico {
+    background-image: url('./folder.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 2rem;
+    height: 1.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.4rem;
+}
+
+.file div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.file div label {
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+    color: #fff;
+    text-shadow: 0px 0px 2px #09413fb2;
+}
+
+.file input[type=file]::file-selector-button {
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    background: #239b97;
+    padding: 0.2rem 0.5rem;
+    width: min-content;
+    font-size: .7rem;
+}
+
+
+
+
+
+.search {
+    z-index: 1;
+    position: relative;
+    display: block;
+
+}
+
+.search .ico {
+    position: absolute;
+    top: 0.7rem;
+    left: 0.6rem;
+    color: #aaa;
+}
+
+.search .form-control {
+    padding-left: 2.2rem;
+}

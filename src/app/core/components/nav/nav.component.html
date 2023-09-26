@@ -1,0 +1,29 @@
+<header class="nav">
+
+    <div class="name_page">{{namePage}}</div>
+
+    <nav class="main-navigation" [ngClass]="{'hidden-nav': isOpenNavLeft}" [style]="{'overflow': 'hidden'}" >
+
+        <ul class="menu" >
+            <li class="about">  <a class="link" routerLink="/">🔗 Games and Tools</a></li >
+            <li class="read">   <a class="link selected" routerLink="multiplecards">🔗 Multi Cards</a></li >
+            <li class="grammar"><a class="link" routerLink="library-manager">🔗 Library Manager</a></li >
+            <li class="about">  <a class="link" routerLink="read">🔗 Read</a></li >
+        </ul>
+        <ul class="menu-secondary" >
+            <li class="read">   <a class="link" routerLink="read">🔗 Contact</a></li >
+        </ul>
+    </nav >
+
+    <div class="btn_nav">
+        <div class="black" [ngClass]="{'hidden-nav': isOpenNavLeft}" (click)="isOpenNavLeft=!isOpenNavLeft"></div>
+
+        <div class="menu_ico_container c" >
+            <div class="menu_ico" id="menuico_id" [ngClass]="{'active': !isOpenNavLeft}">
+                <div class="click_ico" (click)="isOpenNavLeft=!isOpenNavLeft">
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+    </div >
+</header >[class]="expression"

@@ -1,0 +1,59 @@
+<div class="container_read" role="main">
+    <div class="actions">
+        <div class="namefiles">
+            {{ nameFiles[0] }}&nbsp; &nbsp; {{ nameFiles[1] }}
+        </div>
+        <div [class.hidden]="isUpFiles[0]">
+            <app-input-file [name]="'English'" [identifier]="'engFile'"
+                (filesEvent)="setFile($event, 'engFile')"></app-input-file>
+        </div>
+        <div [class.hidden]="isUpFiles[1]">
+            <app-input-file [name]="'Spanish'" [identifier]="'espFile'"
+                (filesEvent)="setFile($event, 'espFile')"></app-input-file>
+        </div>
+    </div>
+
+    <section [style.fontSize.rem]="fontSize">
+        <div id="read_content_en">
+            <div *ngFor="let itemEn of en; let i = index" (click)="scroll(true, itemEn)" [attr.id]="'en' + itemEn.id">
+                {{ itemEn.text }}
+            </div>
+        </div>
+        <div id="read_content_es">
+            <div *ngFor="let itemEs of es; let i = index" (click)="scroll(false, itemEs)" [attr.id]="'es' + itemEs.id">
+                {{ itemEs.text }}
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="float-actions">
+    <button type="button" (click)="changeId(-1)" [class.hidden]="isEn">UP</button>
+    <button type="button" (click)="changeId(1)" [class.hidden]="isEn">Down</button>
+    <div class="menu">
+        <button (click)="isOpenOption = !isOpenOption">Options</button>
+        <div class="menu-pos-re">
+            <ul [class.hidden]="!isOpenOption">
+                <li>
+                    <div (click)="goToPage()">Go save page</div>
+                </li>
+                <li>
+                    <div (click)="downloadBook()">Download books</div>
+                </li>
+                <li style="display: flex; width: 1.5rem;">
+                    <div (click)="fontSize = fontSize - 0.1">A-</div>
+                    <div (click)="fontSize = fontSize + 0.1">A+</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="loading-container" *ngIf="isLoading">
+    <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+        <h2>Loading...</h2>
+    </div>
+</div>

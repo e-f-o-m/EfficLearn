@@ -1,0 +1,31 @@
+.container {
+    h3 {
+        padding: 2rem;
+        color: antiquewhite;
+        background: #b8beba17;
+        border-bottom: solid 1px #1231238c;
+    }
+
+    .lists {
+        padding: 2rem;
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+
+            li {
+                div {
+                    background: #368b48;
+                    color: #ffffffee;
+                    border-radius: 1rem;
+                    cursor: pointer;
+                    padding: 0.8rem;
+                    box-shadow: 1px 1px 3px #00000056, inset 1px 1px 3px #00000025;
+                    border-bottom: solid 1px #ffffff1a;
+                    border-left:   solid 1px #e4e4e41a;
+                    text-shadow: 0px 0px 2px #000000c2;
+                }
+            }
+        }
+    }
+}

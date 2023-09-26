@@ -1,0 +1,16 @@
+<div class="container">
+    <button type="button">Create New List</button>
+    <ng-container>
+        <app-list-builder />
+    </ng-container>
+
+    <button class="delete" (click)="delete()">Delete</button>
+    
+    <h3>My Lists</h3>
+    <div class="lists">
+        <ul>
+            <li (click)="selectList(item)" *ngFor="let item of lists">{{item.name}}</li>
+        </ul>
+    </div>
+
+</div>
