@@ -1,16 +1,6 @@
-.container {
-    background: #051629bb;
-    padding: 1rem;
-    display: flex;
-    gap: 0.4rem;
-    flex-direction: column;
+@import "src/app/styles/modal-card.scss";
+@import "src/app/styles/button.scss";
 
-    .actions {
-        display: flex;
-    gap: 0.4rem;
-    }
-}
-/* Estilos para input de texto */
 input[type="text"] {
     width: 100%;
     padding: 10px;
@@ -20,99 +10,18 @@ input[type="text"] {
     font-size: 16px;
 }
 
-/* Estilos para textarea */
-textarea {
+.data-list {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+    outline: none;
 }
 
-/* Estilos para botones */
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    /* Cambia el color de fondo según tus preferencias */
-    color: #fff;
-    /* Cambia el color del texto según tus preferencias */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-/* Estilo cuando el botón se coloca encima (hover) */
-button:hover {
-    background-color: #0056b3;
-    /* Cambia el color de fondo en el hover */
-}
-
-
-
-
-
-
-/* Estilos para input de casilla de verificación */
-.checkbox-container {
+.actions {
     display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.checkbox-label {
-    margin-left: 10px;
-    font-size: 16px;
-    color: white;
-
-}
-
-.checkbox-input {
-    display: none;
-}
-
-.custom-checkbox {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    background-color: #fff;
-    border: 2px solid #007bff;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.custom-checkbox::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 12px;
-    height: 12px;
-    background-color: #007bff;
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.checkbox-input:checked+.custom-checkbox::before {
-    opacity: 1;
-}
-
-/* Estilo cuando se hace clic en el checkbox */
-.custom-checkbox:hover {
-    border-color: #0056b3;
-}
-
-/* Estilo cuando el checkbox está marcado */
-.custom-checkbox.checked {
-    background-color: #007bff;
-    border-color: #007bff;
-}
-
-.custom-checkbox.checked::before {
-    opacity: 1;
-    background-color: #fff;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
 }

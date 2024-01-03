@@ -6,6 +6,8 @@ import { AppComponent } from './app/app.component';
 import { mroutes } from './app/app-routing';
 import { importProvidersFrom, isDevMode } from '@angular/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getDatabase, provideDatabase } from '@angular/fire/database';
 //import { importProvidersFrom } from '@angular/core';
 /* import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'; */
 //import { HttpRequestInterceptor } from '@core/intercectors/http-request.interceptor';
@@ -13,6 +15,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(mroutes),
+    importProvidersFrom(provideFirebaseApp(() => initializeApp({"projectId":"efficlearn","appId":"1:579175726302:web:0a579736652e6552d6964f","databaseURL":"https://efficlearn-default-rtdb.firebaseio.com","storageBucket":"efficlearn.appspot.com","apiKey":"AIzaSyCfj2bFLVFdKhWieOSITjn-QEmmAv3DU7I","authDomain":"efficlearn.firebaseapp.com","messagingSenderId":"579175726302"}))),
+    importProvidersFrom(provideDatabase(() => getDatabase())),
     //importProvidersFrom(HttpClientModule),
     //{ provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true }
   ]

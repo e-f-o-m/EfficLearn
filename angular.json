@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/effic-learn",
+            "outputPath": "public",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -106,8 +106,18 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2,
+            "browserTarget": "efficLearn:build:production"
+          }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "bbeae7d4-5cb8-44ec-b382-15045ce1e5fe"
   }
 }

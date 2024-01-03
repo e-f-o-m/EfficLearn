@@ -1,8 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ILineLyrics } from '@core/models/ILineLyrics';
 import { fileToLinesLyric } from '@core/utils/file';
 import { InputFileComponent } from '@shared/components/input-file/input-file.component';
+import { NavigationEnd, Route, Router } from '@angular/router';
+import { filter } from 'rxjs/internal/operators/filter';
+
+interface InfoPagination {
+    page: number,
+    sizeEn: number,
+    sizeEs: number,
+    nSplit: number
+}
+
 
 @Component({
     selector: 'app-read',
@@ -12,22 +22,49 @@ import { InputFileComponent } from '@shared/components/input-file/input-file.com
     styleUrls: ['./read.component.scss']
 })
 export class ReadComponent {
+    private router = inject(Router);
     en: ILineLyrics[] = [];
     es: ILineLyrics[] = [];
+    enFilter: ILineLyrics[] = [];
+    esFilter: ILineLyrics[] = [];
     isUpFiles = [false, false];
-    isOpenOption = false;
+    isShowOptions = false;
+    isShowNav = true;
     isEn = true;
     isLoading = false;
     fontSize = 0.8;
     nameFiles: string[] = ["", ""];
     lineLyricsSelected: { en?: ILineLyrics, es?: ILineLyrics } = { en: undefined, es: undefined }
     selecteds: [number, number] = [0, 0];
+    pagination: InfoPagination = {
+        page: 0,
+        sizeEn: 0,
+        sizeEs: 0,
+        nSplit: 40
+    }
+
+    constructor() {
+        this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: any) => {
+            this.setStateNav(event.url)
+        });
+        this.router.navigate([], { queryParams: { nav: this.isShowNav } });
+        this.setStateNav(this.router.url);
+    }
+    setStateNav(url: any) {
+        let dataUrl = this.router.parseUrl(url).queryParams;
+        if (dataUrl["nav"]) {
+            this.isShowNav = "true" == dataUrl["nav"]
+        }
+    }
+
+
 
     setFile(files: FileList, identifier: string) {
         this.isLoading = true;
         this.fontSize = Number(localStorage.getItem("fontSize")) || 0.8;
+
+        let file: File = files[0];
         let isEnglish: boolean = identifier == "engFile";
-        const file: File = files[0];
 
         if (file) {
             if (document.readyState !== 'complete') return;
@@ -37,19 +74,55 @@ export class ReadComponent {
                     this.en = res
                     this.isUpFiles[0] = true;
                     this.isLoading = false;
+                    this.pagination.sizeEn = this.en.length;
+                    this.enFilter = this.en.slice(this.pagination.page * this.pagination.nSplit, (this.pagination.page + 1) * this.pagination.nSplit);
                 })
-            } else {
+            }
+            if (files.length > 1 || !isEnglish) {
+                file = files[files.length - 1]
                 this.nameFiles[1] = file.name;
                 fileToLinesLyric(file)
                 fileToLinesLyric(file).then(res => {
                     this.es = res
                     this.isUpFiles[1] = true;
                     this.isLoading = false;
+                    this.pagination.sizeEs = this.es.length;
+                    this.goPage()
                 })
 
             }
         }
     }
+
+    toggleLang() {
+        const aux = this.nameFiles[0];
+        this.nameFiles[0] = this.nameFiles[1]
+        this.nameFiles[1] = aux;
+        const aux2 = this.es;
+        this.es = this.en;
+        this.en = aux2;
+        const aux3 = this.esFilter;
+        this.esFilter = this.enFilter;
+        this.enFilter = aux3;
+    }
+
+    nextPage() {
+        this.pagination.page++;
+        this.goPage();
+    }
+    previousPage() {
+        this.pagination.page--;
+        this.goPage();
+    }
+    goPageInput(event: any) {
+        this.pagination.page = event.value as number || 0;
+        this.goPage();
+    }
+    goPage() {
+        this.enFilter = this.en.slice(this.pagination.page * this.pagination.nSplit, (this.pagination.page + 1) * this.pagination.nSplit);
+        this.esFilter = this.es.slice(this.enFilter[0].idOther, this.enFilter[this.enFilter.length - 1].idOther + 1);
+    }
+
 
     changeId(direction: number) {
         if (direction === 1) {
@@ -90,6 +163,7 @@ export class ReadComponent {
         lineEl?.classList.add("selected");
 
         this.selecteds = [this.lineLyricsSelected.en!.id, this.lineLyricsSelected.es!.id];
+        this.goPage();
     }
 
     scroll(_isEn: boolean, lineLyrics: ILineLyrics) {
@@ -98,16 +172,22 @@ export class ReadComponent {
         let read_content_en = document.getElementById("read_content_en");
         let read_content_es = document.getElementById("read_content_es");
         read_content_en!.style.zIndex = _isEn ? '1' : '2';
-        read_content_es!.style.zIndex = _isEn ? '2' : '1';
+        read_content_en!.style.opacity = _isEn ? '0' : '1';
 
+        read_content_es!.style.zIndex = _isEn ? '2' : '1';
+        read_content_es!.style.opacity = _isEn ? '1' : '0';
+
+        //Seleccionados en y es (azul)
         if (_isEn) {
             this.lineLyricsSelected.en = Object.assign({}, lineLyrics);
-            this.lineLyricsSelected.es! = Object.assign({}, this.es[lineLyrics.idOther]);
+            const esOtherElement = this.esFilter.find(res => res.id == lineLyrics.idOther);
+            this.lineLyricsSelected.es! = Object.assign({}, esOtherElement);
             //El seleccionado es igual al pos other de la otra lista
             this.lineLyricsSelected.es!.idOther = lineLyrics.id;
         } else {
             this.lineLyricsSelected.es! = Object.assign({}, lineLyrics);
-            this.lineLyricsSelected.en! = Object.assign({}, this.en[lineLyrics.idOther]);
+            const enOtherElement = this.enFilter.find(res => res.id == lineLyrics.idOther);
+            this.lineLyricsSelected.en! = Object.assign({}, enOtherElement);
         }
 
 
@@ -152,15 +232,15 @@ export class ReadComponent {
 
     downloadBook() {
         let content: string[] = [];
-        content.push(`{${this.en[0].idOther}}`+this.en[0].text);
+        content.push(`{${this.en[0].idOther}}` + this.en[0].text);
         for (let i = 1; i < this.en.length; i++) {
-            content.push(`|{${this.en[i].idOther}}`+this.en[i].text);
+            content.push(`|{${this.en[i].idOther}}` + this.en[i].text);
         }
         this.downloadFile(this.getDataMD_HM() + "_" + this.nameFiles[0], content);
         content = [];
-        content.push(`{${this.es[0].idOther}}`+this.es[0].text);
+        content.push(`{${this.es[0].idOther}}` + this.es[0].text);
         for (let i = 1; i < this.es.length; i++) {
-            content.push(`|{${this.es[i].idOther}}`+this.es[i].text);
+            content.push(`|{${this.es[i].idOther}}` + this.es[i].text);
         }
         this.downloadFile(this.getDataMD_HM() + "_" + this.nameFiles[1], content);
     }
@@ -188,7 +268,7 @@ export class ReadComponent {
         return `${year}${mes}${dia}_${hora}${minuto}`;
     }
 
-    goToPage(): void {
+    goToSavedPage() {
         let idItem = localStorage.getItem('pageId');
         let item = this.en.find(res => res.id == Number(idItem));
         if (item) {

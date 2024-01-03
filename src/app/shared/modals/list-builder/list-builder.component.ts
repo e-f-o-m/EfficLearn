@@ -1,27 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IData, IFullData } from '@core/models/IData';
+import { LS_LISTS } from '@core/constants/constants';
 
 @Component({
-  selector: 'app-list-builder',
+  selector: 'list-builder',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './list-builder.component.html',
   styleUrls: ['./list-builder.component.scss']
 })
 export class ListBuilderComponent {
+  @Input() show = false;
+  @Output() eventShow = new EventEmitter<boolean>(false);
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
   }
-  
-  cancel(){
-    
+
+  cancel() {
+    this.toggleShow()
+    //TODO: delete data modal
   }
-  accept(){
+  accept() {
     let dataList = document.querySelector(".data-list") as HTMLTextAreaElement;
     let nameList = document.querySelector(".name-list") as HTMLInputElement;
-    let isNameInsideList = document.querySelector(".is-name-inside-list") as HTMLInputElement;
-
 
     let finalData: IFullData = {
       id: '',
@@ -29,38 +31,53 @@ export class ListBuilderComponent {
       list: []
     }
     let arDataList = dataList.value.split("\n")
-    if(isNameInsideList.checked){
-      finalData.name = arDataList.shift()!
-    }else{
-      finalData.name = nameList.value
-    }
+    finalData.name = nameList.value
 
-    if(arDataList.length < 1){
+    if (arDataList.length < 1) {
       alert("Error")
       return
-    }else{
-      if(arDataList[0].split(";").length <=1){
+    } else {
+      if (arDataList[0].split(";").length <= 1) {
         alert("Error")
         return
       }
     }
-    
-
-    arDataList.forEach(line => {
-      let arLine = line.split(";")
-      finalData.list.push({
-        isQuestion: true,
-        question: arLine[0],
-        answer: arLine[1]
-      })
-    });
-
 
     let date = new Date().getTime()
-    finalData.id = "listID"+date
+    let startDate = new Date(2023, 11, 26, 11, 36, 0, 0).getTime();
+    let startId = (date - startDate);
+
+
+    arDataList.forEach((line, i) => {
+      if (line.trim().length > 2) {
+
+        let arLine = line.split(";")
+        finalData.list!.push({
+          isQuestion: true,
+          question: arLine,
+          answer: arLine,
+          id: startId + "" + i,
+          rangeCopleted: 0,
+          observation: "",
+          type: 0,
+          state: "active",
+        })
+      }
+    });
+
+    finalData.description = ""
+    finalData.quantity = finalData.list?.length
+    finalData.completed = 0
+    finalData.id = LS_LISTS.listResourceLanguageID + startId
     localStorage.setItem(finalData.id, JSON.stringify(finalData));
 
-    alert("Creado")
-
+    //TODO: toast
+    this.toggleShow()
   }
+
+  toggleShow() {
+    this.show = !this.show;
+    this.eventShow.emit(this.show)
+  }
+
 }

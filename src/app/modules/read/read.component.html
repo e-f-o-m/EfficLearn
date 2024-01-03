@@ -1,7 +1,40 @@
-<div class="container_read" role="main">
+<div class="float-actions"  [ngClass]="{'notNav': isShowNav}">
+    <ul [ngClass]="{'show-items': isShowOptions}">
+        <li style="display: flex;" class="pagination">
+            <span>1/100</span>
+            <input type="text" name="" id="" placeholder="#" (change)="goPageInput($event.target)">
+            <div (click)="previousPage()">&lt;</div>
+            <div (click)="nextPage()">&gt;</div>
+        </li>
+        <li>
+            <button type="button" (click)="changeId(-1)" [class.hidden]="isEn">UP</button>
+            <button type="button" (click)="changeId(1)" [class.hidden]="isEn">Down</button>
+        </li>
+        <li>
+            <div (click)="isShowOptions=!isShowOptions">Todo</div>
+        </li>
+        <li>
+            <div (click)="goToSavedPage()">Go save page</div>
+        </li>
+        <li>
+            <div (click)="downloadBook()">Download books</div>
+        </li>
+        <li style="display: flex;">
+            <div (click)="fontSize = fontSize - 0.1">A-</div>
+            <div (click)="fontSize = fontSize + 0.1">A+</div>
+        </li>
+    </ul>
+</div>
+
+<div class="container_read" role="main" [ngClass]="{'notNav': isShowNav}">
+    <br>
     <div class="actions">
-        <div class="namefiles">
-            {{ nameFiles[0] }}&nbsp; &nbsp; {{ nameFiles[1] }}
+        <div *ngIf="isUpFiles[0] && isUpFiles[1]" class="namefiles">
+            <div class="primary">{{ nameFiles[0] }}</div>
+            <div>
+                <button class="toggle" (click)="toggleLang()">⮀</button>
+            </div>
+            <div class="secondary">{{ nameFiles[1] }}</div>
         </div>
         <div [class.hidden]="isUpFiles[0]">
             <app-input-file [name]="'English'" [identifier]="'engFile'"
@@ -12,41 +45,19 @@
                 (filesEvent)="setFile($event, 'espFile')"></app-input-file>
         </div>
     </div>
-
+    
     <section [style.fontSize.rem]="fontSize">
         <div id="read_content_en">
-            <div *ngFor="let itemEn of en; let i = index" (click)="scroll(true, itemEn)" [attr.id]="'en' + itemEn.id">
+            <div *ngFor="let itemEn of enFilter; let i = index" (click)="scroll(true, itemEn)" [attr.id]="'en' + itemEn.id">
                 {{ itemEn.text }}
             </div>
         </div>
         <div id="read_content_es">
-            <div *ngFor="let itemEs of es; let i = index" (click)="scroll(false, itemEs)" [attr.id]="'es' + itemEs.id">
+            <div *ngFor="let itemEs of esFilter; let i = index" (click)="scroll(false, itemEs)" [attr.id]="'es' + itemEs.id">
                 {{ itemEs.text }}
             </div>
         </div>
     </section>
-</div>
-
-<div class="float-actions">
-    <button type="button" (click)="changeId(-1)" [class.hidden]="isEn">UP</button>
-    <button type="button" (click)="changeId(1)" [class.hidden]="isEn">Down</button>
-    <div class="menu">
-        <button (click)="isOpenOption = !isOpenOption">Options</button>
-        <div class="menu-pos-re">
-            <ul [class.hidden]="!isOpenOption">
-                <li>
-                    <div (click)="goToPage()">Go save page</div>
-                </li>
-                <li>
-                    <div (click)="downloadBook()">Download books</div>
-                </li>
-                <li style="display: flex; width: 1.5rem;">
-                    <div (click)="fontSize = fontSize - 0.1">A-</div>
-                    <div (click)="fontSize = fontSize + 0.1">A+</div>
-                </li>
-            </ul>
-        </div>
-    </div>
 </div>
 
 <div class="loading-container" *ngIf="isLoading">

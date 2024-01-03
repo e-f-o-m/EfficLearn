@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "efficlearn"
+  },
+  "targets": {
+    "efficlearn": {
+      "hosting": {
+        "efficLearn": [
+          "efficlearn"
+        ]
+      }
+    }
   }
 }

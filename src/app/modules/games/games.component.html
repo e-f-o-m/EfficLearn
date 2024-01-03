@@ -1,13 +1,12 @@
 <div class="container">
 
-    <h3>My Lists</h3>
+    <h3>Select game</h3>
     <div class="lists">
         <ul>
-            <li *ngFor="let item of lists">
-                <div (click)="selectList(item)">{{item.name}}</div>
-            </li>
+            <li class="li_link"> <a class="link selected" routerLink="games/multiplecards">🔗 Multi Cards</a></li>
+            <li class="li_link"> <a class="link" routerLink="games/cards">🔗 Cards</a></li>
+            <li class="li_link"> <a class="link" routerLink="games/chat">🔗 Chat</a></li>
         </ul>
     </div>
-    
     
 </div>

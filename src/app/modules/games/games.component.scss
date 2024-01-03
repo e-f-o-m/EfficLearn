@@ -14,7 +14,7 @@
             gap: 0.4rem;
 
             li {
-                div {
+                a {
                     background: #368b48;
                     color: #ffffffee;
                     border-radius: 1rem;
@@ -24,6 +24,8 @@
                     border-bottom: solid 1px #ffffff1a;
                     border-left:   solid 1px #e4e4e41a;
                     text-shadow: 0px 0px 2px #000000c2;
+                    user-select: none;
+                    text-decoration: none;
                 }
             }
         }

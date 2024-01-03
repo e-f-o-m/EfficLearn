@@ -2,7 +2,7 @@
     <div *ngFor="let item of data.list" (click)="toggleCard(item)" class="flipper"
         [ngClass]="{ 'active' : !item.isQuestion }">
         <div class="itemCard">
-            <div class="invisible">{{ item.question.length>item.answer.length? item.question:item.answer }}</div>
+            <div class="invisible">{{ item.question!.length>item.answer!.length? item.question:item.answer }}</div>
             <div class="question">{{item.question}}</div>
             <div class="answer">{{item.answer}}</div>
         </div>

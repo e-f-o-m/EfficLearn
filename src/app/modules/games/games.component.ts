@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IFullData } from '@core/models/IData';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { getNameListsLS } from '@core/services/localstorange/LS.list';
 
 @Component({
   selector: 'app-games',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss']
 })
@@ -17,20 +18,7 @@ export class GamesComponent {
   lists: IFullData[] = [];
 
   ngOnInit() {
-    this.searchLocalStorange("listID")
-  }
-
-  searchLocalStorange(patron: string) {
-    const clavesLocalStorage = Object.keys(localStorage);
-    for (const clave of clavesLocalStorage) {
-      if (clave.includes(patron)) {
-        let res = localStorage.getItem(clave)
-        if(res != undefined && res != "undefined" && res != ""){
-          let data = JSON.parse(res)
-          this.lists.push( data )
-        }
-      }
-    }
+    this.lists = getNameListsLS()
   }
 
   selectList(item: IFullData){

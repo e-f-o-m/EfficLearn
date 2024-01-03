@@ -1,16 +1,26 @@
 <div class="container">
-    <button type="button">Create New List</button>
-    <ng-container>
-        <app-list-builder />
-    </ng-container>
-
-    <button class="delete" (click)="delete()">Delete</button>
-    
-    <h3>My Lists</h3>
-    <div class="lists">
-        <ul>
-            <li (click)="selectList(item)" *ngFor="let item of lists">{{item.name}}</li>
-        </ul>
+    <div class="title">
+        <h3>Manage Resources</h3>
     </div>
 
+    <!-- <list-builder [show]="isListBuilder" (eventShow)="isListBuilder=!isListBuilder" /> -->
+
+    <edit-resource [show]="isEditResource" (eventShow)="isEditResource=!isEditResource"
+        (eventActionResource)="eventActionResource($event)" [generalTableResponse]="generalTableItemSelected" />
+
+    <edit-item [data]="dataItemResource" [show]="isEditItem" (eventShow)="isEditItem=!isEditItem"
+        (eventActionItemResource)="eventActionItemResource($event)"
+        [idResource]="generalTableItemSelected.identifierTable!" />
+
+    <list-resources [show]="isFreeResource" (eventShow)="isFreeResource=!isFreeResource"
+        (onSelectList)="onSelectFreeResource($event)" [lists]="listsResources" />
+
+    <div class="buttons_actions">
+        <app-button [title]="isTableResouces? 'Create List': 'Create Question'"
+            (eventClick)="handleClickBtnCreatList($event)"></app-button>
+        <app-button title="Free resources" (eventClick)="handleOpenFreeResources($event)"></app-button>
+    </div>
+    <br>
+
+    <general-table class="table" (rowEvent)="rowEvent($event)" [tableData]="tableData"></general-table>
 </div>

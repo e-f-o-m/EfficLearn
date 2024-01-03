@@ -1,0 +1,38 @@
+<div [ngClass]="{'show' : show }" class="container">
+
+    <div class="card">
+        <div class="close" (click)="toggleShow()">❌</div>
+
+        <h2>Item Resource</h2>
+
+        <div class="content">
+            <form id="editItemResourceForm" >
+
+                <span>Question</span>
+                <textarea name="question" placeholder="question">{{data.question}}</textarea>
+                <span>Answer</span>
+                <textarea name="answer" placeholder="answer">{{data.answer}}</textarea>
+                <textarea name="observation" placeholder="observation">{{data.observation}}</textarea>
+
+
+                <label class="rating-label">
+                    Completed
+                    <input class="rating" max="5" name="rangeCopleted"
+                        oninput="this.style.setProperty('--value', this.value)" 
+                        step="1"
+                        style="--stars:5;--value:0" 
+                        type="range" 
+                        [value]="data.rangeCopleted">
+                </label>
+
+                <app-button [title]="'Delete'" (eventClick)="handleDeleteItemResource($event)"></app-button>
+
+                <div class="actions">
+                    <app-button [title]="'Cancel'" (eventClick)="cancel($event)"></app-button>
+                    <app-button [title]="'Accept'" [type]="'submit'"></app-button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>

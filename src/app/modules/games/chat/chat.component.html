@@ -1,0 +1,68 @@
+<main>
+
+    <div class="Chat__wrapper">
+        <ul class="Chat">
+            <ng-container *ngFor="let message of messages">
+                <li class="Chat_item Chat_item_l" *ngIf="message.user!=user">
+                    <div class="i_man">
+                        <img src="/assets/person.svg" class="i_man-image" />
+                    </div>
+                    <div class="Chat_msgs">
+                        <div class="msg">
+                            <div class="msg-content">
+                                {{message.text}}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="Chat_item Chat_item_r" *ngIf="message.user==user">
+                    <div class="Chat_msgs">
+                        <div class="msg">
+                            <div class="msg-content">
+                                {{message.text}}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ng-container>
+            <!-- <li class="Chat_item Chat_item_r">
+                <div class="Chat_msgs">
+                    <div class="msg">
+                        <div class="msg-content">
+                            It Just an Sample Chat UI
+                        </div>
+                    </div>
+                    <div class="msg">
+                        <div class="msg-content">
+                            I hope u like it
+                        </div>
+                    </div>
+                </div>
+            </li> -->
+
+        </ul>
+
+
+        <div class='chat-footer'>
+            <div class='chat-textbox'>
+                <div class='left'>
+                    <!-- <i class="fas fa-smile"></i> -->
+                    <input placeholder='Type Message' (input)="handleInputChat($event.target)"  [value]="this.inputValue"/>
+                </div>
+                <!-- <div class='right'>
+                    <i class="fa fa-paperclip"></i>
+                    <i class="fa fa-camera"></i>
+                </div> -->
+            </div>
+            <div class="send">
+                <a class="ico" (click)="sendSMS()"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal_user" *ngIf="user==''">
+        <button (click)="setUser('user1')">User 1</button>
+        <button (click)="setUser('user2')">User 2</button>
+    </div>
+</main>

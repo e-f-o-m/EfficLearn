@@ -7,6 +7,33 @@ $gapLine: 10px;
 $weLine: 0.3rem;
 $top: 3.1rem;
 
+.block_spacing{
+    height: $top;
+    width: 1rem;
+}
+
+.hidden {
+    display: none!important;
+}
+
+:host > .btnHidden {
+    position: fixed;
+    top: 2px;
+    right: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    height: calc($top - 5px);
+    background: $cActiveNav;
+    aspect-ratio: auto 1 / 1;
+    cursor: pointer;
+    border-radius: 0.6rem;
+    z-index: 200;
+    color: #1d1d1d9f;
+    box-shadow: 1px 1px 5px #00000088;
+}
+
 .nav .hidden-nav {
     transform: translateX(-100vw);
     transition: transform 1s;
@@ -18,8 +45,8 @@ $top: 3.1rem;
     top: 0px;
     left: 0px;
     width: 100%;
-    z-index: 80;
-    /* height: $top; */
+    z-index: 200;
+
     transition: all 1s;
 
     .name_page {
@@ -34,16 +61,18 @@ $top: 3.1rem;
         font-weight: 500;
     }
 
-    .main-navigation {
+    nav.main-navigation {
         width: 100%;
         background-color: $cBgNav;
         color: $cTextNav;
-        text-transform: uppercase;
+        text-transform: capitalize;
         border: none;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
+        box-shadow: 0px 1px 6px  #00000070;
+        border-bottom: solid 1px #000000a1;
 
         li a:hover:not(.activeNav) {
             background-color: $cHoverNav;
@@ -54,16 +83,28 @@ $top: 3.1rem;
         }
 
         
-        ul.menu, .menu-secondary {
+        ul.menu {
             display: flex;
             flex-direction: row;
             justify-content: center;
             width: fit-content;
             
-            
             li {
-                display: block;
-                list-style-type: none;
+                display: flex;
+                list-style: none;
+                
+                .theme, .btnHidden {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.4rem;
+                    height: 2.5rem;
+                    min-height: 100%;
+                    background: #00000036;
+                    aspect-ratio: auto 1 / 1;
+                    cursor: pointer;
+                    border-radius: 0.5rem;
+                }
 
 
                 &:hover {
@@ -101,7 +142,7 @@ $top: 3.1rem;
                     text-decoration: none;
                     justify-content: center;
                     text-align: center;
-                    padding: 1rem 1rem 1rem 1rem;
+                    padding: 1rem;
 
 
                     &:hover {
@@ -149,13 +190,13 @@ $top: 3.1rem;
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            z-index: 80;
+            z-index: 85;
 
             .menu_ico {
                 margin-right: .8rem;
                 height: $top;
                 width: 2.4rem;
-                z-index: 81;
+                z-index: 86;
 
                 .click_ico {
                     height: 1.8rem;
@@ -220,8 +261,24 @@ $top: 3.1rem;
         }
     }
 
-    @media (max-width: 800px) {
+    @media (min-width: 800px) {
+        font-size: small;
         .main-navigation {
+            /* .menu {
+                gap: 0rem;
+            } */
+        }
+        .name_page {
+            display: none;
+        }
+        .hidden-nav {
+            transform: translateX(0vw);
+            transition: transform 0.4s;
+        }
+    }
+
+    @media (max-width: 800px) {
+        nav.main-navigation {
             position: absolute;
             top: $top;
             left: 0;
@@ -236,8 +293,8 @@ $top: 3.1rem;
             background: $cBgNav;
             width: 75%;
             
-            ul.menu, .menu-secondary {
-                width: 100;
+            ul.menu {
+                width: 100%;
                 flex-direction: column;
                 justify-content: flex-start;
                 padding: 0;
@@ -287,22 +344,6 @@ $top: 3.1rem;
                 
                 z-index: 79;
             }
-        }
-    }
-
-    @media (min-width: 800px) {
-        font-size: small;
-        .main-navigation {
-            .menu {
-                gap: 2rem;
-            }
-        }
-        .name_page {
-            display: none;
-        }
-        .hidden-nav {
-            transform: translateX(0vw);
-            transition: transform 0.4s;
         }
     }
 }

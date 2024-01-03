@@ -1,0 +1,100 @@
+@import "src/app/styles/modal-card.scss";
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    margin-bottom: 0.8rem;
+}
+
+.container {
+    justify-content: center;
+    align-items: end;
+    margin: 0;
+
+    .card {
+        height: calc(99vh - var(--h-nav));
+        margin: 0;
+        min-width: 100%;
+
+        .content {
+            height: calc(99vh - var(--h-nav) - 4.7rem);
+            flex-direction: column;
+            flex-wrap: nowrap;
+            gap: 0.8rem;
+
+
+            .options {
+                display: flex;
+                gap: 9px;
+            }
+
+            input {
+                width: 100%;
+                padding: 6px 10px;
+                border: 1px solid #b4b4b4;
+                border-radius: 1rem;
+                transition: all 0.1s;
+                font-size: 15px;
+
+                &:focus {
+                    border: 2px solid #5d828b;
+                }
+
+            }
+
+            .contaier_data_editable {
+                height: calc(99vh - var(--h-nav) - 15rem);
+                flex-grow: 25;
+                display: flex;
+                position: relative;
+                flex-direction: column;
+
+                .cols_select {
+                    display: flex;
+                    gap: 0.4rem;
+                    padding-bottom: 4px;
+                    flex-wrap: wrap;
+
+                    label {
+                        display: flex;
+                        gap: 0.2rem;
+                        flex-wrap: nowrap;
+                        align-items: center;
+                        justify-content: center;
+                        white-space: nowrap;
+                        text-wrap: nowrap;
+                    }
+                }
+
+                .data_editable {
+                    height: 100%;
+                    border: solid 2px #a0a0a0;
+                    border-radius: 8px;
+                    background: #50535327;
+                    padding: 0.8rem;
+                    box-sizing: border-box;
+                    letter-spacing: 0.3px;
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+                    text-wrap: wrap;
+                    overflow-y: auto;
+                    &:focus {
+                        outline: none;
+                        border: solid 2px #668197;
+                    }
+
+                    &:empty:before {
+                        content: var(--content);
+                        pointer-events: none;
+                        display: block;
+                        color: #00000065;
+                    }
+                }
+            }
+
+            .actions {
+                flex-grow: 1;
+            }
+        }
+    }
+}

@@ -1,0 +1,48 @@
+<div [ngClass]="{'show' : show }" class="container">
+
+    <div class="card">
+        <div class="close" (click)="toggleShow()">❌</div>
+
+        <h2>Manage Resource </h2>
+
+        <div class="content">
+            <div class="options">
+                <btn-img 
+                    identifier="delete" 
+                    imgPath="assets/delete.svg" 
+                    (eventClick)="handleDeleteResource($event)" 
+                    [type]="'orange'">
+                </btn-img>
+                <btn-img 
+                    identifier="gamepad" 
+                    imgPath="assets/gamepad.svg" 
+                    (eventClick)="handleSelectResource($event)" 
+                    [type]="'green'">
+                </btn-img>
+                <app-button [title]="'Table Mode'" (eventClick)="handleOpenResource($event)"></app-button>
+            </div>
+
+            <input type="text" name="" class="name-list" id="" placeholder="List Name" [value]="name">
+
+            <div class="contaier_data_editable">
+                <div class="cols_select">
+                    <label><input name="id" type="checkbox" [value]="colsActive[0].pos" [checked]="colsActive[0].state" (input)="colsSelect($event.target)">id</label>
+                    <label><input name="Questions" type="checkbox" [value]="colsActive[1].pos" [checked]="colsActive[1].state" (input)="colsSelect($event.target)">Questions(|)</label>
+                    <label><input name="Answers" type="checkbox" [value]="colsActive[2].pos" [checked]="colsActive[2].state" (input)="colsSelect($event.target)">Answers(|)</label>
+                    <label><input name="Completed" type="checkbox" [value]="colsActive[3].pos" [checked]="colsActive[3].state" (input)="colsSelect($event.target)">Completed(0-5)</label>
+                    <label><input name="Tags" type="checkbox" [value]="colsActive[4].pos" [checked]="colsActive[4].state" (input)="colsSelect($event.target)">Tags(|)</label>
+                    <label><input name="Cycle" type="checkbox" [value]="colsActive[5].pos" [checked]="colsActive[5].state" (input)="colsSelect($event.target)">Cycle</label>
+                </div>
+                <pre contenteditable="true" class="data_editable" 
+                [style]="'--content: \''+placeholderEditable+'\''"
+                >{{data}}</pre>
+            </div>
+
+            <div class="actions">
+                <app-button [title]="'Cancel'" (eventClick)="cancel($event)"></app-button>
+                <app-button [title]="'Accept'" [type]="'button'" (eventClick)="accept($event)"></app-button>
+            </div>
+        </div>
+
+    </div>
+</div>

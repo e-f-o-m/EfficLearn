@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="controls">
+        <btn-img 
+        identifier="menu" 
+        imgPath="assets/menu.svg" 
+        (eventClick)="isMenuOptions=!isMenuOptions" 
+        [type]="isMenuOptions? 'orange':'green'"></btn-img>
+
+        <btn-difficulty style="width: 3.1rem;" difficulty="easy" (eventClick)="decrease()" title="A-"></btn-difficulty>
+        <btn-difficulty style="width: 3.1rem;" difficulty="easy" (eventClick)="increase()" title="A+"></btn-difficulty>
+
+
+        <div [ngClass]="isMenuOptions?'':'hidden'" class="menu_options">
+            <list-resources [show]="isListResources" (eventShow)="isListResources=!isListResources"
+                (onSelectList)="onSelectList($event)" [lists]="listsResources"></list-resources>
+
+            <button (click)="isListResources=!isListResources" class="btn "><span>Select Resource</span></button>
+            <button (click)="random()" class="btn"><span>Random</span></button>
+
+            <label for="time-s">
+                Automatic time
+                <input type="number" name="time-s" placeholder="5" (input)="onInputTimeS($event.target)">
+            </label>
+
+            <label for="time-s">
+                Limit day
+                <input type="number" name="limit-day" placeholder="5" (input)="onInputLimitDay($event.target)">
+            </label>
+            <button (click)="replaceCard()" class="btn"><span>Replace</span></button>
+
+            <button (click)="nextCycle()" class="btn"><span>Next Cycle</span></button>
+
+        </div>
+        
+        <btn-img 
+        identifier="play" 
+        [imgPath]="isStart? 'assets/pause.svg': 'assets/play.svg'" 
+        (eventClick)="startPause()" 
+        [type]="isStart? 'orange':'green'"></btn-img>
+        <div *ngIf="lgc" class="cycle">
+            <div class="ico"></div>
+            {{lgc.resource.currentCycle}}
+        </div>
+    </div>
+
+
+    <div class="container_card" *ngIf="lgc">
+        <div *ngIf="lgc.itemsSelect.length > 0" (click)="toggleCard(lgc.itemsSelect[posItem])" class="flipper frame"
+            [ngClass]="{ 'active' : !lgc.itemsSelect[posItem].isQuestion }" #frame>
+            <div class="card" #next>
+                <div class="itemCard" [ngStyle]="{'font-size': fontSizeCard+'rem'}">
+                    <!-- <div class="invisible">{{ lgc.itemsSelect[posItem+1].question![0].length>lgc.itemsSelect[posItem+1].answer![0].length?
+                        lgc.itemsSelect[posItem+1].question:lgc.itemsSelect[posItem+1].answer }}</div> -->
+
+                    <div class="question">
+                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItemNext].rangeCopleted">
+                            <span class="count">#{{posItemNext+1}}/{{lgc.resource.limit}} </span>
+                            <span class="title">Front</span>
+                            <span class="tag">
+                                <div></div>
+                                {{lgc.itemsSelect[posItemNext].reviewCount || 0}}</span>
+                        </div>
+                        {{lgc.itemsSelect[posItemNext].question}}
+                    </div>
+                    <div class="answer">
+                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItemNext].rangeCopleted">
+                            <span class="count">#{{posItemNext+1}}/{{lgc.resource.limit}} </span>
+                            <span class="title">Back</span>
+                            <span class="tag">
+                                <div></div>
+                                {{lgc.itemsSelect[posItemNext].reviewCount || 0}}</span>
+                        </div>
+                        {{lgc.itemsSelect[posItemNext].answer}}
+                    </div>
+                </div>
+            </div>
+            <div class="card" #current>
+                <div class="is-like"></div>
+                <div class="itemCard" [ngStyle]="{'font-size': fontSizeCard+'rem'}">
+                    <!-- <div class="invisible">{{ lgc.itemsSelect[posItem].question![0].length>lgc.itemsSelect[posItem].answer![0].length?
+                        lgc.itemsSelect[posItem].question:  lgc.itemsSelect[posItem].answer }}</div> -->
+                    <div class="question">
+                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItem].rangeCopleted">
+                            <span class="count">#{{posItem+1}}/{{lgc.resource.limit}} </span>
+                            <span class="title">Front</span>
+                            <span class="tag">
+                                <div></div>
+                                {{lgc.itemsSelect[posItem].reviewCount || 0}}</span>
+                        </div>
+                        {{lgc.itemsSelect[posItem].question}}
+                    </div>
+                    <div class="answer"> 
+                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItem].rangeCopleted">
+                            <span class="count">#{{posItem+1}}/{{lgc.resource.limit}} </span>
+                            <span class="title">Back</span>
+                            <span class="tag">
+                                <div></div>
+                                {{lgc.itemsSelect[posItem].reviewCount || 0}}</span>
+                        </div>
+                        
+                        {{lgc.itemsSelect[posItem].answer}}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="next_previous">
+        <div><btn-difficulty class="a" difficulty="hard" (eventClick)="hard()" title="Hard"></btn-difficulty></div>
+        <div><btn-difficulty class="b" difficulty="medium" (eventClick)="medium()" title="Medium"></btn-difficulty></div>
+        <div><btn-difficulty class="c" difficulty="easy" (eventClick)="easy()" title="Easy"></btn-difficulty></div>
+    </div>
+</div>

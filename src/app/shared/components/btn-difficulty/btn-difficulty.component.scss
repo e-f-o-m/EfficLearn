@@ -1,0 +1,75 @@
+$text: #ffffff;
+
+@mixin btn($primary, $gradient_bg, $b_top, $b_right, $t_shadow, $light) {
+    /* min-width: 4.8rem; */
+    background: linear-gradient(-45deg, $gradient_bg, $primary);
+    border-radius: 20% 17% 20% 14% / 39% 33% 44% 31%;
+    border-top: solid 2px $b_top;
+    border-right: solid 2px $b_right;
+    border-left: solid 2px $t_shadow;
+    border-bottom: solid 2px $t_shadow;
+    box-shadow: 0px 0px 1px 3px #FFFFFF, inset 4px 5px 2px -2px $light,
+        inset -3px -4px 2px -2px $b_right, 0px 0px 2px 4px #0000005e;
+    padding: 0.3rem;
+
+    &:hover {
+        filter: brightness(1.1);
+    }
+    &:active {
+        filter: contrast(1.2) brightness(0.9);
+    }
+    
+    span {
+        color: white;
+        font-weight: 600;
+        text-shadow:
+            2px 0 $t_shadow,
+            -2px 0 $t_shadow,
+            0 2px $t_shadow,
+            0 -2px $t_shadow,
+            1px 1px $t_shadow,
+            -1px -1px $t_shadow,
+            1px -1px $t_shadow,
+            -1px 1px $t_shadow;
+    }
+}
+
+@mixin easy_colors {
+    .easy {
+        $primary: #85D234;
+        $gradient_bg: #93e23e;
+        $b_top: #3b8a1c6b;
+        $b_right: #3b8a1ca8;
+        $t_shadow: #3B8A1C;
+        $light: #afff8f;
+        @include btn($primary, $gradient_bg, $b_top, $b_right, $t_shadow, $light);
+    }
+}
+
+@mixin medium_colors {
+    .medium {
+        $primary: #FDBF2C;
+        $gradient_bg: #ecc648;
+        $b_top: #8a831c6b;
+        $b_right: #8a7f1ca8;
+        $t_shadow: #8a7f1c;
+        $light: #fffd8f;
+        @include btn($primary, $gradient_bg, $b_top, $b_right, $t_shadow, $light);
+    }
+}
+
+@mixin hard_colors {
+    .hard {
+        $primary: #E14135;
+        $gradient_bg: #ec5348;
+        $b_top: #8a1c1c6b;
+        $b_right: #8a1c1ca8;
+        $t_shadow: #8a1c1c;
+        $light: #ff8f8f;
+        @include btn($primary, $gradient_bg, $b_top, $b_right, $t_shadow, $light);
+    }
+}
+
+@include hard_colors;
+@include medium_colors;
+@include easy_colors;

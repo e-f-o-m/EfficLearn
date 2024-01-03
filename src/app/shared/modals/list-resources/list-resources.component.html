@@ -1,0 +1,18 @@
+<div [ngClass]="{'show' : show }" class="container">
+
+    <div class="card">
+        <div class="close" (click)="toggleShow()">❌</div>
+
+        <h2> Select Resource</h2>
+
+        <div class="content">
+            <ul>
+                <li (click)="selectList(item)" *ngFor="let item of lists">
+                    <div> {{item.name}} </div>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+</div>

@@ -1,40 +1,26 @@
 .container {
-
-    button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        /* Cambia el color de fondo según tus preferencias */
-        color: #fff;
-        /* Cambia el color del texto según tus preferencias */
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - var(--h-nav));
+    .buttons_actions {
+        display: flex;
+        gap: 1rem;
     }
 
-    .delete {
-        margin: 1rem;
-        background: #d36341;
-    }
-    h3 {
-        color: white;
-        margin-left: 1rem;
-    }
-    
-    .lists {
-        margin: 0.5rem;
-        ul {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            li {
-                padding: 0.3rem;
-                background: #007bff;
-                color: white;
-                border-radius: 0.4rem;
-                cursor: pointer;
-            }
+    .title {
+        width: 100%;
+        text-align: center;
+
+        h3 {
+            color: white;
+            margin-left: 1rem;
         }
+    }
+
+    .table {
+        display: block;
+        width: 100%;
+        max-width: 780px;
     }
 }

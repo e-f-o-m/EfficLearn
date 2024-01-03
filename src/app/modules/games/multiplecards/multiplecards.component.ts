@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IData, IFullData } from '@core/models/IData';
+import { getLastListsLS } from '@core/services/localstorange/LS.list';
 
 @Component({
   selector: 'app-multiplecards',
@@ -17,11 +18,7 @@ export class MultiplecardsComponent {
   }
 
   ngOnInit() {
-    let local = localStorage.getItem("listSelected")
-
-    if(local){
-      this.data = JSON.parse(localStorage.getItem(local)!) 
-    }
+    this.data = getLastListsLS()
   }
 
   constructor(){
