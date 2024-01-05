@@ -29,18 +29,24 @@
                 gap: 9px;
             }
 
-            input {
-                width: 100%;
-                padding: 6px 10px;
-                border: 1px solid #b4b4b4;
-                border-radius: 1rem;
-                transition: all 0.1s;
-                font-size: 15px;
-
-                &:focus {
-                    border: 2px solid #5d828b;
+            label {
+                span{
+                    display: block;
+                    padding: 3px;
                 }
+                input {
+                    width: 100%;
+                    padding: 6px 10px;
+                    border: 1px solid #b4b4b4;
+                    border-radius: 1rem;
+                    transition: all 0.1s;
+                    font-size: 15px;
 
+                    &:focus {
+                        outline: none;
+                        border: 1px solid #5a6c70;
+                    }
+                }
             }
 
             .contaier_data_editable {
@@ -72,12 +78,14 @@
                     border: solid 2px #a0a0a0;
                     border-radius: 8px;
                     background: #50535327;
-                    padding: 0.8rem;
+                    padding: 0.4rem;
                     box-sizing: border-box;
-                    letter-spacing: 0.3px;
+                    letter-spacing: 0.2px;
+                    line-height: 1.1;
                     font-family: Verdana, Geneva, Tahoma, sans-serif;
                     text-wrap: wrap;
                     overflow-y: auto;
+
                     &:focus {
                         outline: none;
                         border: solid 2px #668197;

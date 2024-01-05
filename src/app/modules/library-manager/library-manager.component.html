@@ -1,26 +1,24 @@
 <div class="container">
-    <div class="title">
-        <h3>Manage Resources</h3>
+    <div class="header">
+        <div class="title">
+            <h3>Manage Resources</h3>
+        </div>
+        
+        <div class="buttons_actions">
+            <app-button [title]="isTableResouces? 'Create List': 'Create Question'"
+            (eventClick)="handleClickBtnCreatList($event)"></app-button>
+            <app-button title="Free resources" (eventClick)="handleOpenFreeResources($event)"></app-button>
+        </div>
+        <br>
     </div>
-
-    <!-- <list-builder [show]="isListBuilder" (eventShow)="isListBuilder=!isListBuilder" /> -->
-
+    
     <edit-resource [show]="isEditResource" (eventShow)="isEditResource=!isEditResource"
         (eventActionResource)="eventActionResource($event)" [generalTableResponse]="generalTableItemSelected" />
-
     <edit-item [data]="dataItemResource" [show]="isEditItem" (eventShow)="isEditItem=!isEditItem"
         (eventActionItemResource)="eventActionItemResource($event)"
         [idResource]="generalTableItemSelected.identifierTable!" />
-
     <list-resources [show]="isFreeResource" (eventShow)="isFreeResource=!isFreeResource"
         (onSelectList)="onSelectFreeResource($event)" [lists]="listsResources" />
-
-    <div class="buttons_actions">
-        <app-button [title]="isTableResouces? 'Create List': 'Create Question'"
-            (eventClick)="handleClickBtnCreatList($event)"></app-button>
-        <app-button title="Free resources" (eventClick)="handleOpenFreeResources($event)"></app-button>
-    </div>
-    <br>
-
     <general-table class="table" (rowEvent)="rowEvent($event)" [tableData]="tableData"></general-table>
+    <toast [data]="toastData" *ngIf="toastData"></toast>
 </div>

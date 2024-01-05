@@ -35,21 +35,27 @@ export class EditItemComponent {
         event.preventDefault();
         const formData = new FormData(event.target);
         formData.forEach((value, key) => {
-          //TODO if ("answer" == key) { this.data.answer = value.toString() }
-          //TODO if ("question" == key) { this.data.question = value.toString() }
-          if ("observation" == key) { this.data.observation = value.toString() }
+          value = value.toString()
+          if ("question" == key) { this.data.question = value.includes("|") ? value.split("|") : [value]; }
+          if ("answer" == key) { this.data.answer = value.includes("|") ? value.split("|") : [value]; }
+          if ("tags" == key) { this.data.tags = value.includes("|") ? value.split("|") : [value]; }
+          if ("cycle" == key) { this.data.cycle = Number(value.toString()) }
           if ("rangeCopleted" == key) { this.data.rangeCopleted = Number(value.toString()) }
         });
 
-        if (!event.target) return
-
         if (this.data.id == "" || this.data.id == undefined) {
+          let date = new Date().getTime()
+          let startDate = new Date(2023, 11, 26, 11, 36, 0, 0).getTime();
+          let startId = (date - startDate);
+          this.data.id = startId+""
           insertItemResourceLS(this.data, this.idResource).then(res => {
             if (!res) return
             this.toggleShow()
             this.eventActionItemResource.emit({ action: "insertItemResource", object: this.data })
           })
+
         } else {
+          
           updateItemResourceLS(this.data, this.idResource).then(res => {
             if (!res) return
             this.toggleShow()

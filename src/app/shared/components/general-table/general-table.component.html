@@ -6,9 +6,7 @@
                     <th scope="row">#</th>
                     <th scope="col" *ngFor="let headers of tableData[0]" 
                     [ngClass]="headers.type=='hidden_responsive'?'hidden_responsive':''" >{{headers.headerKey}}</th>
-                    <th scope="col">
-                        <i class="fa-solid fa-ellipsis"></i>
-                    </th>
+                    <!-- <th scope="col"> <i class="fa-solid fa-ellipsis"></i> </th> -->
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +25,7 @@
                         </div>
                     </td>
         
-                    <td class="menu_table">
+                    <!-- <td class="menu_table">
                         <div>
         
                             <i class="fa-solid fa-ellipsis"></i>
@@ -35,11 +33,11 @@
                             <nav>
                                 <ul>
                                     ...
-                                    <!-- <li *ngFor="let action of table.actions" (click)="actionSelect(rowFormResponse, i, action.code)">{{action.name}}</li> -->
+                                    <li *ngFor="let action of table.actions" (click)="actionSelect(rowFormResponse, i, action.code)">{{action.name}}</li>
                                 </ul>
                             </nav>
                         </div>
-                    </td>
+                    </td> -->
                 </tr>
             </tbody>
         </table>

@@ -9,10 +9,11 @@ import { EditResourceComponent } from '@shared/modals/edit-resource/edit-resourc
 import { EditItemComponent } from '@shared/modals/edit-item/edit-item.component';
 import { InputComponent } from '@shared/components/input/input.component';
 import { ButtonComponent } from '@shared/components/button/button.component';
-import { getItemResourceLS, insertItemResourceLS } from '@core/services/localstorange/LS.item';
+import { getItemResourceLS } from '@core/services/localstorange/LS.item';
 import { ListResourcesComponent } from '@shared/modals/list-resources/list-resources.component';
 import { LS_LISTS } from '@core/constants/constants';
 import { freeVerbs } from '@core/utils/freeResource';
+import { ToastComponent } from '@shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-library-manager',
@@ -24,7 +25,8 @@ import { freeVerbs } from '@core/utils/freeResource';
     EditItemComponent,
     InputComponent,
     ButtonComponent,
-    ListResourcesComponent
+    ListResourcesComponent,
+    ToastComponent
   ],
   templateUrl: './library-manager.component.html',
   styleUrls: ['./library-manager.component.scss']
@@ -39,6 +41,7 @@ export class LibraryManagerComponent {
   generalTableItemSelected = new GeneralTableResponse()
   dataItemResource: IData = {}
   listsResources: IFullData[] = []
+  toastData?: {type: 's' | 'i' | 'w', timeS: number, title?: string, message: string, end: ()=>void }
 
   ngOnInit() {
     this.listsResources = [
@@ -94,6 +97,7 @@ export class LibraryManagerComponent {
   }
 
   handleClickBtnCreatList(event: any) {
+    this.generalTableItemSelected = Object.assign({}, {});
     if (this.isTableResouces) {
       this.isEditResource = !this.isEditResource
     } else {
@@ -102,7 +106,7 @@ export class LibraryManagerComponent {
   }
 
   rowEvent(event: any) {
-    this.generalTableItemSelected = event
+    this.generalTableItemSelected = Object.assign({}, event);
     if (this.isTableResouces) {
       this.isEditResource = true;
     } else {
@@ -112,10 +116,12 @@ export class LibraryManagerComponent {
   }
 
   eventActionResource(event: { action: string, object: GeneralTableResponse }) {
+    
     if ("editItemsResource" == event.action) {
       this.getDataItems(event.object.rowId!)
       this.isTableResouces = false
     } else if ("deleteResource" == event.action) {
+      this.toastData = {type: 's', timeS: 1.5, title: "Successful", message: "Deleted", end: ()=>{this.toastData=undefined} }
       let auxList = this.tableData
       this.tableData = []
       for (const rows of auxList) {
@@ -126,11 +132,17 @@ export class LibraryManagerComponent {
           }
         }
       }
+    } else if ("updateResource" == event.action) {
+      this.toastData = {type: 's', timeS: 1.5, title: "Successful", message: "Updated", end: ()=>{this.toastData=undefined} }
+    } else if ("insertResource" == event.action) {
+      this.toastData = {type: 's', timeS: 1.5, title: "Successful", message: "Inserted", end: ()=>{this.toastData=undefined} }
     }
+    this.getData()
   }
   eventActionItemResource(event: { action: string, object: IData }) {
     if ("insertItemResource" == event.action) {
       this.getDataItems(this.generalTableItemSelected.rowId!)
+      this.toastData = {type: 's', timeS: 1.5, title: "Successful", message: "Inserted", end: ()=>{this.toastData=undefined} }
     } else if ("deleteItemResource" == event.action) {
       let auxList = this.tableData
       this.tableData = []
@@ -142,8 +154,10 @@ export class LibraryManagerComponent {
           }
         }
       }
+      this.toastData = {type: 's', timeS: 1.5, title: "Successful", message: "Deleted", end: ()=>{this.toastData=undefined} }
     } else if ("updateItemResource" == event.action) {
       this.getDataItems(this.generalTableItemSelected.identifierTable!)
+      this.toastData = {type: 's', timeS: 1.5, title: "Successful", message: "Updated", end: ()=>{this.toastData=undefined} }
     }
   }
 

@@ -1,21 +1,14 @@
 <div class="container">
     <div class="controls">
-        <btn-img 
-        identifier="menu" 
-        imgPath="assets/menu.svg" 
-        (eventClick)="isMenuOptions=!isMenuOptions" 
-        [type]="isMenuOptions? 'orange':'green'"></btn-img>
+        <btn-img identifier="menu" imgPath="assets/menu.svg" (eventClick)="isMenuOptions=!isMenuOptions"
+            [type]="isMenuOptions? 'orange':'green'"></btn-img>
 
         <btn-difficulty style="width: 3.1rem;" difficulty="easy" (eventClick)="decrease()" title="A-"></btn-difficulty>
         <btn-difficulty style="width: 3.1rem;" difficulty="easy" (eventClick)="increase()" title="A+"></btn-difficulty>
 
-
         <div [ngClass]="isMenuOptions?'':'hidden'" class="menu_options">
-            <list-resources [show]="isListResources" (eventShow)="isListResources=!isListResources"
-                (onSelectList)="onSelectList($event)" [lists]="listsResources"></list-resources>
-
             <button (click)="isListResources=!isListResources" class="btn "><span>Select Resource</span></button>
-            <button (click)="random()" class="btn"><span>Random</span></button>
+            <!-- <button (click)="random()" class="btn"><span>Random</span></button> -->
 
             <label for="time-s">
                 Automatic time
@@ -29,14 +22,12 @@
             <button (click)="replaceCard()" class="btn"><span>Replace</span></button>
 
             <button (click)="nextCycle()" class="btn"><span>Next Cycle</span></button>
+            <button (click)="speack=!speack" class="btn"><span>Speack</span></button>
 
         </div>
-        
-        <btn-img 
-        identifier="play" 
-        [imgPath]="isStart? 'assets/pause.svg': 'assets/play.svg'" 
-        (eventClick)="startPause()" 
-        [type]="isStart? 'orange':'green'"></btn-img>
+
+        <btn-img identifier="play" [imgPath]="isStart? 'assets/pause.svg': 'assets/play.svg'"
+            (eventClick)="startPause()" [type]="isStart? 'orange':'green'"></btn-img>
         <div *ngIf="lgc" class="cycle">
             <div class="ico"></div>
             {{lgc.resource.currentCycle}}
@@ -45,7 +36,7 @@
 
 
     <div class="container_card" *ngIf="lgc">
-        <div *ngIf="lgc.itemsSelect.length > 0" (click)="toggleCard(lgc.itemsSelect[posItem])" class="flipper frame"
+        <div *ngIf="lgc.itemsSelect.length > 1" (click)="toggleCard(lgc.itemsSelect[posItem])" class="flipper frame"
             [ngClass]="{ 'active' : !lgc.itemsSelect[posItem].isQuestion }" #frame>
             <div class="card" #next>
                 <div class="itemCard" [ngStyle]="{'font-size': fontSizeCard+'rem'}">
@@ -58,9 +49,10 @@
                             <span class="title">Front</span>
                             <span class="tag">
                                 <div></div>
-                                {{lgc.itemsSelect[posItemNext].reviewCount || 0}}</span>
+                                {{lgc.itemsSelect[posItemNext].reviewCount || 0}}
+                            </span>
                         </div>
-                        {{lgc.itemsSelect[posItemNext].question}}
+                        <div [innerHTML]="lgc.itemsSelect[posItemNext].question!.join('\n\n') | br"></div>
                     </div>
                     <div class="answer">
                         <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItemNext].rangeCopleted">
@@ -68,9 +60,10 @@
                             <span class="title">Back</span>
                             <span class="tag">
                                 <div></div>
-                                {{lgc.itemsSelect[posItemNext].reviewCount || 0}}</span>
+                                {{lgc.itemsSelect[posItemNext].reviewCount || 0}}
+                            </span>
                         </div>
-                        {{lgc.itemsSelect[posItemNext].answer}}
+                        <div [innerHTML]="lgc.itemsSelect[posItemNext].question!.join('\n\n') | br"></div>
                     </div>
                 </div>
             </div>
@@ -85,20 +78,23 @@
                             <span class="title">Front</span>
                             <span class="tag">
                                 <div></div>
-                                {{lgc.itemsSelect[posItem].reviewCount || 0}}</span>
+                                {{lgc.itemsSelect[posItem].reviewCount || 0}}
+                            </span>
                         </div>
-                        {{lgc.itemsSelect[posItem].question}}
+                        <div [innerHTML]="lgc.itemsSelect[posItem].question!.join('\n\n') | br"></div>
                     </div>
-                    <div class="answer"> 
+                    <div class="answer" style="white-space: pre-line;">
                         <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItem].rangeCopleted">
                             <span class="count">#{{posItem+1}}/{{lgc.resource.limit}} </span>
                             <span class="title">Back</span>
                             <span class="tag">
                                 <div></div>
-                                {{lgc.itemsSelect[posItem].reviewCount || 0}}</span>
+                                {{lgc.itemsSelect[posItem].reviewCount || 0}}
+                            </span>
                         </div>
-                        
-                        {{lgc.itemsSelect[posItem].answer}}</div>
+
+                        <div [innerHTML]="lgc.itemsSelect[posItem].answer!.join('\n\n') | br"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,7 +102,11 @@
     </div>
     <div class="next_previous">
         <div><btn-difficulty class="a" difficulty="hard" (eventClick)="hard()" title="Hard"></btn-difficulty></div>
-        <div><btn-difficulty class="b" difficulty="medium" (eventClick)="medium()" title="Medium"></btn-difficulty></div>
+        <div><btn-difficulty class="b" difficulty="medium" (eventClick)="medium()" title="Medium"></btn-difficulty>
+        </div>
         <div><btn-difficulty class="c" difficulty="easy" (eventClick)="easy()" title="Easy"></btn-difficulty></div>
     </div>
+
+    <list-resources [show]="isListResources" (eventShow)="isListResources=!isListResources"
+        (onSelectList)="onSelectList($event)" [lists]="listsResources"></list-resources>
 </div>

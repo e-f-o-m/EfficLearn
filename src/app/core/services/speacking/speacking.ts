@@ -1,9 +1,17 @@
 const synth = window.speechSynthesis;
 
-export function speak(text: string, lang: string) {
-    const utterance  = new SpeechSynthesisUtterance(text);
-    utterance.lang = lang
-    //utterance.voice = speechSynthesis.getVoices()[5];
-    //utterance.text = text;
-    synth.speak(utterance);
+export async function speak(text: string, lang: string): Promise<boolean> {
+    return new Promise(resolve => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        synth.speak(utterance);
+
+        const intervalId = setInterval(() => {
+            if (!synth.speaking) {
+                clearInterval(intervalId);
+                console.log('>> >>  terminó?    :', );
+                resolve(true);
+            }
+        }, 1000);
+    });
 }

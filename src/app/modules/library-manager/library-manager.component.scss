@@ -3,21 +3,32 @@
     align-items: center;
     flex-direction: column;
     height: calc(100vh - var(--h-nav));
-    .buttons_actions {
-        display: flex;
-        gap: 1rem;
-    }
-
-    .title {
+    gap: 1rem;    
+    
+    .header{
+        background: var(--bg-content);
         width: 100%;
-        text-align: center;
-
-        h3 {
-            color: white;
-            margin-left: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        .buttons_actions {
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+        }
+        .title {
+            width: 100%;
+            text-align: center;
+            
+            h3 {
+                color: white;
+                margin-left: 1rem;
+            }
         }
     }
-
+    
+    
     .table {
         display: block;
         width: 100%;

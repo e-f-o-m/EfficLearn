@@ -1,0 +1,16 @@
+<div [ngClass]="{'show' : data }" class="container">
+    <div class="card">
+        <!-- <div class="close" (click)="toggleShow()">❌</div> -->
+        <h2>{{data?.title}}</h2>
+        <div class="content">
+            <div>
+                <p>{{data?.message}}</p>
+                <div class="actions">
+                    <app-button [title]="'Cancel'" (eventClick)="cancel()"></app-button>
+                    <app-button [title]="'Accept'" (eventClick)="accept()"></app-button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

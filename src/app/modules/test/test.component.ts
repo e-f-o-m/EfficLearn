@@ -29,9 +29,11 @@ export class TestComponent {
       });
       insertResourceLS(tempData)
       deleteSelectsResourceLS()
-      this.logicGameCard = new LogicGameCards(tempData)
+      this.logicGameCard = new LogicGameCards()
+      this.logicGameCard.getData(tempData)
     }).catch(res => {
-      this.logicGameCard = new LogicGameCards(tempData)
+      this.logicGameCard = new LogicGameCards()
+      this.logicGameCard.getData(tempData)
     }).finally(() => {
       document.querySelector(".data")!.innerHTML = JSON.stringify(this.logicGameCard.itemsSelect, null, 2)
     })

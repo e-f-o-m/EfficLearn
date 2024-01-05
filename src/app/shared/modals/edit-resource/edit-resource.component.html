@@ -7,35 +7,52 @@
 
         <div class="content">
             <div class="options">
-                <btn-img 
-                    identifier="delete" 
-                    imgPath="assets/delete.svg" 
-                    (eventClick)="handleDeleteResource($event)" 
-                    [type]="'orange'">
+                <btn-img *ngIf="typeRequest=='update'" identifier="delete" imgPath="assets/delete.svg"
+                    (eventClick)="handleDeleteResource($event)" [type]="'orange'">
                 </btn-img>
-                <btn-img 
-                    identifier="gamepad" 
-                    imgPath="assets/gamepad.svg" 
-                    (eventClick)="handleSelectResource($event)" 
-                    [type]="'green'">
+                <btn-img *ngIf="typeRequest=='update'" identifier="gamepad" imgPath="assets/gamepad.svg"
+                    (eventClick)="handleSelectResource($event)" [type]="'green'">
                 </btn-img>
-                <app-button [title]="'Table Mode'" (eventClick)="handleOpenResource($event)"></app-button>
+                <app-button *ngIf="typeRequest=='update'" [title]="'Table Mode'"
+                    (eventClick)="handleOpenResource($event)"></app-button>
             </div>
 
-            <input type="text" name="" class="name-list" id="" placeholder="List Name" [value]="name">
+            <label for="name_list">
+                <span>List Name</span>
+                <input type="text" name="name_list" class="name_list" placeholder="List Name" [value]="resource.name"
+                (focus)="isFormResource=true">
+            </label>
+            <label for="limit_cycle" [hidden]="!isFormResource">
+                <span>Limit questions by cycle</span>
+                <input type="number" name="limit_cycle" class="limit_cycle" placeholder="Limit questions by cycle" [value]="resource.limit||''">
+            </label>
+            <label for="automate_time" [hidden]="!isFormResource">
+                <span>Automate Time (s)</span>
+                <input type="number" name="automate_time" class="automate_time" placeholder="Automate Time (s)" [value]="resource.time||''">
+            </label>
+            <label for="description" [hidden]="!isFormResource">
+                <span>Description</span>
+                <input type="text" name="description" class="description" placeholder="Description" [value]="resource.description">
+            </label>
 
             <div class="contaier_data_editable">
                 <div class="cols_select">
-                    <label><input name="id" type="checkbox" [value]="colsActive[0].pos" [checked]="colsActive[0].state" (input)="colsSelect($event.target)">id</label>
-                    <label><input name="Questions" type="checkbox" [value]="colsActive[1].pos" [checked]="colsActive[1].state" (input)="colsSelect($event.target)">Questions(|)</label>
-                    <label><input name="Answers" type="checkbox" [value]="colsActive[2].pos" [checked]="colsActive[2].state" (input)="colsSelect($event.target)">Answers(|)</label>
-                    <label><input name="Completed" type="checkbox" [value]="colsActive[3].pos" [checked]="colsActive[3].state" (input)="colsSelect($event.target)">Completed(0-5)</label>
-                    <label><input name="Tags" type="checkbox" [value]="colsActive[4].pos" [checked]="colsActive[4].state" (input)="colsSelect($event.target)">Tags(|)</label>
-                    <label><input name="Cycle" type="checkbox" [value]="colsActive[5].pos" [checked]="colsActive[5].state" (input)="colsSelect($event.target)">Cycle</label>
+                    <label><input name="id" type="checkbox" [value]="colsActive[0].pos" [checked]="colsActive[0].state"
+                            (input)="colsSelect($event.target)">id</label>
+                    <label><input name="Questions" type="checkbox" [value]="colsActive[1].pos"
+                            [checked]="colsActive[1].state" (input)="colsSelect($event.target)">Questions(|)</label>
+                    <label><input name="Answers" type="checkbox" [value]="colsActive[2].pos"
+                            [checked]="colsActive[2].state" (input)="colsSelect($event.target)">Answers(|)</label>
+                    <label><input name="Completed" type="checkbox" [value]="colsActive[3].pos"
+                            [checked]="colsActive[3].state" (input)="colsSelect($event.target)">Completed(0-5)</label>
+                    <label><input name="Tags" type="checkbox" [value]="colsActive[4].pos"
+                            [checked]="colsActive[4].state" (input)="colsSelect($event.target)">Tags(|)</label>
+                    <label><input name="Cycle" type="checkbox" [value]="colsActive[5].pos"
+                            [checked]="colsActive[5].state" (input)="colsSelect($event.target)">Cycle</label>
                 </div>
-                <pre contenteditable="true" class="data_editable" 
-                [style]="'--content: \''+placeholderEditable+'\''"
-                >{{data}}</pre>
+                <pre contenteditable="true" class="data_editable" (focus)="isFormResource=false"
+                    [ngStyle]="isFormResource? {'height': '10vh'}:{}"
+                    [style]="'--content: \''+placeholderEditable+'\''">{{data}}</pre>
             </div>
 
             <div class="actions">
@@ -45,4 +62,8 @@
         </div>
 
     </div>
+
+
+    <alert [data]="alertData" *ngIf="alertData"></alert>
+    <toast [data]="toastData" *ngIf="toastData"></toast>
 </div>

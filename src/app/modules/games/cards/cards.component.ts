@@ -8,12 +8,13 @@ import { ButtonComponent } from '@shared/components/button/button.component';
 import { LogicGameCards } from '@core/utils/LogicGameCards';
 import { BtnDifficultyComponent } from '@shared/components/btn-difficulty/btn-difficulty.component';
 import { BtnImgComponent } from '@shared/components/btn-img/btn-img.component';
+import { BrPipe } from '@shared/pipes/br.pipe';
 
 @Component({
   selector: 'app-cards',
   standalone: true,
   imports: [CommonModule, ListResourcesComponent, ButtonComponent, BtnDifficultyComponent,
-    BtnImgComponent
+    BtnImgComponent, BrPipe
   ],
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss']
@@ -41,8 +42,12 @@ export class CardsComponent {
   stars = 0
   isEntableToggle = true
   fontSizeCard = 1.5
+  speack = false
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
+  }
+  breakLine(arg0: string[]) {
+    return arg0.join().replace(/\\n/g, '<br>');
   }
 
   ngAfterViewInit() {
@@ -50,7 +55,7 @@ export class CardsComponent {
     let list: IFullData = {}
 
     getSelectsResourceLS().then(res => {
-      
+
       getListLS(res.id!).then(_resource => {
 
         res.list?.forEach(_itemSelect => {
@@ -67,12 +72,15 @@ export class CardsComponent {
     }).catch(res => {
       list = getLastListsLS()
     }).finally(() => {
-      this.lgc = new LogicGameCards(list)
-      if (this.lgc.itemsSelect.length > 0) {
-        this.changeDetectorRef.detectChanges();
-        this.likeText = this.current.nativeElement.children[0]
-        this.initCard(this.current.nativeElement)
-      }
+      this.lgc = new LogicGameCards()
+      this.lgc.getData(list).then(_=> {
+        if (this.lgc.itemsSelect.length > 1) {
+          this.changeDetectorRef.detectChanges();
+          this.likeText = this.current.nativeElement.children[0]
+          this.initCard(this.current.nativeElement)
+        }
+      })
+      
     })
     this.changeDetectorRef.detectChanges();
 
@@ -100,8 +108,11 @@ export class CardsComponent {
 
   onSelectList(event: { action: string, id: string }) {
     this.isMenuOptions = false
-    getListLS(event.id).then(list=>{
-      this.lgc = new LogicGameCards(list)
+    getListLS(event.id).then(list => {
+      this.posItem = 0
+      this.posItemNext = 1
+      this.lgc = new LogicGameCards()
+      this.lgc.getData(list)
     })
   }
 
@@ -110,24 +121,28 @@ export class CardsComponent {
   async startPause() {
     this.isStart = !this.isStart
     while (this.isStart) {
-      if (this.timeS <= 0) {
-        this.isStart = false
+      if (this.timeS < 0.5) { this.isStart = false; return };
+      if (this.speack) {
+        //pronunciar ingles
+        await speak(this.lgc.itemsSelect![this.posItem].question![0], "en-EN")
+        //esperar tiempo seleccionado
+        await this.sleep(this.timeS * 1000);
+        if (!this.isStart) { 
+          return 
+        };
+        
+        //voltear tarjeta
+        this.toggleCard(this.lgc.itemsSelect![this.posItem])
+        //pronunciar en español
+        await speak(this.lgc.itemsSelect![this.posItem].answer![0], "es-ES")
+        //esprar
+        /* await this.sleep(this.timeS * 1000); */
+        //voltear tarjeta
+        this.toggleCard(this.lgc.itemsSelect![this.posItem])
+        //voltear esperar
+        if (!this.isStart) { return };
       }
-      //pronunciar ingles
-      speak(this.lgc.itemsSelect![this.posItem].question![0], "en-EN")
-      //esperar tiempo seleccionado
       await this.sleep(this.timeS * 1000);
-
-      //voltear tarjeta
-      this.toggleCard(this.lgc.itemsSelect![this.posItem])
-      //pronunciar en español
-      speak(this.lgc.itemsSelect![this.posItem].answer![0], "es-ES")
-      //esprar
-      await this.sleep(2900);
-      //voltear tarjeta
-      this.toggleCard(this.lgc.itemsSelect![this.posItem])
-      //voltear esperar
-      await this.sleep(0);
       this.changeItem(1)
     }
   }

@@ -9,11 +9,14 @@
             <form id="editItemResourceForm" >
 
                 <span>Question</span>
-                <textarea name="question" placeholder="question">{{data.question}}</textarea>
+                <textarea name="question" placeholder="Question" >{{data.question}}</textarea>
                 <span>Answer</span>
-                <textarea name="answer" placeholder="answer">{{data.answer}}</textarea>
-                <textarea name="observation" placeholder="observation">{{data.observation}}</textarea>
-
+                <textarea name="answer" placeholder="Answer">{{data.answer}}</textarea>
+                
+                <span>Tags</span>
+                <textarea name="tags" placeholder="Tagas">{{data.tags}}</textarea>
+                <span>Cycle</span>
+                <input type="number" name="cycle" placeholder="0" [value]="data.cycle">
 
                 <label class="rating-label">
                     Completed

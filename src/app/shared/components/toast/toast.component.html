@@ -1,0 +1,35 @@
+<div *ngIf="data && color" class="container">
+    <div class="toast__container" [ngClass]="'update'+data.timeS"
+        [style]="'animation: popup '+data.timeS+'s linear both'">
+        <div class="toast__cell">
+
+            <div class="toast"
+                [ngClass]="data.type=='s'? 'toast__green':'' && data.type=='i'? 'toast__blue':'' && data.type=='w'? 'toast__yellow':''">
+                <div class='toast__icon'>
+                    <!-- <img *ngIf="data.type == 's'" src="/assets/success.svg" alt="success" class="s">
+                <img *ngIf="data.type == 'i'" src="/assets/inco.svg" alt="inco" class="i">
+                <img *ngIf="data.type == 'w'" src="/assets/warning.svg" alt="warning" class="w">
+ -->
+                    <div class="icon" [ngStyle]="{
+                        'background': color[data.type].color,
+                        'width': '1.3rem',
+                        'height': '1.3rem',
+                        'mask': 'url(' + color[data.type].icon + ') no-repeat center', 
+                        '-webkit-mask': 'url(' + color[data.type].icon + ') no-repeat center'
+                    }">
+                    </div>
+
+                </div>
+                <div class='toast__content'>
+                    <p class='toast__type'>{{data.title}}</p>
+                    <p class='toast__message'>{{data.message}}</p>
+                </div>
+                <div class='toast__close'>
+                    <span>x</span>
+                    <!-- <CloseIco class="toast__svg"></CloseIco> -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

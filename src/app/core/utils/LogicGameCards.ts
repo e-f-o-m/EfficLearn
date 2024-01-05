@@ -5,22 +5,21 @@ export class LogicGameCards {
   public resource!: IFullData
   public itemsSelect: IData[] = []
 
-  constructor(resource: IFullData) {
-    this.getData(resource)
-  } 
+  constructor() {
+  }
   
   async getData(resource: IFullData){
     this.resource = resource
     //Buscar los del ciclo actual
     //TODO: Temporal
-    if (this.resource.list!.length > 0) {
+    /* if (this.resource.list!.length > 0) {
       if (!this.resource.list![0].id) {
         for (let i = 0; i < this.resource.list!.length; i++) {
           this.resource.list![i].id = "" + i
           this.resource.list![i].reviewCount = 0
         }
       }
-    }
+    } */
 
     //TODO limit default?
     if(!this.resource.list) return
