@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "efficLearn:build:production"
+              "buildTarget": "efficLearn:build:production"
             },
             "development": {
-              "browserTarget": "efficLearn:build:development"
+              "buildTarget": "efficLearn:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "efficLearn:build"
+            "buildTarget": "efficLearn:build"
           }
         },
         "test": {

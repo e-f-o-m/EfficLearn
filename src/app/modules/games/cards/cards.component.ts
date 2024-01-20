@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListResourcesComponent } from '@shared/modals/list-resources/list-resources.component';
-import { IData, IFullData, STATES_CARD } from '@core/models/IData';
+import { Question, QuestionSet, STATES_CARD } from '@core/models/QuestionSet';
 import { deleteSelectsResourceLS, getLastListsLS, getListLS, getNameListsLS, getSelectsResourceLS, insertResourceLS } from '@core/services/localstorange/LS.list';
 import { speak } from '@core/services/speacking/speacking';
 import { ButtonComponent } from '@shared/components/button/button.component';
@@ -26,7 +26,7 @@ export class CardsComponent {
   isStart = false
   isListResources = false
   isMenuOptions = false
-  listsResources: IFullData[] = []
+  listsResources: QuestionSet[] = []
   nameNext = "next"
   nameCurrent = "current"
   startX = 0
@@ -52,14 +52,15 @@ export class CardsComponent {
 
   ngAfterViewInit() {
     this.listsResources = getNameListsLS()
-    let list: IFullData = {}
+    let list: QuestionSet = {}
 
-    getSelectsResourceLS().then(res => {
-
-      getListLS(res.id!).then(_resource => {
-
-        res.list?.forEach(_itemSelect => {
-          _resource.list?.forEach(_itemResource => {
+    //Buscar los items elegidos anterioremente 
+    getSelectsResourceLS().then(_resSelect => {
+      //Buscar lista elegido en lista general
+      getListLS(_resSelect.id!).then(_resource => {
+        //Recorrer los elegidos
+        _resSelect.questions?.forEach(_itemSelect => {
+          _resource.questions?.forEach(_itemResource => {
             if (_itemResource.id == _itemSelect.id) {
               _itemResource = _itemSelect
               return
@@ -124,7 +125,7 @@ export class CardsComponent {
       if (this.timeS < 0.5) { this.isStart = false; return };
       if (this.speack) {
         //pronunciar ingles
-        await speak(this.lgc.itemsSelect![this.posItem].question![0], "en-EN")
+        await speak(this.lgc.itemsSelect![this.posItem].statement![0], "en-EN")
         //esperar tiempo seleccionado
         await this.sleep(this.timeS * 1000);
         if (!this.isStart) { 
@@ -183,12 +184,12 @@ export class CardsComponent {
     }
   }
 
-  toggleCard(data: IData) {
+  toggleCard(data: Question) {
 
     if (this.isEntableToggle) {
       this.lgc.itemsSelect.forEach(res => {
         if (res.id === data.id) {
-          res.isQuestion = !data.isQuestion
+          res.isStatement = !data.isStatement
         }
       })
     }

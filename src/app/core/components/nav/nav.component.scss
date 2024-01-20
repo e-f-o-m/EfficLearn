@@ -1,22 +1,21 @@
 $cTextNav: #ffffffc9;
-$cAccentNav: #2a4b53;
-$cBgNav: #333;
+$cBgNav: #18664c;
 $cHoverNav: #111;
 $cActiveNav: #04aa6d;
 $gapLine: 10px;
 $weLine: 0.3rem;
 $top: 3.1rem;
 
-.block_spacing{
+.block_spacing {
     height: $top;
     width: 1rem;
 }
 
 .hidden {
-    display: none!important;
+    display: none !important;
 }
 
-:host > .btnHidden {
+:host>.btnHidden {
     position: fixed;
     top: 2px;
     right: 2px;
@@ -61,7 +60,7 @@ $top: 3.1rem;
         font-weight: 500;
     }
 
-    nav.main-navigation {
+    .main-navigation {
         width: 100%;
         background-color: $cBgNav;
         color: $cTextNav;
@@ -71,7 +70,7 @@ $top: 3.1rem;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
-        box-shadow: 0px 1px 6px  #00000070;
+        box-shadow: 0px 1px 6px #00000070;
         border-bottom: solid 1px #000000a1;
 
         li a:hover:not(.activeNav) {
@@ -82,18 +81,19 @@ $top: 3.1rem;
             border-bottom: solid 2px $cActiveNav;
         }
 
-        
+
         ul.menu {
             display: flex;
             flex-direction: row;
             justify-content: center;
             width: fit-content;
-            
+
             li {
                 display: flex;
                 list-style: none;
-                
-                .theme, .btnHidden {
+
+                .theme,
+                .btnHidden {
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -142,19 +142,43 @@ $top: 3.1rem;
                     text-decoration: none;
                     justify-content: center;
                     text-align: center;
-                    padding: 1rem;
-
+                    padding: 0.8rem;
 
                     &:hover {
                         transition: all 0.1s linear;
                         background: $cHoverNav;
                         color: $cTextNav;
-                        /* + ul {
-								transition: all 0.1s linear;
-								display: block;
-								color: $cTextNav;
-							} */
                     }
+
+                    .ico {
+                        background-color: #ffffff;
+                        width: 1rem;
+                        height: 1rem;
+                        margin-right: 6px;
+                    }
+                }
+
+                &.practice a > i.ico {
+                    -webkit-mask: url("/assets/gamepad.svg") no-repeat center;
+                    mask: url("/assets/gamepad.svg") no-repeat cover;
+                }
+
+                &.resource a > i.ico {
+                    width: 1.18rem;
+                    height: 1.18rem;
+                    margin-top: -2px;
+                    -webkit-mask: url("/assets/edit.svg") no-repeat center;
+                    mask: url("/assets/edit.svg") no-repeat cover;
+                }
+
+                &.read a > i.ico {
+                    -webkit-mask: url("/assets/file.svg") no-repeat center;
+                    mask: url("/assets/file.svg") no-repeat cover;
+                }
+
+                &.contact a > i.ico {
+                    -webkit-mask: url("/assets/user.svg") no-repeat center;
+                    mask: url("/assets/user.svg") no-repeat cover;
                 }
             }
 
@@ -263,14 +287,17 @@ $top: 3.1rem;
 
     @media (min-width: 800px) {
         font-size: small;
+
         .main-navigation {
             /* .menu {
                 gap: 0rem;
             } */
         }
+
         .name_page {
             display: none;
         }
+
         .hidden-nav {
             transform: translateX(0vw);
             transition: transform 0.4s;
@@ -292,14 +319,16 @@ $top: 3.1rem;
             justify-content: flex-start;
             background: $cBgNav;
             width: 75%;
-            
+
             ul.menu {
                 width: 100%;
                 flex-direction: column;
                 justify-content: flex-start;
                 padding: 0;
 
-                ul { width: 100%; }
+                ul {
+                    width: 100%;
+                }
 
                 li {
                     width: 100%;
@@ -341,7 +370,7 @@ $top: 3.1rem;
                 width: 100vw;
                 height: calc(100vh - #{$top});
                 background: #1e20205b;
-                
+
                 z-index: 79;
             }
         }

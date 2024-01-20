@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IData, IFullData } from '@core/models/IData';
+import { Question, QuestionSet } from '@core/models/QuestionSet';
 import { LS_LISTS } from '@core/constants/constants';
 
 @Component({
   selector: 'list-builder',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './list-builder.component.html',
   styleUrls: ['./list-builder.component.scss']
 })
@@ -25,10 +24,10 @@ export class ListBuilderComponent {
     let dataList = document.querySelector(".data-list") as HTMLTextAreaElement;
     let nameList = document.querySelector(".name-list") as HTMLInputElement;
 
-    let finalData: IFullData = {
+    let finalData: QuestionSet = {
       id: '',
       name: '',
-      list: []
+      questions: []
     }
     let arDataList = dataList.value.split("\n")
     finalData.name = nameList.value
@@ -52,21 +51,21 @@ export class ListBuilderComponent {
       if (line.trim().length > 2) {
 
         let arLine = line.split(";")
-        finalData.list!.push({
-          isQuestion: true,
-          question: arLine,
+        finalData.questions!.push({
+          isStatement: true,
+          statement: arLine,
           answer: arLine,
           id: startId + "" + i,
           rangeCopleted: 0,
           observation: "",
-          type: 0,
+          reviewType: 0,
           state: "active",
         })
       }
     });
 
     finalData.description = ""
-    finalData.quantity = finalData.list?.length
+    finalData.quantity = finalData.questions?.length
     finalData.completed = 0
     finalData.id = LS_LISTS.listResourceLanguageID + startId
     localStorage.setItem(finalData.id, JSON.stringify(finalData));

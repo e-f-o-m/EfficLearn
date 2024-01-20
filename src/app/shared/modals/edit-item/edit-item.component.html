@@ -1,4 +1,4 @@
-<div [ngClass]="{'show' : show }" class="container">
+<div [class]="{'show' : show }" class="container">
 
     <div class="card">
         <div class="close" (click)="toggleShow()">❌</div>
@@ -9,7 +9,7 @@
             <form id="editItemResourceForm" >
 
                 <span>Question</span>
-                <textarea name="question" placeholder="Question" >{{data.question}}</textarea>
+                <textarea name="question" placeholder="Question" >{{data.statement}}</textarea>
                 <span>Answer</span>
                 <textarea name="answer" placeholder="Answer">{{data.answer}}</textarea>
                 

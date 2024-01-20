@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { ButtonComponent } from '@shared/components/button/button.component';
 
 @Component({
   selector: 'alert',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [ ButtonComponent],
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss']
 })

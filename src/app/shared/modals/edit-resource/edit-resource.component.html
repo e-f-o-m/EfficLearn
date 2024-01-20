@@ -1,4 +1,4 @@
-<div [ngClass]="{'show' : show }" class="container">
+<div [class]="{'show' : show }" class="container">
 
     <div class="card">
         <div class="close" (click)="toggleShow()">❌</div>
@@ -51,7 +51,7 @@
                             [checked]="colsActive[5].state" (input)="colsSelect($event.target)">Cycle</label>
                 </div>
                 <pre contenteditable="true" class="data_editable" (focus)="isFormResource=false"
-                    [ngStyle]="isFormResource? {'height': '10vh'}:{}"
+                    [style]="isFormResource? {'height': '10vh'}:{}"
                     [style]="'--content: \''+placeholderEditable+'\''">{{data}}</pre>
             </div>
 

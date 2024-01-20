@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IData, IFullData } from '@core/models/IData';
+import { Question, QuestionSet } from '@core/models/QuestionSet';
 import { getLastListsLS } from '@core/services/localstorange/LS.list';
 
 @Component({
@@ -11,10 +11,10 @@ import { getLastListsLS } from '@core/services/localstorange/LS.list';
   styleUrls: ['./multiplecards.component.scss']
 })
 export class MultiplecardsComponent {
-  data: IFullData = {
+  data: QuestionSet = {
     id: '',
     name: '',
-    list: []
+    questions: []
   }
 
   ngOnInit() {
@@ -25,7 +25,7 @@ export class MultiplecardsComponent {
   }
 
 
-  toggleCard(data: IData ){
-    data.isQuestion = !data.isQuestion
+  toggleCard(data: Question ){
+    data.isStatement = !data.isStatement
   }
 }

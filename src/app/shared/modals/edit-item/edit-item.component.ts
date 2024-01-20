@@ -1,22 +1,21 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '@shared/components/button/button.component';
-import { IData } from '@core/models/IData';
+import { Question } from '@core/models/QuestionSet';
 import { deleteItemResourceLS, insertItemResourceLS, updateItemResourceLS } from '@core/services/localstorange/LS.item';
 
 @Component({
   selector: 'edit-item',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [ButtonComponent],
   templateUrl: './edit-item.component.html',
   styleUrls: ['./edit-item.component.scss']
 })
 export class EditItemComponent {
   @Input() show = false;
-  @Input() data: IData = {};
+  @Input() data: Question = {};
   @Input() idResource: string = "";
   @Output() eventShow = new EventEmitter<boolean>(false);
-  @Output() eventActionItemResource = new EventEmitter<{ action: string, object: IData }>();
+  @Output() eventActionItemResource = new EventEmitter<{ action: string, object: Question }>();
   toggleShow() {
     this.show = !this.show;
     this.eventShow.emit(this.show)
@@ -36,7 +35,7 @@ export class EditItemComponent {
         const formData = new FormData(event.target);
         formData.forEach((value, key) => {
           value = value.toString()
-          if ("question" == key) { this.data.question = value.includes("|") ? value.split("|") : [value]; }
+          if ("question" == key) { this.data.statement = value.includes("|") ? value.split("|") : [value]; }
           if ("answer" == key) { this.data.answer = value.includes("|") ? value.split("|") : [value]; }
           if ("tags" == key) { this.data.tags = value.includes("|") ? value.split("|") : [value]; }
           if ("cycle" == key) { this.data.cycle = Number(value.toString()) }

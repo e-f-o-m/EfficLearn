@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListBuilderComponent } from '@shared/modals/list-builder/list-builder.component';
-import { IData, IFullData } from '@core/models/IData';
+import { Question, QuestionSet } from '@core/models/QuestionSet';
 import { getListLS, getNameListsLS } from '@core/services/localstorange/LS.list';
 import { GeneralTableComponent } from '@shared/components/general-table/general-table.component';
 import { GeneralTableResponse } from '@shared/components/general-table/GeneralTableResponse';
@@ -32,15 +32,15 @@ import { ToastComponent } from '@shared/components/toast/toast.component';
   styleUrls: ['./library-manager.component.scss']
 })
 export class LibraryManagerComponent {
-  lists: IFullData[] = [];
+  lists: QuestionSet[] = [];
   tableData: Array<Array<GeneralTableResponse>> = [];
   isEditResource = false
   isEditItem = false
   isFreeResource = false
   isTableResouces = true
   generalTableItemSelected = new GeneralTableResponse()
-  dataItemResource: IData = {}
-  listsResources: IFullData[] = []
+  dataItemResource: Question = {}
+  listsResources: QuestionSet[] = []
   toastData?: {type: 's' | 'i' | 'w', timeS: number, title?: string, message: string, end: ()=>void }
 
   ngOnInit() {
@@ -51,7 +51,7 @@ export class LibraryManagerComponent {
         description: "",
         quantity: 1,
         completed: 0,
-        list: []
+        questions: []
       }
     ]
     this.getData()
@@ -71,14 +71,14 @@ export class LibraryManagerComponent {
   }
   getDataItems(resourceId: string) {
     getListLS(resourceId).then(data => {
-      if (!data.list) return
+      if (!data.questions) return
       this.tableData = []
-      for (let i = 0; i < data.list!.length; i++) {
+      for (let i = 0; i < data.questions!.length; i++) {
         let temp = []
-        let rangeCompleted = data.list[i].rangeCopleted != undefined ? data.list[i].rangeCopleted + "" : ""
-        let id = data.list[i].id ? data.list[i].id + "" : ""
-        temp.push(this.buildRow("Question", data.list[i].question![0], id, i, resourceId))
-        temp.push(this.buildRow("Answer", data.list[i].answer![0], id, i, resourceId))
+        let rangeCompleted = data.questions[i].rangeCopleted != undefined ? data.questions[i].rangeCopleted + "" : ""
+        let id = data.questions[i].id ? data.questions[i].id + "" : ""
+        temp.push(this.buildRow("Question", data.questions[i].statement![0], id, i, resourceId))
+        temp.push(this.buildRow("Answer", data.questions[i].answer![0], id, i, resourceId))
         temp.push(this.buildRow("Range Completed", rangeCompleted, id, i, resourceId))
         this.tableData.push(temp)
       }
@@ -139,7 +139,7 @@ export class LibraryManagerComponent {
     }
     this.getData()
   }
-  eventActionItemResource(event: { action: string, object: IData }) {
+  eventActionItemResource(event: { action: string, object: Question }) {
     if ("insertItemResource" == event.action) {
       this.getDataItems(this.generalTableItemSelected.rowId!)
       this.toastData = {type: 's', timeS: 1.5, title: "Successful", message: "Inserted", end: ()=>{this.toastData=undefined} }
@@ -167,11 +167,11 @@ export class LibraryManagerComponent {
   onSelectFreeResource(event: { action: string, id: string }) {
     let data = this.listsResources.find(res => res.id == event.id)
     if (!data) return
-    data.list = freeVerbs.list
+    data.questions = freeVerbs.questions
     let date = new Date().getTime()
     let startDate = new Date(2023, 11, 26, 11, 36, 0, 0).getTime();
     let startId = (date - startDate);
-    data.quantity = data.list?.length
+    data.quantity = data.questions?.length
     data.id = LS_LISTS.listResourceLanguageID + startId
     localStorage.setItem(data.id, JSON.stringify(data));
     this.getData()

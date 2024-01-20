@@ -1,12 +1,19 @@
 <div class="container">
 
-    <h3>Select game</h3>
-    <div class="lists">
+    <h2>Games and tools</h2>
+    <div class="games_list">
         <ul>
-            <li class="li_link"> <a class="link selected" routerLink="games/multiplecards">🔗 Multi Cards</a></li>
-            <li class="li_link"> <a class="link" routerLink="games/cards">🔗 Cards</a></li>
-            <li class="li_link"> <a class="link" routerLink="games/chat">🔗 Chat</a></li>
+            <a class="link selected" routerLink="games/multiplecards">
+                <card-game title="Multi-Cards" description="All cards, questions/asnwer" />
+            </a>
+            <a class="link" routerLink="games/cards">
+                <card-game title="Cards" description="Questions/asnwer" />
+            </a>
+
+            <!-- <a class="link" routerLink="games/chat"> -->
+            <!-- <li> <card-game title="" description=""/> </li> -->
         </ul>
     </div>
-    
+
+
 </div>

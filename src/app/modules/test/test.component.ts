@@ -19,8 +19,8 @@ export class TestComponent {
 
   ngAfterViewInit() {
     getSelectsResourceLS().then(res => {
-      res.list?.forEach(_itemSelect => {
-        tempData.list?.forEach(_itemResource => {
+      res.questions?.forEach(_itemSelect => {
+        tempData.questions?.forEach(_itemResource => {
           if (_itemResource.id == _itemSelect.id) {
             _itemResource = _itemSelect
             return

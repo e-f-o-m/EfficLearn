@@ -1,17 +1,29 @@
-<div class="btnHidden" [ngClass]="{'hidden': !isNavHidden}" (click)="setHiddenNav()">{{isNavHidden? "▼": "▲"}}</div>
-<div class="block_spacing" [ngClass]="{'hidden': isNavHidden}"></div>
+<div class="btnHidden" [class]="{'hidden': !isNavHidden}" (click)="setHiddenNav()">{{isNavHidden? "▼": "▲"}}</div>
+<div class="block_spacing" [class]="{'hidden': isNavHidden}"></div>
 
-<header class="nav" [ngClass]="{'hidden': isNavHidden}">
+<header class="nav" [class]="{'hidden': isNavHidden}">
 
     <div class="name_page">{{namePage}}</div>
 
-    <nav class="main-navigation" [ngClass]="{'hidden-nav': isOpenNavLeft}" [style]="{'overflow': 'hidden'}">
+    <nav class="main-navigation" [class]="{'hidden-nav': isOpenNavLeft}" [style]="{'overflow': 'hidden'}">
 
         <ul class="menu menu-center">
-            <li class="about"> <a class="link" routerLink="/">🔗 Games and Tools</a></li>
-            <li class="grammar"><a class="link" routerLink="library-manager">🔗 Resource Manager</a></li>
-            <li class="about"> <a class="link" routerLink="read">🔗 Read</a></li>
-            <li class="read"> <a class="link" routerLink="contact">🔗 Contact</a></li>
+            <li class="practice"> <a class="link" routerLink="/"> 
+                <i class="ico"></i>
+                Practice</a>
+            </li>
+            <li class="resource"><a class="link" routerLink="library-manager">
+                <i class="ico"></i>
+                Resource</a>
+            </li>
+            <li class="read"> <a class="link" routerLink="read">
+                <i class="ico"></i>
+                Read</a>
+            </li>
+            <li class="contact"> <a class="link" routerLink="contact">
+                <i class="ico"></i>
+                Contact</a>
+            </li>
         </ul>
         <ul class="menu menu-right">
             <li>
@@ -24,10 +36,10 @@
     </nav>
 
     <div class="btn_nav">
-        <div class="black" [ngClass]="{'hidden-nav': isOpenNavLeft}" (click)="isOpenNavLeft=!isOpenNavLeft"></div>
+        <div class="black" [class]="{'hidden-nav': isOpenNavLeft}" (click)="isOpenNavLeft=!isOpenNavLeft"></div>
 
         <div class="menu_ico_container c">
-            <div class="menu_ico" id="menuico_id" [ngClass]="{'active': !isOpenNavLeft}">
+            <div class="menu_ico" id="menuico_id" [class]="{'active': !isOpenNavLeft}">
                 <div class="click_ico" (click)="isOpenNavLeft=!isOpenNavLeft">
                     <div class="line"></div>
                 </div>

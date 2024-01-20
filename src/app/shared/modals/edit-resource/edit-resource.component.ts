@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { GeneralTableResponse } from '@shared/components/general-table/GeneralTableResponse';
 import { LS_LISTS } from '@core/constants/constants';
 import { BtnImgComponent } from '@shared/components/btn-img/btn-img.component';
-import { IData, IFullData } from '@core/models/IData';
+import { Question, QuestionSet } from '@core/models/QuestionSet';
 import { getListLS } from '@core/services/localstorange/LS.list';
 import { AlertComponent } from '../alert/alert.component';
 import { ToastComponent } from '@shared/components/toast/toast.component';
@@ -12,7 +11,7 @@ import { ToastComponent } from '@shared/components/toast/toast.component';
 @Component({
   selector: 'edit-resource',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, BtnImgComponent, AlertComponent, ToastComponent],
+  imports: [ButtonComponent, BtnImgComponent, AlertComponent, ToastComponent],
   templateUrl: './edit-resource.component.html',
   styleUrls: ['./edit-resource.component.scss']
 })
@@ -30,7 +29,7 @@ export class EditResourceComponent {
     { state: false, pos: 5, plHo: "0" },
   ]
   placeholderEditable: string = '';
-  resource!: IFullData;
+  resource!: QuestionSet;
   data = ""
 
   isFormResource = true
@@ -54,7 +53,7 @@ export class EditResourceComponent {
       completed: 0,
       currentCycle: 0,
       time: undefined,
-      list: [],
+      questions: [],
     }
 
     if (!this.generalTableResponse.rowId) return
@@ -71,11 +70,11 @@ export class EditResourceComponent {
       this.colsActive[4].state = true
       this.colsActive[5].state = true
 
-      this.resource.list?.forEach(item => {
+      this.resource.questions?.forEach(item => {
 
         if (item.id != undefined) {
         }
-        if (item.question != undefined) {
+        if (item.statement != undefined) {
         }
         if (item.answer != undefined) {
         }
@@ -86,7 +85,7 @@ export class EditResourceComponent {
         if (item.cycle != undefined) {
         }
         this.data += `${item.id || ''};`;
-        this.data += `${item.question || ''};`;
+        this.data += `${item.statement || ''};`;
         this.data += `${item.answer || ''};`;
         this.data += `${item.rangeCopleted || ''};`;
         this.data += `${item.tags || ''};`;
@@ -144,21 +143,21 @@ export class EditResourceComponent {
       this.toastData = { type: 'w', timeS: 2, title: "Error", message: "Empty questions", end: () => { this.toastData = undefined } }
       throw new Error("Empty questions")
     }
-    let list: IData[] = []
+    let list: Question[] = []
     let date = new Date().getTime()
     let startDate = new Date(2023, 11, 26, 11, 36, 0, 0).getTime();
     let startId = (date - startDate);
 
     text.split("\n").forEach((row, index) => {
       if (!row.trim()) return
-      let item: IData = {}
+      let item: Question = {}
       let cells = row.split(";")//.filter(function (elemento) { return elemento !== ""; })
       if (numColsActive != cells.length) {
         this.toastData = { type: 'w', timeS: 2, title: "Error", message: "Columns out of range", end: () => { this.toastData = undefined } }
         throw new Error("columns out of range: " + numColsActive + " - " + cells.length);
       }
 
-      item.isQuestion = true
+      item.isStatement = true
       if (this.typeRequest == 'update') {
       } else {
         item.id = startId + "" + index
@@ -171,7 +170,7 @@ export class EditResourceComponent {
         item.id = cells[count]; count++;
       }
       if (this.colsActive[1].state) {
-        item.question = cells[count].includes("|") ? cells[count].split("|") : [cells[count]]; count++;
+        item.statement = cells[count].includes("|") ? cells[count].split("|") : [cells[count]]; count++;
       }
       if (this.colsActive[2].state) {
         item.answer = cells[count].includes("|") ? cells[count].split("|") : [cells[count]]; count++;
@@ -192,7 +191,7 @@ export class EditResourceComponent {
 
     if (this.typeRequest == 'create') {
       
-      let finalData: IFullData = {
+      let finalData: QuestionSet = {
         id: '',
         name: this.resource.name,
         description: this.resource.description,
@@ -201,14 +200,14 @@ export class EditResourceComponent {
         completed: 0,
         currentCycle: 0,
         time: Number(this.resource.time),
-        list: list,
+        questions: list,
       }
 
       finalData.id = LS_LISTS.listResourceLanguageID + startId
       localStorage.setItem(finalData.id, JSON.stringify(finalData));
       this.eventActionResource.emit({ action: "insertResource", object: this.generalTableResponse })
     } else {
-      this.resource.list = list
+      this.resource.questions = list
       this.resource.quantity = list.length
       localStorage.setItem(this.resource.id!, JSON.stringify(this.resource));
       this.eventActionResource.emit({ action: "updateResource", object: this.generalTableResponse })

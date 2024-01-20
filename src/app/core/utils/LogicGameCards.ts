@@ -1,14 +1,14 @@
-import { IData, IFullData, STATES_CARD } from "@core/models/IData";
+import { Question, QuestionSet, STATES_CARD } from "@core/models/QuestionSet";
 import { insertResourceLS, insertSelectsResourceLS } from "@core/services/localstorange/LS.list";
 
 export class LogicGameCards {
-  public resource!: IFullData
-  public itemsSelect: IData[] = []
+  public resource!: QuestionSet
+  public itemsSelect: Question[] = []
 
   constructor() {
   }
   
-  async getData(resource: IFullData){
+  async getData(resource: QuestionSet){
     this.resource = resource
     //Buscar los del ciclo actual
     //TODO: Temporal
@@ -22,12 +22,12 @@ export class LogicGameCards {
     } */
 
     //TODO limit default?
-    if(!this.resource.list) return
-    let tempLimit = this.resource.list.length > 5? 5: this.resource.list?.length   
+    if(!this.resource.questions) return
+    let tempLimit = this.resource.questions.length > 5? 5: this.resource.questions?.length   
     this.resource.limit = this.resource.limit? this.resource.limit: tempLimit
     this.resource.currentCycle = this.resource.currentCycle? this.resource.currentCycle: 0
   
-    let auxItemsSelect = this.resource.list?.filter(res => {
+    let auxItemsSelect = this.resource.questions?.filter(res => {
       if ((res.currentCycle == this.resource.currentCycle
         && this.resource.currentCycle != 0
         && this.resource.currentCycle
@@ -60,27 +60,27 @@ export class LogicGameCards {
       }
     }
 
-    for (let i = 0; i < this.resource.list!.length; i++) {
+    for (let i = 0; i < this.resource.questions!.length; i++) {
       //Guadar (lista) item de lita actual en recurso
       for (let j = 0; j < this.itemsSelect.length; j++) {
-        if (this.resource.list![i].id === this.itemsSelect[j].id) {
+        if (this.resource.questions![i].id === this.itemsSelect[j].id) {
           if (this.itemsSelect[j].state == STATES_CARD.newReview) {
             this.itemsSelect[j].state = STATES_CARD.repeatDue
           } else if (this.itemsSelect[j].state == STATES_CARD.repeatReview) {
             this.itemsSelect[j].state = STATES_CARD.repeatDue
           }
-          this.resource.list![i] = this.itemsSelect[j]
+          this.resource.questions![i] = this.itemsSelect[j]
         }
       }
 
       //buscar los items del recurso que coincidan con el nuevo ciclo
       //cambiar currentcycle de los items nuevos, añadir item a arraytemporal
-      if (this.resource.list![i].cycle == cycle
-        && this.resource.list![i].state !== STATES_CARD.completed
-        && this.resource.list![i].state !== STATES_CARD.suspend
+      if (this.resource.questions![i].cycle == cycle
+        && this.resource.questions![i].state !== STATES_CARD.completed
+        && this.resource.questions![i].state !== STATES_CARD.suspend
       ) {
-        this.resource.list![i].currentCycle = cycle
-        auxItemsSelect.push(this.resource.list![i])
+        this.resource.questions![i].currentCycle = cycle
+        auxItemsSelect.push(this.resource.questions![i])
       }
     }
 
@@ -95,7 +95,7 @@ export class LogicGameCards {
     return "complet"
   }
 
-  setStars(itemResource: IData) {
+  setStars(itemResource: Question) {
     itemResource.reviewCount = itemResource.reviewCount!=undefined? itemResource.reviewCount+1: 1
 
     itemResource.cycle = itemResource.cycle!==undefined ? itemResource.cycle : 0
@@ -129,7 +129,7 @@ export class LogicGameCards {
     })
 
 
-    const temp: IFullData = {}
+    const temp: QuestionSet = {}
     temp.id = this.resource.id
     temp.name = this.resource.name
     temp.description = this.resource.description
@@ -137,13 +137,13 @@ export class LogicGameCards {
     temp.completed = this.resource.completed
     temp.currentCycle = this.resource.currentCycle
     temp.time = this.resource.time
-    temp.list = this.itemsSelect
+    temp.questions = this.itemsSelect
     insertSelectsResourceLS(temp)
   }
 
-  manualStateAndReplace(itemResource: IData, state: string){    
+  manualStateAndReplace(itemResource: Question, state: string){    
     itemResource.state = state
-    this.resource.list?.forEach(_itemResource => {
+    this.resource.questions?.forEach(_itemResource => {
       if(_itemResource.id === itemResource.id){
         _itemResource.state = itemResource.state
       }
@@ -152,9 +152,9 @@ export class LogicGameCards {
     this.validateNews()
   }
   
-  removeAndReplace(itemResource:IData){
+  removeAndReplace(itemResource:Question){
     this.itemsSelect = this.itemsSelect.filter(res=>res.id!==itemResource.id) 
-    this.resource.list = this.resource.list?.filter(res=>res.id!==itemResource.id) 
+    this.resource.questions = this.resource.questions?.filter(res=>res.id!==itemResource.id) 
     this.validateNews()
   }
 
@@ -163,7 +163,7 @@ export class LogicGameCards {
     let count = this.itemsSelect.length!
     
     if (count < this.resource.limit!) {
-      this.resource.list?.forEach(res => {
+      this.resource.questions?.forEach(res => {
         if (count === this.resource.limit!) return
         if ((res.state == STATES_CARD.newDue || res.state == "" || !res.state)
           && res.state !== STATES_CARD.completed

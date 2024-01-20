@@ -1,4 +1,4 @@
-<div [ngClass]="{'show' : show }" class="container">
+<div [class]="{'show' : show }" class="container">
 
     <div class="card">
         <div class="close" (click)="toggleShow()">❌</div>
@@ -7,9 +7,11 @@
 
         <div class="content">
             <ul>
-                <li (click)="selectList(item)" *ngFor="let item of lists">
-                    <div> {{item.name}} </div>
-                </li>
+                @for (item of lists; track $index) {
+                    <li (click)="selectList(item)">
+                        <div> {{item.name}} </div>
+                    </li>
+                }
 
             </ul>
         </div>

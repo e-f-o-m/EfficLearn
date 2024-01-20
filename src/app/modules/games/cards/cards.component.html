@@ -37,7 +37,7 @@
 
     <div class="container_card" *ngIf="lgc">
         <div *ngIf="lgc.itemsSelect.length > 1" (click)="toggleCard(lgc.itemsSelect[posItem])" class="flipper frame"
-            [ngClass]="{ 'active' : !lgc.itemsSelect[posItem].isQuestion }" #frame>
+            [ngClass]="{ 'active' : !lgc.itemsSelect[posItem].isStatement }" #frame>
             <div class="card" #next>
                 <div class="itemCard" [ngStyle]="{'font-size': fontSizeCard+'rem'}">
                     <!-- <div class="invisible">{{ lgc.itemsSelect[posItem+1].question![0].length>lgc.itemsSelect[posItem+1].answer![0].length?
@@ -52,7 +52,7 @@
                                 {{lgc.itemsSelect[posItemNext].reviewCount || 0}}
                             </span>
                         </div>
-                        <div [innerHTML]="lgc.itemsSelect[posItemNext].question!.join('\n\n') | br"></div>
+                        <div [innerHTML]="lgc.itemsSelect[posItemNext].statement!.join('\n\n') | br"></div>
                     </div>
                     <div class="answer">
                         <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItemNext].rangeCopleted">
@@ -63,7 +63,7 @@
                                 {{lgc.itemsSelect[posItemNext].reviewCount || 0}}
                             </span>
                         </div>
-                        <div [innerHTML]="lgc.itemsSelect[posItemNext].question!.join('\n\n') | br"></div>
+                        <div [innerHTML]="lgc.itemsSelect[posItemNext].statement!.join('\n\n') | br"></div>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@
                                 {{lgc.itemsSelect[posItem].reviewCount || 0}}
                             </span>
                         </div>
-                        <div [innerHTML]="lgc.itemsSelect[posItem].question!.join('\n\n') | br"></div>
+                        <div [innerHTML]="lgc.itemsSelect[posItem].statement!.join('\n\n') | br"></div>
                     </div>
                     <div class="answer" style="white-space: pre-line;">
                         <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItem].rangeCopleted">

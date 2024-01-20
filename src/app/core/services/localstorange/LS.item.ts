@@ -1,15 +1,15 @@
 import { LS_LISTS } from '@core/constants/constants';
-import { IData, IFullData } from '@core/models/IData';
+import { Question, QuestionSet } from '@core/models/QuestionSet';
 
-export function getItemResourceLS(idList: string, idItem: string): IData {
-    let data: IData = {};
+export function getItemResourceLS(idList: string, idItem: string): Question {
+    let data: Question = {};
     const clavesLocalStorage = Object.keys(localStorage);
     for (const clave of clavesLocalStorage) {
         if (clave == idList) {
             let res = localStorage.getItem(clave)
             if (res != undefined && res != "undefined" && res != "") {
-                const lists = JSON.parse(res) as IFullData
-                lists.list?.forEach(res => {
+                const lists = JSON.parse(res) as QuestionSet
+                lists.questions?.forEach(res => {
                     if (res.id == idItem) {
                         data = res
                         return
@@ -23,20 +23,20 @@ export function getItemResourceLS(idList: string, idItem: string): IData {
 }
 
 
-export async function updateItemResourceLS(data: IData, idResource: string): Promise<boolean> {
+export async function updateItemResourceLS(data: Question, idResource: string): Promise<boolean> {
     let statusReturn = false
     const clavesLocalStorage = Object.keys(localStorage);
     for (const clave of clavesLocalStorage) {
         if (clave == idResource) {
             let res = localStorage.getItem(clave)
             if (res == undefined || res == "undefined" || res == "") break
-            const lists = JSON.parse(res) as IFullData
-            if (!lists.list) break
+            const lists = JSON.parse(res) as QuestionSet
+            if (!lists.questions) break
 
             let count = 0
-            for (let itemList of lists.list) {
+            for (let itemList of lists.questions) {
                 if (itemList.id == data.id) {
-                    lists.list[count] = data
+                    lists.questions[count] = data
                     statusReturn = true
                     localStorage.setItem(clave, JSON.stringify(lists))
                     break
@@ -55,14 +55,14 @@ export async function deleteItemResourceLS(idItem:string, idResource: string): P
         if (clave == idResource) {
             let res = localStorage.getItem(clave)
             if (res == undefined || res == "undefined" || res == "") break
-            const lists = JSON.parse(res) as IFullData
-            if (!lists.list) break
+            const lists = JSON.parse(res) as QuestionSet
+            if (!lists.questions) break
 
-            let auxList:IData[] = lists.list
-            lists.list=[]
+            let auxList:Question[] = lists.questions
+            lists.questions=[]
             for(const itemList of auxList) {
                 if (itemList.id != idItem) {
-                    lists.list.push(itemList)
+                    lists.questions.push(itemList)
                 }else{
                     statusReturn = true;
                 }
@@ -74,16 +74,16 @@ export async function deleteItemResourceLS(idItem:string, idResource: string): P
 }
 
 
-export async function insertItemResourceLS(data: IData, idResource: string): Promise<boolean> {
+export async function insertItemResourceLS(data: Question, idResource: string): Promise<boolean> {
     let statusReturn = false
     const clavesLocalStorage = Object.keys(localStorage);
     for (const clave of clavesLocalStorage) {
         if (clave == idResource) {
             let res = localStorage.getItem(clave)
             if (res == undefined || res == "undefined" || res == "") break
-            const lists = JSON.parse(res) as IFullData
-            if (!lists.list) break
-            lists.list.push(data)
+            const lists = JSON.parse(res) as QuestionSet
+            if (!lists.questions) break
+            lists.questions.push(data)
             statusReturn = true
             localStorage.setItem(clave, JSON.stringify(lists))
         }
