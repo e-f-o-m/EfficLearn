@@ -8,6 +8,7 @@ import { CardsComponent } from '@modules/games/cards/cards.component';
 import { ContactComponent } from '@modules/contact/contact.component';
 import { TestComponent } from '@modules/test/test.component';
 import { ChatComponent } from '@modules/games/chat/chat.component';
+import { GrammarComponent } from '@modules/grammar/grammar.component';
 
 export const mroutes: Routes = [
     {
@@ -21,6 +22,7 @@ export const mroutes: Routes = [
         { path: 'games/multiplecards', component: MultiplecardsComponent },
         { path: 'games/cards', component: CardsComponent },
         { path: 'games/chat', component: ChatComponent },
+        { path: 'grammar', component: GrammarComponent },
         { path: 'library-manager', component: LibraryManagerComponent },
         { path: 'read', component: ReadComponent },
       ]

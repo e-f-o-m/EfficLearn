@@ -2,8 +2,9 @@
 
     <div class="Chat__wrapper">
         <ul class="Chat">
-            <ng-container *ngFor="let message of messages">
-                <li class="Chat_item Chat_item_l" *ngIf="message.user!=user">
+            @for(message of messages; track $index){
+                @if (message.user!=user) {
+                <li class="Chat_item Chat_item_l">
                     <div class="i_man">
                         <img src="/assets/person.svg" class="i_man-image" />
                     </div>
@@ -15,8 +16,10 @@
                         </div>
                     </div>
                 </li>
+                }
 
-                <li class="Chat_item Chat_item_r" *ngIf="message.user==user">
+                @if(message.user==user){
+                <li class="Chat_item Chat_item_r">
                     <div class="Chat_msgs">
                         <div class="msg">
                             <div class="msg-content">
@@ -25,7 +28,8 @@
                         </div>
                     </div>
                 </li>
-            </ng-container>
+                }
+            }
             <!-- <li class="Chat_item Chat_item_r">
                 <div class="Chat_msgs">
                     <div class="msg">
@@ -61,8 +65,10 @@
         </div>
     </div>
 
-    <div class="modal_user" *ngIf="user==''">
+    @if(user==''){
+    <div class="modal_user">
         <button (click)="setUser('user1')">User 1</button>
         <button (click)="setUser('user2')">User 2</button>
     </div>
+    }
 </main>

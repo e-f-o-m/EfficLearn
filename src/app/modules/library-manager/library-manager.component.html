@@ -20,5 +20,7 @@
     <list-resources [show]="isFreeResource" (eventShow)="isFreeResource=!isFreeResource"
         (onSelectList)="onSelectFreeResource($event)" [lists]="listsResources" />
     <general-table class="table" (rowEvent)="rowEvent($event)" [tableData]="tableData"></general-table>
-    <toast [data]="toastData" *ngIf="toastData"></toast>
+    @if (toastData) {
+    <toast [data]="toastData"></toast>
+    }
 </div>

@@ -175,6 +175,8 @@ export class LibraryManagerComponent {
     data.id = LS_LISTS.listResourceLanguageID + startId
     localStorage.setItem(data.id, JSON.stringify(data));
     this.getData()
+    
+    localStorage.setItem(LS_LISTS.listSelectedId, data.id)
   }
 
 }

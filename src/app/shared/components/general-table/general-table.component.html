@@ -1,21 +1,25 @@
 <div class="container">
     <div class="content">
-        <table *ngIf="tableData.length > 0" class="table">
+        @if (tableData.length > 0) {
+        <table class="table">
             <thead>
                 <tr>
                     <th scope="row">#</th>
-                    <th scope="col" *ngFor="let headers of tableData[0]" 
+                    @for (headers of tableData[0]; track $index) {
+                    <th scope="col" 
                     [ngClass]="headers.type=='hidden_responsive'?'hidden_responsive':''" >{{headers.headerKey}}</th>
                     <!-- <th scope="col"> <i class="fa-solid fa-ellipsis"></i> </th> -->
+                    }
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let row of tableData; index as i" class="rowItem rowItem{{i}}">
-                    <td scope="row"> <div> {{i+1}} </div> </td>
+                @for (row of tableData; track $index) {
+                <tr class="rowItem rowItem{{$index}}">
+                    <td scope="row"> <div> {{$index+1}} </div> </td>
         
                     <td *ngFor="let cell of row; index as k" 
-                        (click)="colSelect(cell, k, i)"
-                        class="colItem colItem{{i}}"
+                        (click)="colSelect(cell, k, $index)"
+                        class="colItem colItem{{$index}}"
                         [ngClass]="cell.type =='hidden_responsive'?'hidden_responsive':''"
                         >
                         <div>
@@ -39,7 +43,9 @@
                         </div>
                     </td> -->
                 </tr>
+                }
             </tbody>
         </table>
+        }
     </div>
 </div>

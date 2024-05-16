@@ -1,0 +1,45 @@
+<main class="container_grammar">
+    <section class="all_grammar">
+        @for (contentTitlesH1 of grammar; track $index) {
+        <article class="article_grammar container_article">
+            <h2 class="title"> {{contentTitlesH1.title}} </h2>
+            @for (content of contentTitlesH1.content ; track $index) {
+            @if (content.type === 'list') {
+            <li class="list"> {{content.value}} </li>
+            } @else if (content.type === 'text') {
+            <p class="text"> {{content.value}} </p>
+            } @else if (content.type === 'structure') {
+            <p class="structure"> {{content.value}} </p>
+            }
+            }
+
+            @for (subcontent of contentTitlesH1.subcontent; track $index) {
+                <h3 class="title2"> {{subcontent.title}}</h3>
+                @for (contentSub1 of subcontent.content ; track $index) {
+                    @if (contentSub1.type === 'list') {
+                    <li class="list"> {{contentSub1.value}} </li>
+                    } @else if (contentSub1.type === 'text') {
+                    <p class="textg"> {{contentSub1.value}} </p>
+                    } @else if (contentSub1.type === 'structure') {
+                    <p class="structure"> {{contentSub1.value}} </p>
+                    }
+                }
+
+                @for (subcontent2 of subcontent.subcontent ; track $index) {
+                    <h3 class="title3"> {{subcontent2.title}}</h3>
+                    @for (contentSub2 of subcontent2.content ; track $index) {
+                        @if (contentSub2.type === 'list') {
+                        <li class="list"> {{contentSub2.value}} </li>
+                        } @else if (contentSub2.type === 'text') {
+                        <p class="textg"> {{contentSub2.value}} </p>
+                        } @else if (contentSub2.type === 'structure') {
+                        <p class="structure"> {{contentSub2.value}} </p>
+                        }
+                    }
+                }
+            }
+        </article>
+        }
+    </section>
+
+</main>

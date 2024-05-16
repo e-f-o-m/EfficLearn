@@ -349,8 +349,18 @@ $top: 3.1rem;
         width: 100%;
         z-index: 120;
 
+
         >div {
             width: 4.8rem;
+        }
+
+        @media (min-width: 800px) {
+            justify-content: center;
+            gap: 2.8rem;
+
+            >div {
+                width: 6rem;
+            }
         }
     }
 }

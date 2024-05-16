@@ -9,6 +9,7 @@ import { LogicGameCards } from '@core/utils/LogicGameCards';
 import { BtnDifficultyComponent } from '@shared/components/btn-difficulty/btn-difficulty.component';
 import { BtnImgComponent } from '@shared/components/btn-img/btn-img.component';
 import { BrPipe } from '@shared/pipes/br.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cards',
@@ -44,7 +45,7 @@ export class CardsComponent {
   fontSizeCard = 1.5
   speack = false
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router) {
   }
   breakLine(arg0: string[]) {
     return arg0.join().replace(/\\n/g, '<br>');
@@ -52,6 +53,9 @@ export class CardsComponent {
 
   ngAfterViewInit() {
     this.listsResources = getNameListsLS()
+    if(this.listsResources.length===0){
+      this.router.navigate(['library-manager'])
+    }
     let list: QuestionSet = {}
 
     //Buscar los items elegidos anterioremente 

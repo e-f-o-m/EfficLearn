@@ -12,6 +12,15 @@ export interface QuestionSet {
     completed?: number
 }
 
+/* 
+identificador unico
+statemnts enunciados de la pregunta
+answers respuetas de la pregunta en el mismo orden
+rangeCompleted Logrado o completado 5 estrellas
+observaciones de la pregunta, separar texto explicativo por ejemplo
+state 
+
+*/
 export interface Question {
     id?: string
     statement?: string[]

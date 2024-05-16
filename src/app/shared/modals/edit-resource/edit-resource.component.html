@@ -7,14 +7,16 @@
 
         <div class="content">
             <div class="options">
-                <btn-img *ngIf="typeRequest=='update'" identifier="delete" imgPath="assets/delete.svg"
+                @if (typeRequest=='update') {
+                <btn-img identifier="delete" imgPath="assets/delete.svg"
                     (eventClick)="handleDeleteResource($event)" [type]="'orange'">
                 </btn-img>
-                <btn-img *ngIf="typeRequest=='update'" identifier="gamepad" imgPath="assets/gamepad.svg"
+                <btn-img identifier="gamepad" imgPath="assets/gamepad.svg"
                     (eventClick)="handleSelectResource($event)" [type]="'green'">
                 </btn-img>
-                <app-button *ngIf="typeRequest=='update'" [title]="'Table Mode'"
+                <app-button [title]="'Table Mode'"
                     (eventClick)="handleOpenResource($event)"></app-button>
+                }
             </div>
 
             <label for="name_list">
@@ -64,6 +66,10 @@
     </div>
 
 
-    <alert [data]="alertData" *ngIf="alertData"></alert>
-    <toast [data]="toastData" *ngIf="toastData"></toast>
+    @if (alertData) {
+        <alert [data]="alertData"></alert>
+    }
+    @if (toastData) {
+        <toast [data]="toastData"></toast>
+    }
 </div>

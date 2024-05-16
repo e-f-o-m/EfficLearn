@@ -1,4 +1,4 @@
-<div class="float-actions"  [ngClass]="{'notNav': isShowNav}">
+<div class="float-actions" [ngClass]="{'notNav': isShowNav}">
     <ul [ngClass]="{'show-items': isShowOptions}">
         <li style="display: flex;" class="pagination">
             <span>1/100</span>
@@ -29,13 +29,16 @@
 <div class="container_read" role="main" [ngClass]="{'notNav': isShowNav}">
     <br>
     <div class="actions">
-        <div *ngIf="isUpFiles[0] && isUpFiles[1]" class="namefiles">
+
+        @if (isUpFiles[0] && isUpFiles[1]) {
+        <div class="namefiles">
             <div class="primary">{{ nameFiles[0] }}</div>
             <div>
                 <button class="toggle" (click)="toggleLang()">⮀</button>
             </div>
             <div class="secondary">{{ nameFiles[1] }}</div>
         </div>
+        }
         <div [class.hidden]="isUpFiles[0]">
             <app-input-file [name]="'English'" [identifier]="'engFile'"
                 (filesEvent)="setFile($event, 'engFile')"></app-input-file>
@@ -45,22 +48,27 @@
                 (filesEvent)="setFile($event, 'espFile')"></app-input-file>
         </div>
     </div>
-    
+
     <section [style.fontSize.rem]="fontSize">
         <div id="read_content_en">
-            <div *ngFor="let itemEn of enFilter; let i = index" (click)="scroll(true, itemEn)" [attr.id]="'en' + itemEn.id">
+            @for (itemEn of enFilter; track $index) {
+            <div (click)="scroll(true, itemEn)" [attr.id]="'en' + itemEn.id">
                 {{ itemEn.text }}
             </div>
+            }
         </div>
         <div id="read_content_es">
-            <div *ngFor="let itemEs of esFilter; let i = index" (click)="scroll(false, itemEs)" [attr.id]="'es' + itemEs.id">
+            @for (itemEs of esFilter; track $index) {
+            <div (click)="scroll(false, itemEs)" [attr.id]="'es' + itemEs.id">
                 {{ itemEs.text }}
             </div>
+            }
         </div>
     </section>
 </div>
 
-<div class="loading-container" *ngIf="isLoading">
+@if (isLoading) {
+<div class="loading-container">
     <div class="loading">
         <span></span>
         <span></span>
@@ -68,3 +76,4 @@
         <h2>Loading...</h2>
     </div>
 </div>
+}
