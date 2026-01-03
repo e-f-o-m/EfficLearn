@@ -1,39 +1,77 @@
-<main class="container_grammar">
+<main class="container_grammar flex flex-col sm:flex-row">
+    <aside class="aside">
+        <ul>
+            @for (item of grammar; track item.title; let indexA = $index ) {
+                <li>
+                    <a [routerLink]="[]" [fragment]="'t1'+indexA"
+                    [routerLinkActive]="'active'"
+                    [routerLinkActiveOptions]="{exact: true}"
+                    >{{item.title}}</a>
+                    
+                    @if (item.subcontent.length > 0) {
+                        <ul>
+                            @for (item2 of item.subcontent; track item2.title; let indexB = $index ) {
+                                <li>
+                                    <a [routerLink]="[]" [fragment]="'t1'+indexA+'t2'+indexB"
+                                    [routerLinkActive]="'active'"
+                                    [routerLinkActiveOptions]="{exact: true}"
+                                    >{{item2.title}}</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }
+        </ul>    
+    </aside>
+
     <section class="all_grammar">
         @for (contentTitlesH1 of grammar; track $index) {
         <article class="article_grammar container_article">
-            <h2 class="title"> {{contentTitlesH1.title}} </h2>
+            <h2 class="title" [id]="'t1'+$index"> {{contentTitlesH1.title}} </h2>
             @for (content of contentTitlesH1.content ; track $index) {
             @if (content.type === 'list') {
             <li class="list"> {{content.value}} </li>
             } @else if (content.type === 'text') {
             <p class="text"> {{content.value}} </p>
             } @else if (content.type === 'structure') {
-            <p class="structure"> {{content.value}} </p>
+                <div class="structure_container">
+                    @for (item of content.value; track $index) {
+                        <p class="structure"> {{item}} </p>
+                    }
+                </div>
             }
             }
 
-            @for (subcontent of contentTitlesH1.subcontent; track $index) {
-                <h3 class="title2"> {{subcontent.title}}</h3>
+            @for (subcontent of contentTitlesH1.subcontent; track subcontent.title; let indexB = $index ) {
+                <h3 class="title2" [id]="'t1'+$index+'t2'+indexB"> {{subcontent.title}}</h3>
                 @for (contentSub1 of subcontent.content ; track $index) {
                     @if (contentSub1.type === 'list') {
                     <li class="list"> {{contentSub1.value}} </li>
                     } @else if (contentSub1.type === 'text') {
                     <p class="textg"> {{contentSub1.value}} </p>
                     } @else if (contentSub1.type === 'structure') {
-                    <p class="structure"> {{contentSub1.value}} </p>
+                        <div class="structure_container">
+                            @for (item of contentSub1.value; track $index) {
+                                <p class="structure"> {{item}} </p>
+                            }
+                        </div>
                     }
                 }
 
                 @for (subcontent2 of subcontent.subcontent ; track $index) {
-                    <h3 class="title3"> {{subcontent2.title}}</h3>
+                    <h3 class="title3" [id]="'t3'+$index"> {{subcontent2.title}}</h3>
                     @for (contentSub2 of subcontent2.content ; track $index) {
                         @if (contentSub2.type === 'list') {
                         <li class="list"> {{contentSub2.value}} </li>
                         } @else if (contentSub2.type === 'text') {
                         <p class="textg"> {{contentSub2.value}} </p>
                         } @else if (contentSub2.type === 'structure') {
-                        <p class="structure"> {{contentSub2.value}} </p>
+                            <div class="structure_container">
+                                @for (item of contentSub2.value; track $index) {
+                                    <p class="structure"> {{item}} </p>
+                                }
+                            </div>
                         }
                     }
                 }

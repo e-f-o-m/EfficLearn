@@ -8,10 +8,10 @@
         <div class="content">
             <div class="options">
                 @if (typeRequest=='update') {
-                <btn-img identifier="delete" imgPath="assets/delete.svg"
+                <btn-img identifier="delete" imgPath="/delete.svg"
                     (eventClick)="handleDeleteResource($event)" [type]="'orange'">
                 </btn-img>
-                <btn-img identifier="gamepad" imgPath="assets/gamepad.svg"
+                <btn-img identifier="gamepad" imgPath="/gamepad.svg"
                     (eventClick)="handleSelectResource($event)" [type]="'green'">
                 </btn-img>
                 <app-button [title]="'Table Mode'"
@@ -65,11 +65,7 @@
 
     </div>
 
-
-    @if (alertData) {
-        <alert [data]="alertData"></alert>
-    }
-    @if (toastData) {
+    <!--FIXME @if (toastData) {
         <toast [data]="toastData"></toast>
-    }
+    } -->
 </div>

@@ -13,13 +13,13 @@ export class BtnImgComponent {
   @Input() identifier = ""
   @Input() imgPath: string = ""
   @Output() eventClick = new EventEmitter<string>();
-  
+
   onClick(){
     this.eventClick.emit(this.identifier)
   }
 }
-/* <btn-img 
-        identifier="menu" 
-        imgPath="assets/menu.svg" 
-        (eventClick)="isMenuOptions=!isMenuOptions" 
+/* <btn-img
+        identifier="menu"
+        imgPath="/menu.svg"
+        (eventClick)="isMenuOptions=!isMenuOptions"
         [type]="isMenuOptions? 'orange':'green'"></btn-img> */

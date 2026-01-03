@@ -39,7 +39,7 @@
     width: 100%;
     overflow: auto;
     box-sizing: border-box;
-    height: calc(100vh - var(--h-nav) - 110px - 1rem);
+    height: calc(100dvh - var(--h-nav) - 110px - 1rem);
     overflow: auto;
 
     &::-webkit-scrollbar-track {

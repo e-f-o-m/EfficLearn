@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Question, QuestionSet } from '@core/models/QuestionSet';
-import { LS_LISTS } from '@core/constants/constants';
+import { Question, QuestionSet } from 'src/app/core/models/QuestionSet';
+import { LS_LISTS } from 'src/app/core/constants/constants';
 
 @Component({
   selector: 'list-builder',
@@ -51,7 +51,7 @@ export class ListBuilderComponent {
       if (line.trim().length > 2) {
 
         let arLine = line.split(";")
-        finalData.questions!.push({
+        /* finalData.questions!.push({
           isStatement: true,
           statement: arLine,
           answer: arLine,
@@ -60,7 +60,7 @@ export class ListBuilderComponent {
           observation: "",
           reviewType: 0,
           state: "active",
-        })
+        }) */
       }
     });
 

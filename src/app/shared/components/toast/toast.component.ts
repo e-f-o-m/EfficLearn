@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IToast, ToastService } from 'src/app/core/services/toast/toast.service';
 
 @Component({
   selector: 'toast',
@@ -9,21 +10,28 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./toast.component.scss'],
 })
 export class ToastComponent {
-  @Input() data?: {type: 's' | 'i' | 'w', timeS: number, title?: string, message: string, end: () => void } 
-  color?: {
-    s: { color: string, icon: string },
+  color: {
     i: { color: string, icon: string },
+    s: { color: string, icon: string },
     w: { color: string, icon: string },
   } = {
-    s: { color: "#2BDE3F", icon: '/assets/success.svg' },
-    i: { color: "#1D72F3", icon: '/assets/info.svg' },
-    w: { color: "#FFC007", icon: '/assets/warning.svg' },
+    i: { color: "#1D72F3", icon: '/info.svg' },
+    s: { color: "#2BDE3F", icon: '/success.svg' },
+    w: { color: "#FFC007", icon: '/warning.svg' },
   }
+
+  toasts: IToast[] = [];
   
-  ngOnChanges(){
-    if(!this.data?.timeS) return
-    setTimeout(() => {
-      this.data?.end()
-    }, this.data?.timeS*1000);
+  constructor(private readonly toastService: ToastService, private readonly changeDetectorRef: ChangeDetectorRef) { }
+
+  ngOnInit() {
+    this.toastService.toasts$.subscribe(toasts => {
+      this.toasts = toasts;
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  onClose(id: number): void {
+    this.toastService.removeToast(id);
   }
 }

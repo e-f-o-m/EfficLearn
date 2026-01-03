@@ -1,0 +1,18 @@
+<div class="minput input" >
+    <label class="mlabel"
+    [for]="data?.id">{{data?.label}}</label>
+    <label
+        class="mlabel2"
+        [for]="data?.id">
+    <input class="rating" max="3" name="rangeCopleted"
+        oninput="this.style.setProperty('--value', this.value)" 
+        [style.--value]="data?.values![0]"
+        step="1"
+        style="--stars:3;--value:0" 
+        type="range" 
+        [name]="data?.id" 
+        (input)="dataChange($event.target)"
+        [value]="data?.values![0]">
+    </label>
+</div>
+

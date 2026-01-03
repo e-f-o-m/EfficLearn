@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ButtonComponent } from '@shared/components/button/button.component';
-import { Question } from '@core/models/QuestionSet';
-import { deleteItemResourceLS, insertItemResourceLS, updateItemResourceLS } from '@core/services/localstorange/LS.item';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { Question } from 'src/app/core/models/QuestionSet';
+import { deleteItemResourceLS, insertItemResourceLS, updateItemResourceLS } from 'src/app/core/services/localstorange/LS.item';
 
 @Component({
   selector: 'edit-item',
@@ -33,7 +33,7 @@ export class EditItemComponent {
       formElement.addEventListener('submit', (event: any) => {
         event.preventDefault();
         const formData = new FormData(event.target);
-        formData.forEach((value, key) => {
+        /* formData.forEach((value, key) => {
           value = value.toString()
           if ("question" == key) { this.data.statement = value.includes("|") ? value.split("|") : [value]; }
           if ("answer" == key) { this.data.answer = value.includes("|") ? value.split("|") : [value]; }
@@ -54,25 +54,25 @@ export class EditItemComponent {
           })
 
         } else {
-          
+
           updateItemResourceLS(this.data, this.idResource).then(res => {
             if (!res) return
             this.toggleShow()
             this.eventActionItemResource.emit({ action: "updateItemResource", object: this.data })
           })
-        }
+        } */
 
       });
     }
   }
 
   handleDeleteItemResource(event: any) {
-    if (!this.data.id) return
+    /* if (!this.data.id) return
     deleteItemResourceLS(this.data.id, this.idResource).then(res => {
       if (!res) throw new Error("Error delete item");
       this.eventActionItemResource.emit({ action: "deleteItemResource", object: this.data })
       alert("Delete list")
       this.toggleShow()
-    })
+    }) */
   }
 }

@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "tailwindcss";
+
+:root {
+  --h-nav: 54px;
+  --text-dark: #1c1e1e;
+  --text-dark-secondary: #5d5d5d;
+}
+
+@font-face {
+  font-family: 'josefin-sans';
+  src: url('/fonts/JosefinSans-VariableFont_wght.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* opago #244c43  brillante #005349*/
+  --color-bg: #1a4e48;
+  --color-primary: #419E26;
+
+  --background-image-bg-gradient: linear-gradient(-155deg, #19493FBE, var(--color-bg), var(--color-bg));
+
+  --color-primary-100: #91d87e;
+  --color-primary-600: #2e8116;
+  --font-display: "josefin-sans", "sans-serif";
+}

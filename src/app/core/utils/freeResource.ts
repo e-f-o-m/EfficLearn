@@ -1,4 +1,153 @@
-import { QuestionSet } from "@core/models/QuestionSet";
+import { QuestionSet } from "src/app/core/models/QuestionSet";
+
+
+export const GRAMMAR_QUESTIONS: string = `She is a talented artist.
+TO BE: ORACIONES AFIRMATIVAS\\nSUJETO+VERBO TO BE+COMPLEMENTOS\\nElla es una artista talentosa
+
+They are not teachers.
+TO BE: ORACIONES NEGATIVAS\\nSUJETO+VERBO TO BE+NOT+COMPLEMENTOS\\nEllos no son profesores.
+
+Is she your sister?
+TO BE: ORACIONES INTERROGATIVAS\\nVERBO TO BE+SUJETO+COMPLEMENTOS\\n¿Es ella tu hermana?
+
+What is that?
+WORD QUESTION\\nQUESTION WORD+VERBO TO BE+SUJETO+COMPLEMENTOS\\n¿Qué es eso?
+
+There is a cat on the bed.
+THERE IS/ARE: ORACIONES AFIRMATIVAS\\nTHERE IS/ARE+COMPLEMENTOS\\nHay un gato en la cama.
+
+There aren’t any books on the table.
+THERE IS/ARE: ORACIONES NEGATIVAS\\nTHERE IS/ARE NOT+COMPLEMENTOS\\nNo hay libros en la mesa.
+
+Is there a phone in your bag?
+THERE IS/ARE: ORACIONES INTERROGATIVAS\\nIS/ARE THERE+COMPLEMENTOS\\n¿Hay un teléfono en tu bolsa?
+
+The book is on the table.
+ARTÍCULOS\\nARTÍCULO+SUSTANTIVO+COMPLEMENTOS\\nEl libro está en la mesa.
+
+He is a good person.
+ADJETIVOS\\nSUJETO+VERBO TO BE+ADJETIVO+COMPLEMENTOS\\nÉl es una buena persona.
+
+I have two brothers.
+CONJUGACIÓN DEL VERBO TO HAVE Y ESTRUCTURAS: ORACIONES AFIRMATIVAS\\nSUJETO+VERBO TO HAVE+COMPLEMENTOS\\nTengo dos hermanos.
+
+I don’t have any money.
+CONJUGACIÓN DEL VERBO TO HAVE Y ESTRUCTURAS: ORACIONES NEGATIVAS\\nSUJETO+VERBO TO HAVE+NOT+COMPLEMENTOS\\nNo tengo dinero.
+
+Do you have a car?
+CONJUGACIÓN DEL VERBO TO HAVE Y ESTRUCTURAS: ORACIONES INTERROGATIVAS\\nDO/DOES+SUJETO+VERBO TO HAVE+COMPLEMENTOS\\n¿Tienes un coche?
+
+This is my house.
+PRONOMBRES DEMOSTRATIVOS\\nTHIS/THAT/THESE/THOSE+VERBO TO BE+COMPLEMENTOS\\nEsta es mi casa.
+
+Their car is blue.
+PRONOMBRES\\nSUJETO+VERBO TO BE+PRONOMBRE+COMPLEMENTOS\\nSu coche es azul.
+
+I gave it to him.
+PRONOMBRES DE OBJETO\\nSUJETO+VERBO+PRONOMBRE DE OBJETO+COMPLEMENTOS\\nSe lo di a él.
+
+This book is mine.
+PRONOMBRES POSESIVOS\\nSUJETO+VERBO TO BE+PRONOMBRE POSESIVO+COMPLEMENTOS\\nEste libro es mío.
+
+This is John's car.
+GENITIVO SAJÓN\\nSUJETO+VERBO TO BE+POSSESSOR'S+SUSTANTIVO+COMPLEMENTOS\\nEste es el coche de John.
+
+She is studying English.
+PRESENTE CONTINUO\\nSUJETO+VERBO TO BE+VERBO EN -ING+COMPLEMENTOS\\nElla está estudiando inglés.
+
+I’m running quickly.
+ING SPELLING\\nSUJETO+VERBO TO BE+VERBO EN -ING+COMPLEMENTOS\\nEstoy corriendo rápidamente.
+
+She plays the piano.
+PRESENTE SIMPLE\\nSUJETO+VERBO EN PRESENTE+COMPLEMENTOS\\nElla toca el piano.
+
+I was at home yesterday.
+PASADO DEL VERBO TO BE\\nSUJETO+VERBO TO BE EN PASADO+COMPLEMENTOS\\nYo estuve en casa ayer.
+
+He visited his grandparents last week.
+PASADO SIMPLE\\nSUJETO+VERBO EN PASADO SIMPLE+COMPLEMENTOS\\nÉl visitó a sus abuelos la semana pasada.
+
+She was reading a book.
+PASADO CONTINUO\\nSUJETO+VERBO TO BE EN PASADO+VERBO EN -ING+COMPLEMENTOS\\nElla estaba leyendo un libro.
+
+She is as tall as her brother.
+COMPARATIVO DE IGUALDAD\\nSUJETO+VERBO TO BE+AS+ADJETIVO+AS+COMPLEMENTOS\\nElla es tan alta como su hermano.
+
+He is taller than me.
+COMPARATIVO DE SUPERIORIDAD\\nSUJETO+VERBO TO BE+ADJETIVO EN COMPARATIVO+THAN+COMPLEMENTOS\\nÉl es más alto que yo.
+
+This is the best movie.
+SUPERLATIVO\\nSUJETO+VERBO TO BE+THE+ADJETIVO EN SUPERLATIVO+COMPLEMENTOS\\nEsta es la mejor película.
+
+This is the most interesting book.
+THE MOST + ADJETIVO\\nSUJETO+VERBO TO BE+THE MOST+ADJETIVO+COMPLEMENTOS\\nEste es el libro más interesante.
+
+Good is better than bad.
+ADJETIVOS IRREGULARES\\nSUJETO+VERBO TO BE+ADJETIVO IRREGULAR+THAN+COMPLEMENTOS\\nBueno es mejor que malo.
+
+The meeting is in the morning.
+PREPOSICIONES DE TIEMPO: IN\\nSUJETO+VERBO TO BE+PREPOSICIÓN+COMPLEMENTOS\\nLa reunión es en la mañana.
+
+The party is on Friday.
+PREPOSICIONES DE TIEMPO: ON\\nSUJETO+VERBO TO BE+PREPOSICIÓN+COMPLEMENTOS\\nLa fiesta es el viernes.
+
+The bus arrives at 8 o’clock.
+PREPOSICIONES DE TIEMPO: AT\\nSUJETO+VERBO+PREPOSICIÓN+HORA+COMPLEMENTOS\\nEl bus llega a las 8 en punto.
+
+The cat is under the table.
+PREPOSICIONES DE LUGAR\\nSUJETO+VERBO TO BE+PREPOSICIÓN+LUGAR+COMPLEMENTOS\\nEl gato está debajo de la mesa.
+
+We will meet after lunch.
+OTRAS PREPOSICIONES DE TIEMPO\\nSUJETO+VERBO+PREPOSICIÓN+COMPLEMENTOS\\nNos encontraremos después del almuerzo.
+
+The dog is behind the house.
+OTRAS PREPOSICIONES DE LUGAR\\nSUJETO+VERBO TO BE+PREPOSICIÓN+LUGAR+COMPLEMENTOS\\nEl perro está detrás de la casa.
+
+There is some water in the fridge.
+EXPRESIÓN DE CANTIDAD: SOME\\nSUJETO+VERBO TO BE+EXPRESIÓN+COMPLEMENTOS\\nHay algo de agua en la nevera.
+
+There isn’t any sugar in the cupboard.
+EXPRESIÓN DE CANTIDAD: ANY\\nSUJETO+VERBO TO BE+EXPRESIÓN+COMPLEMENTOS\\nNo hay azúcar en el armario.
+
+Is there some milk in the fridge?
+SOME EN ORACIONES INTERROGATIVAS\\nIS/ARE THERE+EXPRESIÓN+COMPLEMENTOS\\n¿Hay algo de leche en la nevera?
+
+She has already finished the work.
+VERB TENSES: PRESENT PERFECT\\nSUJETO+VERBO TO HAVE+VERBO EN PARTICIPIO+COMPLEMENTOS\\nElla ya ha terminado el trabajo.
+
+I haven’t seen that movie yet.
+PRESENT PERFECT: O. NEGATIVAS\\nSUJETO+VERBO TO HAVE+NOT+VERBO EN PARTICIPIO+COMPLEMENTOS\\nNo he visto esa película todavía.
+
+Have you ever been to London?
+PRESENT PERFECT: O. INTERROGATIVAS\\nVERBO TO HAVE+SUJETO+VERBO EN PARTICIPIO+COMPLEMENTOS\\n¿Alguna vez has estado en Londres?
+
+I have just finished my homework.
+PRESENT PERFECT: JUST\\nSUJETO+VERBO TO HAVE+JUST+VERBO EN PARTICIPIO+COMPLEMENTOS\\nAcabo de terminar mi tarea.
+
+They had already left when I arrived.
+PAST PERFECT: O. AFIRMATIVAS\\nSUJETO+VERBO TO HAVE EN PASADO+VERBO EN PARTICIPIO+COMPLEMENTOS\\nEllos ya se habían ido cuando llegué.
+
+She hadn’t eaten before the meeting.
+PAST PERFECT: O. NEGATIVAS\\nSUJETO+VERBO TO HAVE EN PASADO+NOT+VERBO EN PARTICIPIO+COMPLEMENTOS\\nElla no había comido antes de la reunión.
+
+Had they finished the project by noon?
+PAST PERFECT: O. INTERROGATIVAS\\nVERBO TO HAVE EN PASADO+SUJETO+VERBO EN PARTICIPIO+COMPLEMENTOS\\n¿Habían terminado el proyecto para el mediodía?
+
+We will travel next week.
+FUTURO CON WILL\\nSUJETO+WILL+VERBO+COMPLEMENTOS\\nViajaremos la próxima semana.
+
+I am going to buy a new car.
+FUTURO CON TO BE GOING TO\\nSUJETO+VERBO TO BE+GOING TO+VERBO+COMPLEMENTOS\\nVoy a comprar un coche nuevo.
+
+If it rains, I will stay home.
+CONDICIONALES DE TIPO 1: PROBABLES\\nIF+SUJETO+VERBO EN PRESENTE, SUJETO+WILL+VERBO\\nSi llueve, me quedaré en casa.
+
+If I were rich, I would travel the world.
+CONDICIONALES DE TIPO 2: IMPROBABLES\\nIF+SUJETO+VERBO EN PASADO, SUJETO+WOULD+VERBO\\nSi fuera rico, viajaría por el mundo.
+
+If they had studied, they would have passed the exam.
+CONDICIONALES TIPO 3: IMPOSIBLES\\nIF+SUJETO+HAD+VERBO EN PARTICIPIO, SUJETO+WOULD HAVE+VERBO EN PARTICIPIO\\nSi hubieran estudiado, habrían aprobado el examen.
+`
 
 
 export const tempData: QuestionSet = {
@@ -9,7 +158,7 @@ export const tempData: QuestionSet = {
   limit: 3,
   completed: 0,
   currentCycle: 0,
-  questions: [
+  /* questions: [
     {statement:["a"], answer:["r-a"], isStatement:true},
     {statement:["b"], answer:["r-b"], isStatement:true},
     {statement:["c"], answer:["r-c"], isStatement:true},
@@ -37,7 +186,7 @@ export const tempData: QuestionSet = {
     {statement:["x"], answer:["r-x"], isStatement:true},
     {statement:["y"], answer:["r-y"], isStatement:true},
     {statement:["z"], answer:["r-z"], isStatement:true},
-  ]
+  ] */
 }
 
 
@@ -48,7 +197,7 @@ export const freeVerbs: QuestionSet = {
       quantity: 1100,
       limit: 10,
       completed: 0,
-      questions: [
+      /* questions: [
         {statement:["a"],answer:["una"], isStatement:true},
         {statement:["ability"],answer:["capacidad"], isStatement:true},
         {statement:["able"],answer:["poder"], isStatement:true},
@@ -1149,7 +1298,8 @@ export const freeVerbs: QuestionSet = {
         {statement:["absolutely"],answer:["absolutamente"], isStatement:true},
         {statement:["respond"],answer:["responder"], isStatement:true},
         {statement:["army"],answer:["Ejército"], isStatement:true},
-        
 
 
-      ]}
+
+      ] */
+    }

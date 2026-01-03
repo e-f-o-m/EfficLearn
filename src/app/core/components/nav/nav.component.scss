@@ -1,461 +1,512 @@
 $cTextNav: #ffffffc9;
-$cBgNav: #18664c;
-$cHoverNav: #111;
+$cBgNav: #033E33;
+$cHoverNav: #152f27ef;
 $cActiveNav: #04aa6d;
 $gapLine: 10px;
 $weLine: 0.3rem;
 $top: 3.1rem;
 
 .block_spacing {
-    height: $top;
-    width: 1rem;
+  height: calc(var(--h-nav) + 1px);
+  width: 1rem;
 }
 
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 :host>.btnHidden {
-    position: fixed;
-    top: 2px;
-    right: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    height: calc($top - 5px);
-    background: $cActiveNav;
-    aspect-ratio: auto 1 / 1;
-    cursor: pointer;
-    border-radius: 0.6rem;
-    z-index: 200;
-    color: #1d1d1d9f;
-    box-shadow: 1px 1px 5px #00000088;
+  position: fixed;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  height: calc($top - 5px);
+  background: $cActiveNav;
+  aspect-ratio: auto 1 / 1;
+  cursor: pointer;
+  border-radius: 0.6rem;
+  z-index: 200;
+  color: #1d1d1d9f;
+  box-shadow: 1px 1px 5px #00000088;
+  opacity: 0.3;
+  top: 7px;
+  line-height: 10px;
 }
 
 .nav .hidden-nav {
-    transform: translateX(-100vw);
-    transition: transform 1s;
-    display: none;
+  transform: translateX(-100vw);
+  transition: transform 1s;
+  display: none;
 }
 
 .nav {
-    position: fixed;
-    top: 0px;
-    left: 0px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 200;
+  transition: all 1s;
+  border-bottom: solid 2px #2A5047;
+
+  .name_page {
+    position: absolute;
     width: 100%;
-    z-index: 200;
+    color: #f0ffff9a;
+    top: 0px;
+    /* height: $top; */
+    text-transform: uppercase;
+    text-align: center;
+    line-height: $top;
+    font-weight: 500;
+  }
 
-    transition: all 1s;
+  .main-navigation {
+    width: 100%;
+    background-color: $cBgNav;
+    color: $cTextNav;
+    text-transform: capitalize;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    box-shadow: 0px 1px 6px #00000070;
+    border-bottom: solid 1px #000000a1;
 
-    .name_page {
-        position: absolute;
-        width: 100%;
-        color: #f0ffff9a;
-        top: 0px;
-        /* height: $top; */
-        text-transform: uppercase;
-        text-align: center;
-        line-height: $top;
-        font-weight: 500;
+    li a:hover:not(.activeNav) {
+      background-color: $cHoverNav;
     }
 
-    .main-navigation {
-        width: 100%;
-        background-color: $cBgNav;
-        color: $cTextNav;
-        text-transform: capitalize;
-        border: none;
+    .activeNav {
+      border-bottom: solid 2px $cActiveNav;
+    }
+
+    ul.menu_icons {
+      display: none;
+    }
+  }
+
+  ul.menu,
+  ul.menu_icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: fit-content;
+
+    li {
+      display: flex;
+      list-style: none;
+      cursor: pointer;
+
+      &.logo {
+        margin-top: 0.5rem;
+        margin-left: 1rem;
+      }
+
+      .theme,
+      .btnHidden {
         display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        box-shadow: 0px 1px 6px #00000070;
-        border-bottom: solid 1px #000000a1;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        height: 2.5rem;
+        min-height: 100%;
+        background: #00000036;
+        aspect-ratio: auto 1 / 1;
+        cursor: pointer;
+        border-radius: 0.5rem;
+      }
 
-        li a:hover:not(.activeNav) {
-            background-color: $cHoverNav;
+
+      &:hover {
+        transition: all 0.1s linear;
+
+        ul {
+          transition: all 0.1s linear;
+          display: block;
+          padding-left: 0;
+
+          background: $cHoverNav;
+
+          a,
+          .link {
+            color: $cTextNav;
+            text-align: left;
+            text-transform: capitalize;
+            font-size: 0.7rem;
+          }
+        }
+      }
+
+      ul {
+        display: none;
+        position: absolute;
+        margin: 0;
+        padding: 0;
+      }
+
+      a {
+        border-radius: 12px;
+        margin-top: .5rem;
+        margin-bottom: .5rem;
+      }
+
+      a,
+      .link {
+        color: $cTextNav;
+        width: 100%;
+        display: flex;
+        text-decoration: none;
+        justify-content: center;
+        text-align: center;
+        padding: 0.54rem 1rem 0.54rem 12px;
+
+        &:hover {
+          transition: all 0.1s linear;
+          background: $cHoverNav;
+          color: $cTextNav;
         }
 
-        .activeNav {
-            border-bottom: solid 2px $cActiveNav;
+        .ico {
+          background-color: #ffffff;
+          height: 0.8rem;
+          margin-right: 6px;
+          width: 1rem;
+        }
+      }
+
+      &.practice a>i.ico {
+        width: 1.18rem;
+        height: 1.18rem;
+        mask: url("/gamepad.svg") no-repeat center;
+      }
+
+      &.resource a>i.ico {
+        width: 1.18rem;
+        height: 1.18rem;
+        mask: url("/edit.svg") no-repeat center;
+      }
+
+      &.read a>i.ico {
+        width: 1.18rem;
+        height: 1.18rem;
+        mask: url("/file.svg") no-repeat center;
+      }
+
+      &.contact a>i.ico {
+        width: 1.18rem;
+        height: 1.18rem;
+        mask: url("/user.svg") no-repeat center;
+      }
+    }
+
+    ul ul {
+      margin: 0 0 0 100%;
+      box-shadow: 0 0 2px #00000099;
+    }
+
+    .sub-menu {
+      >ul {
+        position: absolute;
+        bottom: -90%;
+        border-radius: 4px;
+        z-index: 9999;
+
+        li {
+          display: flex;
+          background: $cBgNav;
+          border-radius: 4px;
+        }
+      }
+
+      li:hover,
+      li a:hover,
+      li .link:hover {
+        transition: all 0.1s linear;
+        text-align: left;
+        background: $cHoverNav;
+        color: $cTextNav;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  ul.menu_icons {
+    gap: 1rem;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a,
+    .link {
+      padding: 0.54rem 12px 0.54rem calc(12px + 6px) !important;
+    }
+  }
+
+  .btn_nav {
+    display: none;
+    background: $cBgNav;
+
+    .menu_ico_container {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      z-index: 85;
+
+      .menu_ico {
+        margin-right: .8rem;
+        height: $top;
+        width: 2.4rem;
+        z-index: 86;
+
+        .click_ico {
+          height: 1.8rem;
+          width: 2.4rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          height: 100%;
+
+
+          .line {
+            pointer-events: none;
+            height: $weLine;
+            width: 100%;
+            background: white;
+            position: relative;
+            border-radius: 5px;
+            display: inline-block;
+            animation: menu_ico1 ease-out 0.51s both;
+
+
+            &::before,
+            &::after {
+              content: '';
+              height: $weLine;
+              width: 100%;
+              background: white;
+              position: absolute;
+              border-radius: 4px;
+              box-shadow: 1px 2px 5px #00000041;
+              display: inline-block;
+            }
+
+            &::before {
+              top: $gapLine;
+              animation: menu_ico_be1 ease-out 0.51s both;
+            }
+
+            &::after {
+              bottom: $gapLine;
+              animation: menu_ico_af1 ease-out 0.51s both;
+            }
+          }
         }
 
+        &.active {
+          .line {
+            animation: menu_ico ease-out 0.51s both;
 
-        ul.menu {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            width: fit-content;
-
-            li {
-                display: flex;
-                list-style: none;
-
-                .theme,
-                .btnHidden {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 1.4rem;
-                    height: 2.5rem;
-                    min-height: 100%;
-                    background: #00000036;
-                    aspect-ratio: auto 1 / 1;
-                    cursor: pointer;
-                    border-radius: 0.5rem;
-                }
-
-
-                &:hover {
-                    transition: all 0.1s linear;
-
-                    ul {
-                        transition: all 0.1s linear;
-                        display: block;
-                        padding-left: 0;
-
-                        background: $cHoverNav;
-
-                        a,
-                        .link {
-                            color: $cTextNav;
-                            text-align: left;
-                            text-transform: capitalize;
-                            font-size: 0.7rem;
-                        }
-                    }
-                }
-
-                ul {
-                    display: none;
-                    position: absolute;
-                    margin: 0;
-                    padding: 0;
-                }
-
-                a,
-                .link {
-                    color: $cTextNav;
-                    width: 100%;
-                    display: flex;
-                    text-decoration: none;
-                    justify-content: center;
-                    text-align: center;
-                    padding: 0.8rem;
-
-                    &:hover {
-                        transition: all 0.1s linear;
-                        background: $cHoverNav;
-                        color: $cTextNav;
-                    }
-
-                    .ico {
-                        background-color: #ffffff;
-                        width: 1rem;
-                        height: 1rem;
-                        margin-right: 6px;
-                    }
-                }
-
-                &.practice a > i.ico {
-                    -webkit-mask: url("/assets/gamepad.svg") no-repeat center;
-                    mask: url("/assets/gamepad.svg") no-repeat cover;
-                }
-
-                &.resource a > i.ico {
-                    width: 1.18rem;
-                    height: 1.18rem;
-                    margin-top: -2px;
-                    -webkit-mask: url("/assets/edit.svg") no-repeat center;
-                    mask: url("/assets/edit.svg") no-repeat cover;
-                }
-
-                &.read a > i.ico {
-                    -webkit-mask: url("/assets/file.svg") no-repeat center;
-                    mask: url("/assets/file.svg") no-repeat cover;
-                }
-
-                &.contact a > i.ico {
-                    -webkit-mask: url("/assets/user.svg") no-repeat center;
-                    mask: url("/assets/user.svg") no-repeat cover;
-                }
+            &::after {
+              animation: menu_ico_af ease-out 0.51s both;
             }
 
-            ul ul {
-                margin: 0 0 0 100%;
-                box-shadow: 0 0 2px #00000099;
+            &::before {
+              animation: menu_ico_be ease-out 0.51s both;
             }
-
-            .sub-menu {
-                li {
-                    display: flex;
-                }
-
-                li:hover,
-                li a:hover,
-                li .link:hover {
-                    transition: all 0.1s linear;
-                    text-align: left;
-                    background: $cHoverNav;
-                    color: $cTextNav;
-                }
-            }
+          }
         }
+      }
+
+    }
+  }
+
+  /* escritorio */
+  @media (min-width: 800px) {
+    font-size: small;
+
+    .main-navigation {
+      /* .menu {
+          gap: 0rem;
+      } */
+    }
+
+    .name_page {
+      display: none;
+    }
+
+    .hidden-nav {
+      transform: translateX(0vw);
+      transition: transform 0.4s;
+    }
+  }
+
+  /* movil */
+  @media (max-width: 800px) {
+    nav.main-navigation {
+      position: absolute;
+      top: $top;
+      left: 0;
+      box-sizing: border-box;
+      border-top: solid 2px #00000000;
+      transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      height: calc(100dvh - #{$top});
+      background: linear-gradient(59deg, #0000002d, #00000050);
+      z-index: 80;
+      flex-direction: column;
+      justify-content: flex-start;
+      background: $cBgNav;
+      width: 75%;
+
+      ul.menu {
+        width: 100%;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 0;
+        gap: 0;
+
+
+        ul {
+          width: 100%;
+        }
+
+        li {
+          width: 100%;
+          flex-grow: 0;
+
+          ul {
+            padding-left: 1rem;
+          }
+        }
+
+        li a,
+        li .link {
+          justify-content: flex-start;
+          text-align: left;
+          font-size: 0.9rem;
+          padding: 1.4rem;
+          margin: 2px;
+
+          &.selected {
+            color: #04aa6d;
+            border-left: solid 4px #04aa6d;
+            background-color: #0000000a;
+            box-shadow: 0px 1px 5px #0000001e;
+          }
+        }
+      }
+    }
+
+    .li-btnHidden {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
     }
 
     .btn_nav {
-        display: none;
-        background: $cBgNav;
+      display: flex;
+      width: 100%;
+      height: $top;
+      align-items: center;
 
-        .menu_ico_container {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            z-index: 85;
+      .black {
+        position: absolute;
+        left: 0px;
+        top: $top;
+        width: 100vw;
+        height: calc(100dvh - #{$top});
+        background: #1e20205b;
 
-            .menu_ico {
-                margin-right: .8rem;
-                height: $top;
-                width: 2.4rem;
-                z-index: 86;
-
-                .click_ico {
-                    height: 1.8rem;
-                    width: 2.4rem;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    height: 100%;
-
-
-                    .line {
-                        pointer-events: none;
-                        height: $weLine;
-                        width: 100%;
-                        background: white;
-                        position: relative;
-                        border-radius: 5px;
-                        box-shadow: 1px 2px 5px #00000041;
-                        display: inline-block;
-                        animation: menu_ico1 ease-out 0.51s both;
-
-
-                        &::before,
-                        &::after {
-                            content: '';
-                            height: $weLine;
-                            width: 100%;
-                            background: white;
-                            position: absolute;
-                            border-radius: 4px;
-                            box-shadow: 1px 2px 5px #00000041;
-                            display: inline-block;
-                        }
-
-                        &::before {
-                            top: $gapLine;
-                            animation: menu_ico_be1 ease-out 0.51s both;
-                        }
-
-                        &::after {
-                            bottom: $gapLine;
-                            animation: menu_ico_af1 ease-out 0.51s both;
-                        }
-                    }
-                }
-
-                &.active {
-                    .line {
-                        animation: menu_ico ease-out 0.51s both;
-
-                        &::after {
-                            animation: menu_ico_af ease-out 0.51s both;
-                        }
-
-                        &::before {
-                            animation: menu_ico_be ease-out 0.51s both;
-                        }
-                    }
-                }
-            }
-
-        }
+        z-index: 79;
+      }
     }
-
-    @media (min-width: 800px) {
-        font-size: small;
-
-        .main-navigation {
-            /* .menu {
-                gap: 0rem;
-            } */
-        }
-
-        .name_page {
-            display: none;
-        }
-
-        .hidden-nav {
-            transform: translateX(0vw);
-            transition: transform 0.4s;
-        }
-    }
-
-    @media (max-width: 800px) {
-        nav.main-navigation {
-            position: absolute;
-            top: $top;
-            left: 0;
-            box-sizing: border-box;
-            border-top: solid 2px #282929;
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            height: calc(100vh - #{$top});
-            background: linear-gradient(59deg, #0000002d, #00000050);
-            z-index: 80;
-            flex-direction: column;
-            justify-content: flex-start;
-            background: $cBgNav;
-            width: 75%;
-
-            ul.menu {
-                width: 100%;
-                flex-direction: column;
-                justify-content: flex-start;
-                padding: 0;
-
-                ul {
-                    width: 100%;
-                }
-
-                li {
-                    width: 100%;
-                    flex-grow: 0;
-
-
-                    ul {
-                        padding-left: 1rem;
-                    }
-                }
-
-                li a,
-                li .link {
-                    justify-content: flex-start;
-                    text-align: left;
-                    font-size: 0.9rem;
-                    padding: 1.4rem;
-
-                    &.selected {
-                        color: #04aa6d;
-                        border-left: solid 4px #04aa6d;
-                        background-color: #0000000a;
-                        box-shadow: 0px 1px 5px #0000001e;
-                    }
-                }
-            }
-        }
-
-        .btn_nav {
-            display: flex;
-            width: 100%;
-            height: $top;
-            align-items: center;
-
-            .black {
-                position: absolute;
-                left: 0px;
-                top: $top;
-                width: 100vw;
-                height: calc(100vh - #{$top});
-                background: #1e20205b;
-
-                z-index: 79;
-            }
-        }
-    }
+  }
 }
 
 
 @keyframes menu_ico_be {
-    0% {}
+  0% {}
 
-    50% {
-        transform: translateY(-$gapLine);
-    }
+  50% {
+    transform: translateY(-$gapLine);
+  }
 
-    100% {
-        transform: translateY(-$gapLine) rotate(-45deg);
-    }
+  100% {
+    transform: translateY(-$gapLine) rotate(-45deg);
+  }
 }
 
 @keyframes menu_ico_af {
-    0% {}
+  0% {}
 
-    50% {
-        transform: translateY($gapLine);
-    }
+  50% {
+    transform: translateY($gapLine);
+  }
 
-    100% {
-        transform: translateY($gapLine) rotate(45deg);
-    }
+  100% {
+    transform: translateY($gapLine) rotate(45deg);
+  }
 }
 
 @keyframes menu_ico {
-    50% {
-        background: white;
-    }
+  50% {
+    background: white;
+  }
 
-    51% {
-        background: transparent;
-        box-shadow: none;
-    }
+  51% {
+    background: transparent;
+    box-shadow: none;
+  }
 
-    100% {
-        background: transparent;
-        box-shadow: none;
-    }
+  100% {
+    background: transparent;
+    box-shadow: none;
+  }
 }
 
 @keyframes menu_ico_be1 {
-    0% {
-        transform: translateY(-$gapLine) rotate(-45deg);
-    }
+  0% {
+    transform: translateY(-$gapLine) rotate(-45deg);
+  }
 
-    50% {
-        transform: translateY(-$gapLine);
-    }
+  50% {
+    transform: translateY(-$gapLine);
+  }
 
-    100% {}
+  100% {}
 }
 
 @keyframes menu_ico_af1 {
-    0% {
-        transform: translateY($gapLine) rotate(45deg);
-    }
+  0% {
+    transform: translateY($gapLine) rotate(45deg);
+  }
 
-    50% {
-        transform: translateY($gapLine);
-    }
+  50% {
+    transform: translateY($gapLine);
+  }
 
-    100% {}
+  100% {}
 }
 
 @keyframes menu_ico1 {
-    0% {
-        background: transparent;
-        box-shadow: none;
-    }
+  0% {
+    background: transparent;
+    box-shadow: none;
+  }
 
-    50% {
-        background: transparent;
-        box-shadow: none;
-    }
+  50% {
+    background: transparent;
+    box-shadow: none;
+  }
 
-    51% {
-        background: white;
-    }
+  51% {
+    background: white;
+  }
 
-    100% {}
+  100% {}
 }

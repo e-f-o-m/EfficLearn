@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { QuestionSet } from '@core/models/QuestionSet';
-import { LS_LISTS } from '@core/constants/constants';
+import { QuestionSet } from 'src/app/core/models/QuestionSet';
+import { LS_LISTS } from 'src/app/core/constants/constants';
 
 @Component({
   selector: 'list-resources',
@@ -14,9 +14,9 @@ export class ListResourcesComponent {
   @Input() lists: QuestionSet[] = [];
   @Output() eventShow = new EventEmitter<boolean>(false);
   @Output() onSelectList = new EventEmitter<{action: string, id: string}>();
-  
-  toggleShow() { 
-    this.show = !this.show; 
+
+  toggleShow() {
+    this.show = !this.show;
     this.eventShow.emit(this.show)
   }
 

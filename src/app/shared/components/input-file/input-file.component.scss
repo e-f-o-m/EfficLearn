@@ -1,12 +1,12 @@
 .file {
-    background: linear-gradient(45deg, #47CCC7, #47ccc8e3);
+    background: linear-gradient(45deg, #47ccc809, #47ccc811);
     position: relative;
     flex-direction: row;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 14px;
-    padding: 0.5rem 0.8rem;
+    
     font-size: .8rem;
 }
 
@@ -20,6 +20,9 @@
     justify-content: center;
     align-items: center;
     margin-right: 0.4rem;
+    margin-left: 0.5rem;
+
+    /* padding: 0.5rem 0.8rem */
 }
 
 .file div {
@@ -34,23 +37,24 @@
     width: 100%;
     text-align: center;
     font-weight: 500;
-    color: #fff;
+    color: var(--text);
     text-shadow: 0px 0px 2px #09413fb2;
+    /* background: #239b97; */
+    border-radius: 10px;
+    /* padding: 0.2rem 0.5rem; */
+    padding: 0.5rem 0.8rem;
 }
 
 .file input[type=file]::file-selector-button {
-    display: inline-block;
+    display: none;
     border: none;
-    border-radius: 10px;
-    color: #fff;
     cursor: pointer;
-    background: #239b97;
-    padding: 0.2rem 0.5rem;
     width: min-content;
-    font-size: .7rem;
+    /* font-size: .7rem; */
 }
-
-
+.file input[type=file] {
+    color: #ff7c7ca8;
+}
 
 
 

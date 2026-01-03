@@ -1,0 +1,7 @@
+.main-container {
+    align-items: center;
+    flex-direction: column;
+    height: calc(99dvh - var(--h-nav));
+    gap: 1rem;
+    width: 100%;
+}

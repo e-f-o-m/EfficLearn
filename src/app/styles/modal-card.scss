@@ -4,17 +4,16 @@
 
 
 /* --bg: #E1E4E9;
---bg-content: #F0F4F9;
 --bg-assent: #f5f8ff;
 --bg-assent-blue: #eff4ff;
 --border-seg: white; */
 
-.container {
+.alert-container {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
     background: #00000041;
-    padding: 0.4rem;
+    padding: 0.44rem;
     color: #131313;
     display: none;
     gap: 0.7rem;
@@ -25,24 +24,25 @@
     left: 0;
     z-index: 1010;
     overflow-y: auto;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(2px);
+
 
     .card {
         min-width: 400px;
         max-width: 1300px;
-        background: #E1E4E9;
-        border-radius: 1rem;
-        padding: 1rem 1.5rem 0 1.5rem;
+        background: linear-gradient(170deg, #171f1cf8 22.7265625%,#111614f3 83.87239583333333%);
+        border-radius: 1.2rem;
+        padding: 1.2rem 1.8rem 0 1.8rem;
         position: relative;
         height: fit-content;
         margin: auto 0;
+        border: solid 1px #c0c0c01a;
 
         h2 {
-            margin-top: 0.7rem;
-            margin-bottom: 1.5rem;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
-            color: #000000a6;
+            color: #ffffffd5;
             font-size: 1.3rem;
+            font-weight: 500;
         }
 
         .close {

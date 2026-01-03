@@ -112,6 +112,7 @@ button {
     flex-wrap: wrap;
     background: #24767c;
     margin-top: 3.2rem;
+
     
     &.notNav {
         margin-top: 0rem;
@@ -189,7 +190,7 @@ button {
     justify-content: center;
     align-items: center;
     background: #111111af;
-    min-height: 100vh;
+    min-height: 100dvh;
     width: 100%;
 
     .loading {

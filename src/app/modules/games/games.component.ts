@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { QuestionSet } from '@core/models/QuestionSet';
 import { Router, RouterModule } from '@angular/router';
-import { getNameListsLS } from '@core/services/localstorange/LS.list';
-import { CardGameComponent } from '@shared/components/card-game/card-game.component';
+import { QuestionSet } from 'src/app/core/models/QuestionSet';
+import { getNameListsLS } from 'src/app/core/services/localstorange/LS.list';
+import { CardGameComponent } from 'src/app/shared/components/card-game/card-game.component';
+import { LocalstorageService } from 'src/app/core/services/localstorange/localstorange.service';
 
 @Component({
   selector: 'app-games',
@@ -14,17 +15,12 @@ import { CardGameComponent } from '@shared/components/card-game/card-game.compon
 })
 export class GamesComponent {
 
-  constructor(private router: Router) {}
+  constructor(private readonly _localstorageService: LocalstorageService) {}
 
   lists: QuestionSet[] = [];
 
   ngOnInit() {
     this.lists = getNameListsLS()
-  }
-
-  selectList(item: QuestionSet){
-    console.log('>> >>  :', item);
-    //localStorage.setItem("listSelected", item.id)
-    //this.router.navigate(['/multiplecards']);
+    this._localstorageService.gameSelected = ''
   }
 }

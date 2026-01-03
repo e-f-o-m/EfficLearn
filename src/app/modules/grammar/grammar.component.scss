@@ -1,9 +1,13 @@
+$c-red: #af4242e3;
+$c-title1: #2bc7ad;
+$c-title2: #69bbb5;
+$c-title3: #dae2e0;
+$c-text: #e4e4e4;
+
 .container_grammar{
     padding: 1.2rem;
-    color: antiquewhite;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
+    color: #f0e9e1;
+    gap: 1rem;
     @media (max-width: 480px) {
         padding: 0rem;
     }
@@ -20,32 +24,42 @@
             background: linear-gradient(-45deg, #33323249, #31383870);
             border: solid 1px #7474742d;
             padding: 2rem 2rem 3rem 2rem;
+            display: flex;
+            gap: 6px;
+            flex-direction: column;
             @media (max-width: 480px) {
                 padding: 2rem 1rem 3rem 1rem;
             }
 
             .title {
                 width: 100%;
-                color: #62fff7;
+                color: $c-title1;
                 text-align: center;
                 text-transform: uppercase;
                 font-size: 1.6rem;
+                margin-bottom: 1rem;
             }
             .title2 {
-                color: #a5f7f4;
-                margin-top: 2rem;
+                color: $c-title2;
+                margin-top: 1rem;
             }
             .title3 {
-                color: #a0e7d2;
+                color: $c-title3;
                 margin-top: 1.9rem;
                 margin-left: .8rem;
             }
+            .structure_container{
+                display: flex;
+                flex-wrap: wrap;
+                
+            }
             .structure {
-                background: #da5454;
+                background: $c-red;
                 border-radius: 13px;
                 padding: 0.4rem 0.6rem;
                 font-weight: 500;
                 width: fit-content;
+                height: fit-content;
             }
             .list {
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -54,11 +68,80 @@
                 line-height: 1rem;
                 color: #eefbfcf5;
                 &::marker {
-                    color: #da5454;
+                    color: $c-red;
                 }
             }
-            .text{
-                color: #e8fffcdc;
+            .text {
+                color: #f0e9e1;
+                line-height: 17px;
+                margin-top: 2px;
+                margin-bottom: 1px;
+            }
+        }
+    }
+    .aside {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 4.3rem;
+        width: fit-content;
+        height: fit-content;
+        border-radius: 0.8rem;
+        backdrop-filter: blur(8px);
+        background: linear-gradient(-45deg, #33323249, #31383870);
+        border: solid 1px #7474742d;
+        padding: 2rem 1rem 3rem 1rem;
+        overflow-y: scroll;
+        height: 91dvh;
+        @media (max-width: 580px) {
+            position: static;
+            overflow-y: visible;
+            height: fit-content;
+        }
+        /* Personaliza el scroll para navegadores que usan WebKit (Chrome, Safari, Edge) */
+        &::-webkit-scrollbar {
+            width: 12px; /* Ancho del scrollbar */
+        }
+        
+        &::-webkit-scrollbar-track {
+            background-color: #333; /* Fondo del track (carril) */
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: #555; /* Color del thumb (la parte que se arrastra) */
+            border-radius: 6px; /* Hace las esquinas redondeadas */
+        }
+        
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: #888; /* Color cuando se pasa el mouse por encima */
+        }
+        
+        &::-webkit-scrollbar-thumb:active {
+            background-color: #aaa; /* Color cuando se hace clic */
+        }
+        
+        /* Opcional: Estilizar el borde del scroll */
+        &::-webkit-scrollbar-corner {
+            background-color: #1a1a1a;
+        }
+
+        li {
+            list-style-type: disc;
+            cursor: pointer;
+            /* user-select: none; */
+        }
+        > ul {
+            margin-left: 4px;
+            > li {
+                margin-left: 4px;
+                color: $c-title1;
+                > ul {
+                    margin-left: 4px;
+                    color: $c-title2;
+                    > li {
+                        margin-left: 4px;
+                        color: $c-title3;
+                    }
+                }
             }
         }
     }

@@ -1,15 +1,32 @@
-<div [class]="{'show' : data }" class="container">
+<div [class]="{'show' : data }" class="alert-container">
     <div class="card">
-        <!-- <div class="close" (click)="toggleShow()">❌</div> -->
-        <h2>{{data?.title}}</h2>
+        <div class="flex flex-row gap-4 mt-3 mb-6">
+            @if(data?.input?.typeFormControl === 'warn'){
+                <img class="w-8 h-8 -mt-1" src="/warning.svg" alt="">
+            }@else if(data?.input?.typeFormControl  === 'info'){
+                <img class="w-8 h-8 -mt-1" src="/info.svg" aalt="">
+            }
+            <h2 class="font-semibold">{{data?.title}}</h2>
+        </div>
+
         <div class="content">
-            <div>
-                <p>{{data?.message}}</p>
+            <form (submit)="accept($event)">
+                @if (data?.message) {
+                    <p class="text-slate-300 mb-2 text-center">{{data?.message}}</p>
+                }
+                @if (data?.input) {
+                    @if (data?.input?.typeFormControl !== 'warn' && data?.input?.typeFormControl !== 'info') {
+                    <div class="flex flex-col mb-4">
+                        <app-input [data]="data?.input" />
+                    </div>
+                    }
+                }
                 <div class="actions">
-                    <app-button [title]="'Cancel'" (eventClick)="cancel()"></app-button>
-                    <app-button [title]="'Accept'" (eventClick)="accept()"></app-button>
+                    <app-button [title]="'Cancelar'" (eventClick)="cancel($event)" type="button"></app-button>
+                    <app-button [title]="'Aceptar'" type="submit" ></app-button>
                 </div>
-            </div>
+
+            </form>
         </div>
 
     </div>

@@ -9,7 +9,6 @@ export async function speak(text: string, lang: string): Promise<boolean> {
         const intervalId = setInterval(() => {
             if (!synth.speaking) {
                 clearInterval(intervalId);
-                console.log('>> >>  terminó?    :', );
                 resolve(true);
             }
         }, 1000);

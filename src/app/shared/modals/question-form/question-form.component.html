@@ -1,0 +1,67 @@
+<div [class]="{'show' : data }" class="alert-container">
+    <div class="card">
+        <div class="flex flex-row gap-4 mt-3 mb-6">
+            <!-- @if(data?.question?.typeFormControl === 'warn'){
+                <img class="w-8 h-8 -mt-1" src="/warning.svg" alt="">
+            }@else if(data?.question?.typeFormControl  === 'info'){
+                <img class="w-8 h-8 -mt-1" src="/info.svg" aalt="">
+            } -->
+            <h2 class="font-semibold">{{data?.title}}</h2>
+        </div>
+
+        <div class="content">
+            <form (submit)="accept($event)">
+
+                <div class="flex flex-col mb-4 gap-3 text-white">
+                    {{this.isUpdate}}
+                    @if (!isUpdate) {
+                        <app-input-switch (change)="toggleMassive($event.target)" [data]="{id: 'isMassive', label: '¿Es carga masiva?', values: ['0'] }" />
+                    }
+
+                    @if (isMassive) {
+                        <app-input-file name="Cargar archivo" identifier="file" (filesEvent)="onFileSelected($event)" />
+                        <app-textarea [data]="{id: 'massive_input', label: 'Contenido', values: [data?.question?.entry_a?.toString() ?? ''], typeFormControl: 'input-text',
+                            placeholder: '* Formato 1: *\nPregunta 1; Respuesta 1; Dificultad\nPregunta 2; Respuesta 2; 1\n\n\n* Formato 2: *\nPregunta 1\nRespuesta 1\n   --salto de linea--\nPregunta 2\nRespuesta 2'
+                        }" />
+                    }@else{
+
+
+                        <app-input [data]="{id: 'entry_a', label: 'Pregunta', values:  [data?.question?.entry_a?.toString() ?? ''], typeFormControl: 'input-text'}" />
+                        <app-input [data]="{id: 'entry_b', label: 'Respuesta', values: [data?.question?.entry_b?.toString() ?? ''], typeFormControl: 'input-text'}" />
+
+                        <app-input-range [data]="{id: 'difficulty', label: 'Dificultad', values: [data?.question?.difficulty?.toString() ?? ''], typeFormControl: 'input-number'}" />
+
+                        <app-input [data]="{id: 'cycle', label: 'Ciclo', values: [data?.question?.cycle?.toString() ?? ''], typeFormControl: 'input-number'}" />
+                        <app-input [data]="{id: 'description', label: 'Descripción', values: [data?.question?.description ?? ''], typeFormControl: 'input-text'}" />
+                        <!-- <app-input-range [data]="{id: 'tags', label: '', values: [data?.question?.tags!] }" /> -->
+
+
+                    }
+
+                    <div class="flex gap-2 items-center">
+                        <app-button [title]="'+'" type="button" (eventClick)="openCreateGroups()"></app-button>
+                        <app-button [title]="'Grupo'" type="button" (eventClick)="openGroups()"></app-button>
+                        <div>{{group?.name}}</div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    @if (data?.question?.question_id) {
+                        <div class="bg-[#1D542E] w-9 h-9 rounded-xl p-1 cursor-pointer hover:contrast-[1.1] text-center">
+                            <img class="w-6 h-6 m-auto mt-[2px]" src="/delete.svg" alt="" (click)="this.deleteQuestion()">
+                        </div>
+                    }
+                    <app-button [title]="'Cancelar'" (eventClick)="cancel()"></app-button>
+                    <app-button [title]="'Aceptar'" type="submit"></app-button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+@if (groupModal) {
+    <app-groups [data]="groupModal"></app-groups>
+}
+@if (this.alert) {
+    <alert [data]="this.alert" />
+}

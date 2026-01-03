@@ -1,12 +1,21 @@
-<div>
-    @for (item of data.questions; track $index) {
-    <div (click)="toggleCard(item)" class="flipper"
-        [ngClass]="{ 'active' : !item.isStatement }">
-        <div class="itemCard">
-            <div class="invisible">{{ item.statement!.length>item.answer!.length? item.statement:item.answer }}</div>
-            <div class="question">{{item.statement}}</div>
-            <div class="answer">{{item.answer}}</div>
-        </div>
+<div class="main-container">
+  @for (item of data; track $index) {
+    @if (item?.entry_a) {
+    <div (click)="onCardClick(item, $index)" [class]="'flipper ' + item?.animation +' '+ getDificultyClass(item?.difficulty)"
+          (mousedown)="startDrag($event, $index)"
+           (mousemove)="checkDrag($event)"
+           (mouseup)="endDrag($event, item, $index)"
+           
+           (touchstart)="startDrag($event, $index)"
+           (touchmove)="checkDrag($event)"
+           (touchend)="endDrag($event, item, $index)"
+          [ngClass]="{ 'active' : item?.state == 'review' }">
+      <div class="itemCard select-none">
+        <div class="invisible wrap-normal break-all" [innerHTML]="getMaxText(item) | br"></div>
+        <div class="question wrap-normal break-all" [innerHTML]="item.entry_a + '' | br"></div>
+        <div class="answer wrap-normal break-all" [innerHTML]="item.entry_b + '' | br"></div>
+      </div>
     </div>
     }
+  }
 </div>

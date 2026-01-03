@@ -1,4 +1,4 @@
-<div class="float-actions" [ngClass]="{'notNav': isShowNav}">
+<div class="float-actions" [ngClass]="{'notNav': !isShowNav}">
     <ul [ngClass]="{'show-items': isShowOptions}">
         <li style="display: flex;" class="pagination">
             <span>1/100</span>
@@ -26,7 +26,7 @@
     </ul>
 </div>
 
-<div class="container_read" role="main" [ngClass]="{'notNav': isShowNav}">
+<div class="container_read" role="main" [ngClass]="{'notNav': !isShowNav}">
     <br>
     <div class="actions">
 

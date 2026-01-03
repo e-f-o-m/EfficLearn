@@ -1,0 +1,84 @@
+<div class="main-container">
+    <div class="mt-1 bg-[var(--bg-header)] w-full flex flex-row items-center flex-wrap sm:h-52 h-44 pb-8 ">
+        <div class="title pl-4 sm:pl-20 text-white">
+            <h1  class="mt-1 mb-4 pb-0  font-bold">ADMINISTRAR RECURSOS</h1>
+            <div>Listas</div>
+        </div>
+
+        <div class="buttons_actions sm:ml-12 sm:mt-0 ml-4 mt-3">
+            <div class="bg-[#11351F] w-11 h-11 rounded-xl p-1 cursor-pointer hover:contrast-[1.1]" (click)="add()">
+                <img class="invert" src="/add.svg" alt="">
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div class="w-full sm:p-8 flex justify-around flex-wrap gap-8 sm:-mt-16">
+        @if (question_vaults.length>0) {
+        @for (item of question_vaults; track item.question_vault_id) {
+        <div class="w-[500px] text-white rounded-2xl bg-[#024E40] relative
+        border-[#00827A] border-2 overflow-hidden
+        shadow-2xl m-2
+        ">
+        <div class="absolute z-20 top-0 left-0 h-full w-full bg-cover bg-no-repeat bg-[url('/backgrounds/background.svg')] opacity-10 pointer-events-none
+        "></div>
+
+            <header class=" rounded-t-2xl flex flex-row px-7 pt-6 pb-3 gap-4">
+                <img src="/basic-db.svg" alt="">
+                <h3 class="text-2xl cursor-pointer min-w-3" (click)="renameList(item)">{{item?.name}}</h3>
+            </header>
+
+            <section class="inline-flex justify-around p-4
+                bg-[url('/backgrounds/card-resource.svg')] bg-cover bg-no-repeat
+                w-[105%]
+                -ml-[11px]
+                sm:-mb-[11px]
+                -mb-[17px]
+            ">
+                <div class="w-fit p-2">
+                    <app-porcent-chart [data]="{value: item?.completed, goal: item?.quantity}"></app-porcent-chart>
+                    <div class="w-full text-center text-green-200 mt-3">Completados</div>
+                </div>
+
+                <div class="w-fit flex gap-4   select-none flex-wrap
+                sm:h-auto
+                items-center
+                h-fit
+                self-end
+                mb-4
+                sm:self-center
+                    ">
+                    <div class="w-14 h-14 p-3 block bg-[#255038] rounded-2xl">
+                        <img class="invert cursor-pointer" src="/add.svg" alt="" (click)="addQuestionToList(item)">
+                    </div>
+                    <div class="w-14 h-14 p-3 block bg-[#255038] rounded-2xl">
+                        <img class="cursor-pointer" src="/delete.svg" alt="" (click)="deleteList(item)">
+                    </div>
+                    <div class="w-14 h-14 p-3 block bg-[#255038] rounded-2xl">
+                        <img class="invert cursor-pointer" src="/eye.svg" alt="" [routerLink]="'edit/'+item.question_vault_id">
+                    </div>
+                    <div class="w-14 h-14 p-4 block bg-[#255038] rounded-2xl">
+                        <img class="invert cursor-pointer" src="/play.svg" alt="" (click)="play(item)">
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        }
+        }@else{
+            <div class="w-[500px] text-stone-400 rounded-2xl bg-[#1B302B]/50 p-4 text-center border-green-300/20 border-2 border-dashed">
+                <p>No has creado ninguna lista aún.</p>
+                <p>Haz clic aquí para usar una lista de ejemplo.</p>
+                <button class="btn text-stone-300 p-2 bg-green-800 rounded-xl mt-3"
+                (click)="freeResource()">Usar lista de ejemplo</button>
+            </div>
+        }
+    </div>
+
+    @if (this.alert) {
+    <alert [data]="this.alert" />
+    }
+    @if (this.questionForm) {
+    <question-form [data]="this.questionForm" />
+    }
+</div>

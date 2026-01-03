@@ -1,0 +1,11 @@
+<div class="minput input">
+    
+    <label class="mlabel" [for]="data?.id">{{data?.label}}</label>
+
+    <label class="switch" [for]="data?.id">
+        <input type="checkbox" [name]="data?.id" (input)="dataChange($event.target)" (value)="data?.values![0]" />
+        <div></div>
+    </label>
+
+
+</div>

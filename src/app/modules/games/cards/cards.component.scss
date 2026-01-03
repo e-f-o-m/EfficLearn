@@ -11,14 +11,15 @@ $top: 3.1rem;
     display: none !important;
 }
 
-.container {
+.container_cards {
     width: 100%;
     display: flex;
     gap: 0.8rem;
     flex-direction: column;
-    height: calc(100vh - $top);
+    height: calc(99dvh - $top);
     align-items: stretch;
     position: relative;
+
 
     .menu_options {
         position: absolute;
@@ -52,13 +53,25 @@ $top: 3.1rem;
         background: #b8beba17;
         border-bottom: solid 1px #1231238c;
         display: flex;
-        flex-direction: row;
         flex-wrap: wrap;
         width: 100%;
         padding: 1rem;
         height: min-content;
         gap: 1rem;
+        flex-direction: row;
+        justify-content: space-between;
 
+        .hiddenA{
+            display: none;
+            @media (min-width: 640px) {
+                display: flex;
+            }
+        }
+
+        > div {
+            display: flex;
+            gap: 0.8rem;
+        }
         .cycle {
             height: 100%;
             text-align: center;
@@ -71,21 +84,20 @@ $top: 3.1rem;
             padding: 0.3rem;
             gap: 0.25rem;
 
+
             .ico {
                 background-color: #ffffff;
                 width: 1.3rem;
                 height: 1.3rem;
-                -webkit-mask: url("/assets/calendar_cycle.svg") no-repeat center;
-                mask: url("/assets/calendar_cycle.svg") no-repeat cover;
+                mask: url("/calendar_cycle.svg") no-repeat center;
             }
         }
     }
 
-    $cardH: 70vh;
+    $cardH: 72dvh;
 
     .container_card {
         display: flex;
-        justify-content: center;
         flex-grow: 1;
         flex-direction: column;
         align-items: center;
@@ -94,7 +106,7 @@ $top: 3.1rem;
         overflow: hidden;
         width: 100%;
         z-index: 100;
-
+    
         .flipper {
             height: 100%;
             min-width: 480px;
@@ -108,6 +120,7 @@ $top: 3.1rem;
             -moz-perspective: 1000;
             -o-perspective: 1000;
             perspective: 1000;
+            
 
             @media (max-width: 480px) {
                 min-width: 96vw;
@@ -135,12 +148,26 @@ $top: 3.1rem;
                 border-radius: 0.8rem;
                 user-select: none;
                 cursor: pointer;
-                overflow: hidden;
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center;
                 touch-action: none;
                 z-index: 101;
+                overflow: hidden;
+
+               /*  >::before{
+                    content: '';
+                    position: absolute;
+                    bottom: -2px;
+                    left: -2px;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 0.8rem;
+                    pointer-events: none;
+                    z-index: 0;
+                    background: #000000d6;
+                    box-shadow: -4px 10px 10px #000000d6;
+                } */
 
                 .is-like {
                     width: 100%;
@@ -227,31 +254,24 @@ $top: 3.1rem;
 
                             &.difficulty0 {
                                 border-bottom: 2px solid $hard;
-
                                 span {
                                     color: $hard;
-
                                     div {
                                         background-color: $hard;
                                     }
                                 }
                             }
-
-                            &.difficulty3 {
+                            &.difficulty1 {
                                 border-bottom: 2px solid $medium;
-
                                 span {
                                     color: $medium;
-
                                     div {
                                         background-color: $medium;
                                     }
                                 }
                             }
-
-                            &.difficulty5 {
+                            &.difficulty2 {
                                 border-bottom: 2px solid $easy;
-
                                 span {
                                     color: $easy;
 
@@ -277,8 +297,7 @@ $top: 3.1rem;
                                     div {
                                         width: 1rem;
                                         height: 1rem;
-                                        -webkit-mask: url("/assets/cycle.svg") no-repeat center;
-                                        mask: url("/assets/cycle.svg") no-repeat center;
+                                        mask: url("/cycle.svg") no-repeat center;
                                     }
                                 }
                             }
@@ -309,6 +328,14 @@ $top: 3.1rem;
                         height: 100%;
                         padding: 0.9rem 0.7rem;
 
+                    }
+
+
+                    .content-text{
+                        line-height: 130%;
+                        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                        text-shadow: 0px 2px 2px #00000079;
+                        font-weight: normal;
                     }
 
                     .question {

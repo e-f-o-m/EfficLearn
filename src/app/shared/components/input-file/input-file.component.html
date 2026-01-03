@@ -2,7 +2,9 @@
 <div class="file">
     <div class="ico"></div>
     <div>
-      <label>{{ name }}</label>
-      <input type="file" class="file-input" (change)="onFileSelected($event)" accept=".md, .txt" multiple />
+      <label for="file" class="flex flex-col">
+        <span class="block mb-2 text-left">{{ name }}</span>
+        <input type="file" id="file" class="file-input" (change)="onFileSelected($event)" accept=".md, .txt" multiple />
+      </label>
     </div>
   </div>

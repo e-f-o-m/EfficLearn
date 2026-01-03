@@ -1,31 +1,27 @@
 <main>
-
-    <div class="Chat__wrapper">
+  @if(isLoggedIn && roomName != null){
+    <div class="Chat__wrapper bg-bg-gradient">
         <ul class="Chat">
             @for(message of messages; track $index){
-                @if (message.user!=user) {
+                @if (message.user!=user?.uid) {
                 <li class="Chat_item Chat_item_l">
-                    <div class="i_man">
-                        <img src="/assets/person.svg" class="i_man-image" />
+
+                    <div class="i_man {{message.first? '': 'opacity-0'}}">
+                        <img src="/person.svg" class="i_man-image" />
                     </div>
-                    <div class="Chat_msgs">
-                        <div class="msg">
-                            <div class="msg-content">
-                                {{message.text}}
-                            </div>
-                        </div>
+
+
+                    <div class="msg-content {{message.first? 'first-msg': ''}} {{message.last? 'last-msg': ''}}">
+                      @if (message.first) {
+                        <span class="user-name">{{message.userName}}</span>
+                      }
+                      <span>{{message.value}}</span>
                     </div>
                 </li>
-                }
-
-                @if(message.user==user){
+                }@else if(message.user==user?.uid){
                 <li class="Chat_item Chat_item_r">
-                    <div class="Chat_msgs">
-                        <div class="msg">
-                            <div class="msg-content">
-                                {{message.text}}
-                            </div>
-                        </div>
+                      <div class="msg-content {{message.first? 'first-msg': ''}} {{message.last? 'last-msg': ''}}">
+                      {{message.value}}
                     </div>
                 </li>
                 }
@@ -52,23 +48,70 @@
             <div class='chat-textbox'>
                 <div class='left'>
                     <!-- <i class="fas fa-smile"></i> -->
-                    <input placeholder='Type Message' (input)="handleInputChat($event.target)"  [value]="this.inputValue"/>
+                    <input placeholder='Type Message'
+                           (keydown.enter)="sendSMS(); $event.preventDefault()"
+                           (input)="handleInputChat($event.target)"
+                           [value]="this.inputValue"/>
                 </div>
                 <!-- <div class='right'>
                     <i class="fa fa-paperclip"></i>
                     <i class="fa fa-camera"></i>
                 </div> -->
             </div>
-            <div class="send">
-                <a class="ico" (click)="sendSMS()"></a>
+            <div class="send" (click)="sendSMS()">
+              @if (inputValue != "" && inputValue != null) {
+                <img src="/send.svg" alt="">
+              }@else {
+                <img src="/menu.svg" alt="">
+              }
             </div>
         </div>
     </div>
+  } @else if(roomName == null){
+    <div class="z-20 max-w-md w-full py-12 px-8  mx-auto bg-cover text-white bg-no-repeat bg-bg-gradient rounded-2xl shadow-lg space-y-2">
 
-    @if(user==''){
-    <div class="modal_user">
-        <button (click)="setUser('user1')">User 1</button>
-        <button (click)="setUser('user2')">User 2</button>
+      <div class="text-lg">
+        Agregar sala
+      </div>
+
+      <!-- Add room -->
+      <div class="flex items-center gap-3">
+        <input
+          id="add-room-input"
+          placeholder="Agregar sala"
+          class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent "
+        />
+        <button (click)="addRoom()" class="px-3 py-0.5 text-3xl cursor-pointer bg-primary text-white rounded-xl hover:bg-primary-600 transition ">
+          +
+        </button>
+      </div>
+
+      <!-- Rooms title -->
+      <div class="text-lg mt-8">
+        Mis salas
+      </div>
+
+      <!-- Rooms list -->
+      <ul class="space-y-2 max-h-60 overflow-y-auto pr-1 ">
+        @for (roomItem of rooms; track rooms) {
+          <li>
+            <div class="px-3 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 cursor-pointer flex items-center justify-between transition cursor-pointer" (click)="openRoom(roomItem)">
+              <span class="font-medium text-gray-700">{{ roomItem }}</span>
+              <img class="opacity-70 cursor-pointer" src="/play.svg" alt="" >
+            </div>
+          </li>
+        }
+      </ul>
+
     </div>
-    }
+
+  }@else{
+    <div class="modal_user">
+      <button (click)="signin('user1')">Iniciar sesión</button>
+    </div>
+  }
 </main>
+<!-- @if (toastData) {
+  <toast [data]="toastData"></toast>
+}
+ -->

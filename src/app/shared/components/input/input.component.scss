@@ -1,29 +1,31 @@
 .minput>.mlabel {
-    color: var(--input-label);
+    /*color: var(--input-label);*/
     font-size: 0.925rem;
-    border: 1px solid #6363633f;
+    border: 1px solid #63636330;
     margin-top: 15px;
     position: sticky;
     left: 20px;
     transition: all 0.1s ease;
     border-width: 0 2px 0 2px;
-    padding: 0 5px;
+    padding: 1px 6px;
   }
-  
+
   .minput > input {
     width: 100%;
     padding: 0.6rem;
-    margin: 5px 0 0px 0;
+    margin: 7px 0 0px 0;
     border:  solid 1px #63636363;
     border-radius: 6px;
     transition: all 0.1s;
     font-size: 0.96rem;
-    color: var(--input-label);
+    color: var(--text);
+    background: #e0e6e30a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
   }
-  
+
   .minput > input:focus {
     outline: 0;
-    border-color: #4b84ee; 
+    border-color: #37caa5bb;
   }
-  
-  
+

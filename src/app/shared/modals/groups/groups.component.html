@@ -1,0 +1,29 @@
+<div [class]="{'show' : data }" class="alert-container">
+    <div class="mcard card max-w-[550px] min-w-96">
+        <div class="flex flex-row gap-4 mt-1 mb-6 items-center">
+            <h2 class="font-semibold">Grupos</h2>
+            <app-input (event)="serach($event)"
+                [data]="{placeholder: '🔍 Buscar', id: 'search', values: [''], typeFormControl: 'input-text'}" />
+        </div>
+
+        <div class="content_groups mb-8">
+            @for (group of groups; track $index) {
+            @if (!search || (group.name!).includes(search) ) {
+            <div class=" flex flex-col gap-2 mt-2 bg-[#1E2624] w-full p-2 rounded-xl cursor-pointer" (click)="selectGroup(group)">
+                <div class="flex felx-row gap-2 items-center">
+                    <div class="h-2 w-2 bg-[#0A513F] rounded-full"></div>
+                    <div class="text-slate-300 w-full truncate ...">{{group.name}}</div>
+                </div>
+            </div>
+            }
+            }
+        </div>
+
+        <div class="w-full flex justify-end mb-4">
+            <app-button [title]="'Cancelar'" (eventClick)="cancel()"></app-button>
+
+        </div>
+
+
+    </div>
+</div>

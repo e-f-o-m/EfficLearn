@@ -7,7 +7,7 @@ export interface Grammar {
 
 export interface Content {
   type:  Type;
-  value: string;
+  value: string|string[];
 }
 
 export enum Type {
@@ -27,12 +27,13 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: Estructura: SUJETO + VERBO TO BE + COMPLEMENTOS "
+              "value": ["Estructura: SUJETO","+","VERBO TO BE","+","COMPLEMENTOS "]
             },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; I am Spanish; Yo soy española "
-            }
+            { "type": "list", "value": "Ej: She is a talented artist.; Ella es una artista talentosa." },
+            { "type": "list", "value": "Ej: They are in the garden.; Ellos están en el jardín." },
+            { "type": "list", "value": "Ej: The book is on the table.; El libro está sobre la mesa." },
+            { "type": "list", "value": "Ej: I am always happy in the mornings.; Siempre estoy feliz por las mañanas." },
+            { "type": "list", "value": "Ej: It is 8 o'clock right now.; Son las 8 en punto ahora mismo." },
           ],
           "subcontent": []
         },
@@ -42,16 +43,15 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: SUJETO + VERBO TO BE + NOT + COMPLEMENTOS "
+              "value": ["Estructura: SUJETO","+","VERBO TO BE","+","NOT","+","COMPLEMENTOS "]
             },
-            {
-              "type": "list",
-              "value": "Ej: falta; They are not teachers; Ellos no son profesores. "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; Michael is not Chinese; Michael no es chino "
-            }
+            { "type": "list", "value": "Ej: They are not teachers; Ellos no son profesores. "},
+            { "type": "list", "value": "Ej: Michael is not Chinese; Michael no es chino " },
+            { "type": "list", "value": "Ej: She is not a talented artist; Ella no es una artista talentosa." },
+            { "type": "list", "value": "Ej: They are not in the garden; Ellos no están en el jardín." },
+            { "type": "list", "value": "Ej: The book is not on the table; El libro no está sobre la mesa." },
+            { "type": "list", "value": "Ej: I am not always happy in the mornings; No siempre estoy feliz por las mañanas." },
+            { "type": "list", "value": "Ej: It is not 8 o'clock right now; No son las 8 en punto ahora mismo." },
           ],
           "subcontent": []
         },
@@ -61,16 +61,14 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: VERBO TO BE + SUJETO + COMPLEMENTOS? "
+              "value": ["Estructura: VERBO TO BE","+","SUJETO","+","COMPLEMENTOS? "]
             },
-            {
-              "type": "list",
-              "value": "Ej: falta; Are you Japanese? ¿Eres japonés? "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; Is Margaret German? ¿Margaret es alemana? "
-            }
+            { "type": "list", "value": "Ej: Are you Japanese? ¿Eres japonés? " },
+            { "type": "list", "value": "Ej: Is she a talented artist?; ¿Es ella una artista talentosa?" },
+            { "type": "list", "value": "Ej: Are they in the garden?; ¿Están ellos en el jardín?" },
+            { "type": "list", "value": "Ej: Is the book on the table?; ¿Está el libro sobre la mesa?" },
+            { "type": "list", "value": "Ej: Am I always happy in the mornings?; ¿Siempre estoy feliz por las mañanas?" },
+            { "type": "list", "value": "Ej: Is it 8 o'clock right now?; ¿Son las 8 en punto ahora mismo?" },
           ],
           "subcontent": [
             {
@@ -79,15 +77,15 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: Yes, Sujeto(en forma de pronombre)+ Verbo "
+                  "value": ["Estructura: Yes, Sujeto(en forma de pronombre)","+","Verbo "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Is she Italian? Yes, she is (¿Ella es italiana? Sí, si lo es) "
+                  "value": "Ej: Is she Italian? Yes, she is (¿Ella es italiana? Sí, si lo es) "
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Are Peter and Philip Portuguese? Yes, they are "
+                  "value": "Ej: Are Peter and Philip Portuguese? Yes, they are "
                 }
               ],
               "subcontent": []
@@ -98,15 +96,15 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: No, Sujeto(pronombre) + Verbo + Not (forma contracta) "
+                  "value": ["Estructura: No, Sujeto(pronombre)","+","Verbo","+","Not (forma contracta) "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Are you doctors? No, we aren’t; falta "
+                  "value": "Ej: Are you doctors? No, we aren’t; falta "
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Is John British? No, he isn’t; falta"
+                  "value": "Ej: Is John British? No, he isn’t; falta"
                 }
               ],
               "subcontent": []
@@ -121,12 +119,9 @@ export default [
       "content": [
         {
           "type": "structure",
-          "value": "Estructura: QUESTION WORD + VERBO TO BE + SUJETO + COMPLEMENTOS? "
+          "value": ["Estructura: QUESTION WORD","+","VERBO TO BE","+","SUJETO","+","COMPLEMENTOS? "]
         },
-        {
-          "type": "list",
-          "value": "Ej: falta; falta; falta"
-        },
+        
         {
           "type": "text",
           "value": "What"
@@ -135,10 +130,11 @@ export default [
           "type": "text",
           "value": "Qué/Cuál /   Se utiliza para hablar de cosas."
         },
-        {
-          "type": "list",
-          "value": "Ej: falta; falta; falta"
-        },
+        { "type": "list", "value": "Ej: What is she doing?; ¿Qué está haciendo ella?" },
+        { "type": "list", "value": "Ej: What are they talking about?; ¿De qué están hablando ellos?" },
+        { "type": "list", "value": "Ej: What am I supposed to do?; ¿Qué se supone que debo hacer?" },
+        { "type": "list", "value": "Ej: What is it exactly?; ¿Qué es exactamente?" },
+        
         {
           "type": "text",
           "value": "Which"
@@ -147,90 +143,55 @@ export default [
           "type": "text",
           "value": "Qué/Cuál / Se utiliza para preguntar sobre opciones / Antecedente de cosas o animales."
         },
-        {
-          "type": "list",
-          "value": "Ej: Where are you from? I am from Spain"
-        },
-        {
-          "type": "text",
-          "value": "Where"
-        },
-        {
-          "type": "text",
-          "value": "Dónde / Se utiliza para hablar de lugares."
-        },
-        {
-          "type": "list",
-          "value": "Ej: falta; falta; falta"
-        },
-        {
-          "type": "text",
-          "value": "When"
-        },
-        {
-          "type": "text",
-          "value": "Cuándo / Se utiliza para hablar de tiempo."
-        },
-        {
-          "type": "list",
-          "value": "Ej: falta; falta; falta"
-        },
-        {
-          "type": "text",
-          "value": "Who"
-        },
-        {
-          "type": "text",
-          "value": "Quién / Se utiliza para hablar de personas"
-        },
-        {
-          "type": "list",
-          "value": "Ej: falta; falta; falta"
-        },
-        {
-          "type": "text",
-          "value": "Whom"
-        },
-        {
-          "type": "text",
-          "value": "A quién / Se utiliza para hablar de personas. (objeto del verbo)"
-        },
-        {
-          "type": "list",
-          "value": "Ej: falta; falta; falta"
-        },
-        {
-          "type": "text",
-          "value": "Whose"
-        },
-        {
-          "type": "text",
-          "value": "De quién, Cuyo / Se utiliza para hablar de posesión."
-        },
-        {
-          "type": "list",
-          "value": "Ej: falta; falta; falta"
-        },
-        {
-          "type": "text",
-          "value": "Why"
-        },
-        {
-          "type": "text",
-          "value": "Por qué\tSe utiliza para hablar de razones o causas."
-        },
-        {
-          "type": "list",
-          "value": "Ej: falta; falta; falta"
-        },
-        {
-          "type": "text",
-          "value": "How"
-        },
-        {
-          "type": "text",
-          "value": "Cómo / Se utiliza para hablar sobre un proceso."
-        }
+        { "type": "list", "value": "Ej: Which is your favorite color?; ¿Cuál es tu color favorito?" },
+        { "type": "list", "value": "Ej: Which are the best seats?; ¿Cuáles son los mejores asientos?" },
+        { "type": "list", "value": "Ej: Which of these dogs is yours?; ¿Cuál de estos perros es tuyo?" },
+        { "type": "list", "value": "Ej: Which is the fastest route?; ¿Cuál es la ruta más rápida?" },
+
+        { "type": "text", "value": "Where" },
+        { "type": "text", "value": "Dónde / Se utiliza para hablar de lugares." },
+        
+        { "type": "list", "value": "Ej: Where are you from? I am from Spain"  },
+        { "type": "list", "value": "Ej: Where is the nearest hospital?; ¿Dónde está el hospital más cercano?" },
+        { "type": "list", "value": "Ej: Where are they going?; ¿A dónde van ellos?" },
+        { "type": "list", "value": "Ej: Where is your car?; ¿Dónde está tu coche?" },
+        
+        { "type": "text", "value": "When" },
+        { "type": "text", "value": "Cuándo / Se utiliza para hablar de tiempo." },
+        { "type": "list", "value": "Ej: When is the party?; ¿Cuándo es la fiesta?" },
+        { "type": "list", "value": "Ej: When are you leaving?; ¿Cuándo te vas?" },
+        { "type": "list", "value": "Ej: When is the next meeting?; ¿Cuándo es la próxima reunión?" },
+        
+        { "type": "text", "value": "Who" },
+        { "type": "text", "value": "Quién / Se utiliza para hablar de personas" },
+        { "type": "list", "value": "Ej: Who is that man?; ¿Quién es ese hombre?" },
+        { "type": "list", "value": "Ej: Who are your friends?; ¿Quiénes son tus amigos?" },
+        { "type": "list", "value": "Ej: Who is responsible for this?; ¿Quién es responsable de esto?" },
+        
+        { "type": "text", "value": "Whom" },
+        { "type": "text", "value": "A quién / Se utiliza para hablar de personas. (objeto del verbo)" },
+        { "type": "list", "value": "Ej: Whom are you calling?; ¿A quién estás llamando?" },
+        { "type": "list", "value": "Ej: Whom should I ask for help?; ¿A quién debo pedir ayuda?" },
+        { "type": "list", "value": "Ej: Whom did you invite to the event?; ¿A quién invitaste al evento?" },
+        
+        { "type": "text", "value": "Whose" },
+        { "type": "text", "value": "De quién, Cuyo / Se utiliza para hablar de posesión." },
+        { "type": "list", "value": "Ej: Whose is this jacket?; ¿De quién es esta chaqueta?" },
+        { "type": "list", "value": "Ej: Whose car is parked outside?; ¿De quién es el coche que está aparcado afuera?" },
+        { "type": "list", "value": "Ej: Whose are these keys?; ¿De quién son estas llaves?" },
+        
+        { "type": "text", "value": "Why" },
+        { "type": "text", "value": "Por qué\tSe utiliza para hablar de razones o causas." },
+        { "type": "list", "value": "Ej: Why is the sky blue?; ¿Por qué es azul el cielo?" },
+        { "type": "list", "value": "Ej: Why are they leaving early?; ¿Por qué se van temprano?" },
+        { "type": "list", "value": "Ej: Why is she upset?; ¿Por qué está ella molesta?" },
+        
+        { "type": "text", "value": "How" },
+        { "type": "text", "value": "Cómo / Se utiliza para hablar sobre un proceso." },
+        { "type": "list", "value": "Ej: How is your family?; ¿Cómo está tu familia?" },
+        { "type": "list", "value": "Ej: How are you feeling today?; ¿Cómo te sientes hoy?" },
+        { "type": "list", "value": "Ej: How is the weather?; ¿Cómo está el clima?" },
+
       ],
       "subcontent": []
     },
@@ -254,12 +215,15 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: THERE IS/ ARE + COMPLEMENTOS: "
+              "value": ["Estructura: THERE IS/ ARE","+","COMPLEMENTOS: "]
             },
-            {
-              "type": "list",
-              "value": "Ej: falta; There is a new boy in my classroom; falta"
-            }
+            { "type": "list", "value": "Ej: There is a new boy in my classroom; falta" },
+            { "type": "list", "value": "Ej: There is a cat sleeping on the couch; Hay un gato durmiendo en el sofá." },
+            { "type": "list", "value": "Ej: There is a mistake in this sentence; Hay un error en esta oración." },
+            { "type": "list", "value": "Ej: There is a letter for you on the table; Hay una carta para ti en la mesa." },
+            { "type": "list", "value": "Ej: There are two dogs playing in the yard; Hay dos perros jugando en el patio." },
+            { "type": "list", "value": "Ej: There are many stars visible tonight; Hay muchas estrellas visibles esta noche." },
+
           ],
           "subcontent": []
         },
@@ -269,12 +233,15 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: THERE IS/ ARE NOT + COMPLEMENTOS: "
+              "value": ["Estructura: THERE IS/ ARE NOT","+","COMPLEMENTOS: "]
             },
-            {
-              "type": "list",
-              "value": "Ej: falta; There aren’t books on the table; falta"
-            }
+            { "type": "list", "value": "Ej: There aren’t books on the table; falta" },
+            { "type": "list", "value": "Ej: There isn’t any milk in the fridge; No hay leche en el refrigerador." },
+            { "type": "list", "value": "Ej: There isn’t a pen on the desk; No hay un bolígrafo en el escritorio." },
+            { "type": "list", "value": "Ej: There isn’t much time left; No hay mucho tiempo restante." },
+            { "type": "list", "value": "Ej: There aren’t any chairs available; No hay sillas disponibles." },
+            { "type": "list", "value": "Ej: There aren’t enough players for the game; No hay suficientes jugadores para el juego." },
+
           ],
           "subcontent": []
         },
@@ -284,12 +251,14 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: IS / ARE THERE + COMPLEMENTOS?: "
+              "value": ["Estructura: IS / ARE THERE","+","COMPLEMENTOS?: "]
             },
-            {
-              "type": "list",
-              "value": "Ej: falta; Is there an empty chair here?; falta"
-            }
+            { "type": "list", "value": "Ej: Is there an empty chair here?; falta" },
+            { "type": "list", "value": "Ej: Is there a park nearby?; ¿Hay un parque cerca?" },
+            { "type": "list", "value": "Ej: Is there a problem with the computer?; ¿Hay un problema con la computadora?" },
+            { "type": "list", "value": "Ej: Is there any coffee left?; ¿Queda algo de café?" },
+            { "type": "list", "value": "Ej: Are there any questions before we start?; ¿Hay alguna pregunta antes de comenzar?" },
+            { "type": "list", "value": "Ej: Are there enough rooms for everyone?; ¿Hay suficientes habitaciones para todos?" },
           ],
           "subcontent": []
         }
@@ -329,7 +298,7 @@ export default [
         },
         {
           "type": "list",
-          "value": "Ej: falta; Jane is **a** teacher; Jane es profesora "
+          "value": "Ej: [ej;] Jane is **a** teacher; Jane es profesora "
         }
       ],
       "subcontent": []
@@ -340,31 +309,31 @@ export default [
       "content": [
         {
           "type": "text",
-          "value": "• No tienen género. "
+          "value": "No tienen género. "
         },
         {
           "type": "text",
-          "value": "• Nunca llevan plural, el plural lo lleva el sustantivo al que acompañan. "
+          "value": "Nunca llevan plural, el plural lo lleva el sustantivo al que acompañan. "
         },
         {
           "type": "list",
-          "value": "Ej: falta; Peter and Helen are **happy**; Peter y Helen son felices. "
+          "value": "Ej: Peter and Helen are **happy**; Peter y Helen son felices. "
         },
         {
           "type": "list",
-          "value": "Ej: falta; Peter is **happy**; Peter es feliz. "
+          "value": "Ej: Peter is **happy**; Peter es feliz. "
         },
         {
           "type": "text",
-          "value": "• El adjetivo siempre va delante del sustantivo. "
+          "value": "El adjetivo siempre va delante del sustantivo. "
         },
         {
           "type": "list",
-          "value": "Ej: falta; The English girl is **thin**; La niña inglesa es delgada "
+          "value": "Ej: The English girl is **thin**; La niña inglesa es delgada "
         },
         {
           "type": "list",
-          "value": "Ej: falta; The red car is **new**; El coche rojo es nuevo "
+          "value": "Ej: The red car is **new**; El coche rojo es nuevo "
         }
       ],
       "subcontent": []
@@ -380,11 +349,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: SUJETO + VERBO TO HAVE + COMPLEMENTOS "
+              "value": ["Estructura: SUJETO","+","VERBO TO HAVE","+","COMPLEMENTOS "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; I have got a big house; Tengo una casa grande "
+              "value": "Ej: [ej;] I have got a big house; Tengo una casa grande "
             }
           ],
           "subcontent": []
@@ -395,11 +364,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: SUJETO + HAVE/HAS NOT GOT + COMPLEMENTOS "
+              "value": ["Estructura: SUJETO","+","HAVE/HAS NOT GOT","+","COMPLEMENTOS "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; You have not got a dog; Tú no tienes un perro "
+              "value": "Ej: [ej;] You have not got a dog; Tú no tienes un perro "
             }
           ],
           "subcontent": []
@@ -410,11 +379,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: HAVE/HAS + SUJETO + GOT + COMPLEMENTOS? "
+              "value": ["Estructura: HAVE/HAS","+","SUJETO","+","GOT","+","COMPLEMENTOS? "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; Have you got an American friend?; ¿Tienes un amigo Americano? "
+              "value": "Ej: [ej;] Have you got an American friend?; ¿Tienes un amigo Americano? "
             }
           ],
           "subcontent": []
@@ -427,227 +396,97 @@ export default [
       "content": [],
       "subcontent": [
         {
-          "title": "SINGULAR",
+          "title": "Pronombres demostrativos",
           "level": 2,
           "content": [
             {
-              "type": "list",
-              "value": "* THIS: ESTE/ ESTA/ESTO: (Para referirse a objetos cercanos al hablante) "
+              "type": "text",
+              "value": "THIS: ESTE/ ESTA/ESTO: (Para referirse a objetos cercanos al hablante) SINGULAR"
             },
+            { "type": "list", "value": "This: This is my phone; Este es mi teléfono." },
             {
-              "type": "list",
-              "value": "* THAT: ESE/ ESA/ ESO / AQUEL/AQUELLA/AQUELLO (Objetos que están lejos de la persona que habla) "
-            }
+              "type": "text",
+              "value": "THAT: ESE/ ESA/ ESO / AQUEL/AQUELLA/AQUELLO (Objetos que están lejos de la persona que habla) SINGULAR"
+            },
+            { "type": "list", "value": "That: That is her car over there; Aquel es su coche allá." },
+            {
+              "type": "text",
+              "value": "THESE: ESTOS / ESTAS (Objetos cercanos) PLURAL"
+            },
+            { "type": "list", "value": "These: These are my keys; Estas son mis llaves." },
+            {
+              "type": "text",
+              "value": "THOSE: ESOS/ ESAS/ AQUELLOS/AQUELLAS (Objetos lejanos) PLURAL"
+            },
+            { "type": "list", "value": "Those: Those are his books on the shelf; Aquellos son sus libros en el estante." },
           ],
           "subcontent": []
         },
         {
-          "title": "PLURAL",
-          "level": 2,
-          "content": [
-            {
-              "type": "list",
-              "value": "* THESE: ESTOS / ESTAS (Objetos cercanos) "
-            },
-            {
-              "type": "list",
-              "value": "* THOSE: ESOS/ ESAS/ AQUELLOS/AQUELLAS (Objetos lejanos) "
-            }
-          ],
-          "subcontent": []
-        },
-        {
+          "subcontent": [],
           "title": "Pronombres",
           "level": 2,
           "content": [
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "His"
-            },
-            {
-              "type": "text",
-              "value": "su, sus (masculino)"
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Her"
-            },
-            {
-              "type": "text",
-              "value": "su, sus (femenino)"
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Its"
-            },
-            {
-              "type": "text",
-              "value": "su, sus"
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Their"
-            },
-            {
-              "type": "text",
-              "value": "su, sus (de ellos)"
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Me (objeto)"
-            },
-            {
-              "type": "text",
-              "value": "me, mí I want it for me. Lo quiero para mí. "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "You (objeto)"
-            },
-            {
-              "type": "text",
-              "value": "te, tu, tí, usted I 'm helping you. Te estoy ayudando a tí. "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Him (objeto)"
-            },
-            {
-              "type": "text",
-              "value": "él, le, lo Can you see him? Le puedes ver? "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Her (objeto)"
-            },
-            {
-              "type": "text",
-              "value": "ella, le, la She is pretty. I like her. Ella es bonita. Me gusta ella. "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "It (objeto)"
-            },
-            {
-              "type": "text",
-              "value": "lo, la, ello, le Give it a kick. Dale una patada. "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Us (objeto)"
-            },
-            {
-              "type": "text",
-              "value": "nosotros, nos He is helping us. Él nos está ayudando "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "You (objeto)"
-            },
-            {
-              "type": "text",
-              "value": "vosotros, les, ustedes, os I saw you. Les vi. "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Them (objeto)"
-            },
-            {
-              "type": "text",
-              "value": "ellos, les, los, las, I 'm waiting for them. Los estoy esperando."
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Mine"
-            },
-            {
-              "type": "text",
-              "value": "mío/s, mía/s"
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Theirs"
-            },
-            {
-              "type": "text",
-              "value": "suyo/a, suyos/as (de ellos )"
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; falta; falta"
-            },
-            {
-              "type": "text",
-              "value": "Themselves"
-            },
-            {
-              "type": "text",
-              "value": "ellos mismos, se"
-            },
-            {
-              "type": "text",
-              "value": "| P. Personales | A. Posesivos | P. Posesivos | P. Objeto |"
-            },
-            {
-              "type": "text",
-              "value": "| ---- | ---- | ---- | ---- |"
-            },
+            {"type": "text","value": "His"},
+            {"type": "text","value": "su, sus (masculino)"},
+            {"type": "list","value": "Ej: His: This is his jacket; Esta es su chaqueta (de él)."},
+            {"type": "text","value": "Her"},
+            {"type": "text","value": "su, sus (femenino)"},
+            {"type": "list","value": "Ej: Her: Her cat is very cute; Su gato es muy lindo (de ella)."},
+            {"type": "text","value": "Its"},
+            {"type": "text","value": "su, sus"},
+            {"type": "list","value": "Ej: Its: The dog loves its toy; El perro adora su juguete."},
+            {"type": "text","value": "Their"},
+            {"type": "text","value": "su, sus (de ellos)"},
+            {"type": "list","value": "Ej: Their: This is their house; Esta es su casa (de ellos)."},
+        ]},
+          {
+            "subcontent": [],
+            "title": "Pronombres de objeto",
+            "level": 2,
+            "content": [
+            {"type": "text","value": "Me (objeto)"},
+            {"type": "text","value": "me, mí I want it for me. Lo quiero para mí. "},
+            {"type": "list","value": "Ej: Me: He gave it to me; Me lo dio."},
+            {"type": "text","value": "You (objeto)"},
+            {"type": "text","value": "te, tu, tí, usted I 'm helping you. Te estoy ayudando a tí. "},
+            {"type": "list","value": "Ej: You: I am calling you; Te estoy llamando."},
+            {"type": "text","value": "Him (objeto)"},
+            {"type": "text","value": "él, le, lo Can you see him? Le puedes ver? "},
+            {"type": "list","value": "Ej: Him: Can you see him?; ¿Puedes verlo?"},
+            {"type": "text","value": "Her (objeto)"},
+            {"type": "text","value": "ella, le, la She is pretty. I like her. Ella es bonita. Me gusta ella. "},
+            {"type": "list","value": "Ej: Her: I saw her yesterday; La vi ayer."},
+            {"type": "text","value": "It (objeto)"},
+            {"type": "text","value": "lo, la, ello, le Give it a kick. Dale una patada. "},
+            {"type": "list","value": "Ej: It: Give it a try; Inténtalo."},
+            {"type": "text","value": "Us (objeto)"},
+            {"type": "text","value": "nosotros, nos He is helping us. Él nos está ayudando "},
+            {"type": "list","value": "Ej: Us: They invited us; Nos invitaron."},
+            {"type": "text","value": "You (objeto)"},
+            {"type": "text","value": "vosotros, les, ustedes, os I saw you. Les vi. "},
+            {"type": "list","value": "Ej: You (plural): I will help you all; Los ayudaré a todos."},
+            {"type": "text","value": "Them (objeto)"},
+            {"type": "text","value": "ellos, les, los, las, I 'm waiting for them. Los estoy esperando."},
+            {"type": "list","value": "Ej: Them: I’m waiting for them; Los estoy esperando."},
+          ]},
+          {
+            "title": "Pronombres posesivos",
+            "level": 2,
+            "content": [
+            {"type": "text","value": "Mine"},
+            {"type": "text","value": "mío/s, mía/s"},
+            {"type": "list","value": "Ej: Mine: This book is mine; Este libro es mío."},
+            {"type": "text","value": "Theirs"},
+            {"type": "text","value": "suyo/a, suyos/as (de ellos )"},
+            {"type": "list","value": "Ej: Theirs: The car is theirs; El coche es suyo (de ellos)."},
+            {"type": "text","value": "Themselves"},
+            {"type": "text","value": "ellos mismos, se"},
+            {"type": "list","value": "Ej: Themselves: They cooked the dinner themselves; Ellos mismos cocinaron la cena."},
+
+
+            {"type": "text","value": "| P. Personales | A. Posesivos | P. Posesivos | P. Objeto |"},
+            {"type": "text","value": "| ---- | ---- | ---- | ---- |"},
             {
               "type": "text",
               "value": "| I | MY | MINE | ME |"
@@ -695,27 +534,27 @@ export default [
         },
         {
           "type": "structure",
-          "value": "Estructura: PERSONA + 'S + POSECIÓN (cosa de, familiar de)"
+          "value": ["Estructura: PERSONA","+","'S","+","POSECIÓN (cosa de, familiar de)"]
         },
         {
           "type": "list",
-          "value": "Ej: falta; The girl’s house; La casa de la niña"
+          "value": "Ej: [ej;] The girl’s house; La casa de la niña"
         },
         {
           "type": "list",
-          "value": "Ej: falta; My brother’s room;  La habitación de mi hermano"
+          "value": "Ej: [ej;] My brother’s room;  La habitación de mi hermano"
         },
         {
           "type": "list",
-          "value": "Ej: falta; The cat’s eyes; Los ojos del gato"
+          "value": "Ej: [ej;] The cat’s eyes; Los ojos del gato"
         },
         {
           "type": "list",
-          "value": "Ej: falta; Juan’s sister; La hermana de Juan"
+          "value": "Ej: [ej;] Juan’s sister; La hermana de Juan"
         },
         {
           "type": "list",
-          "value": "Ej: falta; Peter’s parents; Los padres de Peter"
+          "value": "Ej: [ej;] Peter’s parents; Los padres de Peter"
         }
       ],
       "subcontent": []
@@ -739,7 +578,7 @@ export default [
             },
             {
               "type": "structure",
-              "value": "Estructura: VERBO TO BE + VERBO PRINCIPAL + ING "
+              "value": ["Estructura: VERBO TO BE","+","VERBO PRINCIPAL","+","ING "]
             }
           ],
           "subcontent": [
@@ -749,11 +588,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + TO BE+ VB+ING + COMPLEMENTOS: "
+                  "value": ["Estructura: SUJETO","+","TO BE+ VB+ING","+","COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I am learning English at the moment; falta"
+                  "value": "Ej: [ej;] I am learning English at the moment; falta"
                 }
               ],
               "subcontent": []
@@ -764,11 +603,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + TO BE+NOT+ VB+ING+COMPLEMENTOS: "
+                  "value": ["Estructura: SUJETO","+","TO BE+NOT+ VB+ING+COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; We are not learning Chinese this year; falta"
+                  "value": "Ej: [ej;] We are not learning Chinese this year; falta"
                 }
               ],
               "subcontent": []
@@ -779,11 +618,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: (WH- WORD) +VB TO BE+ SUJETO + VB + ING + COMPLEMENTOS: "
+                  "value": ["Estructura: (WH- WORD) +VB TO BE+ SUJETO","+","VB","+","ING","+","COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Are you learning Italian now? What are you doing?; falta"
+                  "value": "Ej: [ej;] Are you learning Italian now? What are you doing?; falta"
                 }
               ],
               "subcontent": []
@@ -837,11 +676,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + VERBO + COMPLEMENTOS "
+                  "value": ["Estructura: SUJETO","+","VERBO","+","COMPLEMENTOS "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I play football everyday; falta"
+                  "value": "Ej: [ej;] I play football everyday; falta"
                 },
                 {
                   "type": "text",
@@ -849,7 +688,7 @@ export default [
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; He alway**s** drink**s** coffee for breakfast; falta"
+                  "value": "Ej: [ej;] He alway**s** drink**s** coffee for breakfast; falta"
                 }
               ],
               "subcontent": []
@@ -860,15 +699,15 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + DON’T / DOESN’T + VERBO + COMPLEMENTOS "
+                  "value": ["Estructura: SUJETO","+","DON’T / DOESN’T","+","VERBO","+","COMPLEMENTOS "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; You don’t speak Spanish; falta"
+                  "value": "Ej: [ej;] You don’t speak Spanish; falta"
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; He doesn’t play the piano; falta"
+                  "value": "Ej: [ej;] He doesn’t play the piano; falta"
                 },
                 {
                   "type": "text",
@@ -883,15 +722,15 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: DO/DOES + SUJETO + VERBO + COMPLEMENTOS? "
+                  "value": ["Estructura: DO/DOES","+","SUJETO","+","VERBO","+","COMPLEMENTOS? "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Do you like chocolate?; falta"
+                  "value": "Ej: [ej;] Do you like chocolate?; falta"
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Does she read French books?; falta"
+                  "value": "Ej: [ej;] Does she read French books?; falta"
                 },
                 {
                   "type": "text",
@@ -899,11 +738,11 @@ export default [
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Do you live in Madrid? Yes, I do, falta"
+                  "value": "Ej: [ej;] Do you live in Madrid? Yes, I do, falta"
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Does it rain here? No, it doesn’t; falta"
+                  "value": "Ej: [ej;] Does it rain here? No, it doesn’t; falta"
                 }
               ],
               "subcontent": []
@@ -942,11 +781,11 @@ export default [
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I never get up late; falta"
+                  "value": "Ej: [ej;] I never get up late; falta"
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; He is always happy; falta"
+                  "value": "Ej: [ej;] He is always happy; falta"
                 }
               ],
               "subcontent": []
@@ -969,11 +808,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO +  VERBO TO BE + COMPLEMENTOS "
+                  "value": ["Estructura: SUJETO","+"," VERBO TO BE","+","COMPLEMENTOS "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I was in England last month; falta"
+                  "value": "Ej: [ej;] I was in England last month; falta"
                 }
               ],
               "subcontent": []
@@ -984,7 +823,7 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + VERBO TO BE + NOT + COMPLEMENTOS "
+                  "value": ["Estructura: SUJETO","+","VERBO TO BE","+","NOT","+","COMPLEMENTOS "]
                 },
                 {
                   "type": "list",
@@ -999,11 +838,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: VERBO TO BE + SUJETO + COMPLEMENTOS? "
+                  "value": ["Estructura: VERBO TO BE","+","SUJETO","+","COMPLEMENTOS? "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Were you in Japan last month?; falta"
+                  "value": "Ej: [ej;] Were you in Japan last month?; falta"
                 }
               ],
               "subcontent": []
@@ -1046,15 +885,15 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + VERBO PASADO + COMPLEMENTOS. "
+                  "value": ["Estructura: SUJETO","+","VERBO PASADO","+","COMPLEMENTOS. "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I played tennis last Saturday; falta"
+                  "value": "Ej: [ej;] I played tennis last Saturday; falta"
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I went to the cinema last Sunday; falta"
+                  "value": "Ej: [ej;] I went to the cinema last Sunday; falta"
                 },
                 {
                   "type": "text",
@@ -1069,15 +908,15 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + DID NOT ( DIDN’T) + VB INFINITIVO + COMPLEMENTOS "
+                  "value": ["Estructura: SUJETO","+","DID NOT ( DIDN’T)","+","VB INFINITIVO","+","COMPLEMENTOS "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I didn’t play tennis last Saturday; falta"
+                  "value": "Ej: [ej;] I didn’t play tennis last Saturday; falta"
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I didn’t go to the cinema last Sunday; falta"
+                  "value": "Ej: [ej;] I didn’t go to the cinema last Sunday; falta"
                 }
               ],
               "subcontent": []
@@ -1088,15 +927,15 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: DID + SUJETO + VB INFINITIVO + COMPLEMENTOS? "
+                  "value": ["Estructura: DID","+","SUJETO","+","VB INFINITIVO","+","COMPLEMENTOS? "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Did you play tennis last Saturday?; falta"
+                  "value": "Ej: [ej;] Did you play tennis last Saturday?; falta"
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Did you go to the cinema last Sunday?; falta"
+                  "value": "Ej: [ej;] Did you go to the cinema last Sunday?; falta"
                 }
               ],
               "subcontent": []
@@ -1121,11 +960,11 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; I was watching TV when the telephone rang; falta"
+              "value": "Ej: [ej;] I was watching TV when the telephone rang; falta"
             },
             {
               "type": "list",
-              "value": "Ej: falta; Past continuous Past simple; falta"
+              "value": "Ej: [ej;] Past continuous Past simple; falta"
             }
           ],
           "subcontent": [
@@ -1135,11 +974,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + WAS/WERE + VB ING + COMPLEMENTOS: "
+                  "value": ["Estructura: SUJETO","+","WAS/WERE","+","VB ING","+","COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I was having a bath when my cat came in; Estaba bañándome cuando mi gato entró"
+                  "value": "Ej: [ej;] I was having a bath when my cat came in; Estaba bañándome cuando mi gato entró"
                 }
               ],
               "subcontent": []
@@ -1150,11 +989,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + WASN’T / WEREN’T + VB ING + COMPLEMENTOS: "
+                  "value": ["Estructura: SUJETO","+","WASN’T / WEREN’T","+","VB ING","+","COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I wasn’t driving very fast when the accident happened; No estaba conduciendo muy rápido cuando ocurrió el accidente"
+                  "value": "Ej: [ej;] I wasn’t driving very fast when the accident happened; No estaba conduciendo muy rápido cuando ocurrió el accidente"
                 }
               ],
               "subcontent": []
@@ -1165,11 +1004,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: WAS / WERE + SUJETO + VB ING + COMPLEMENTOS? "
+                  "value": ["Estructura: WAS / WERE","+","SUJETO","+","VB ING","+","COMPLEMENTOS? "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Were you studying when I knocked on the door?; ¿Estabas estudiando cuando llamé a la puerta?"
+                  "value": "Ej: [ej;] Were you studying when I knocked on the door?; ¿Estabas estudiando cuando llamé a la puerta?"
                 }
               ],
               "subcontent": []
@@ -1192,12 +1031,12 @@ export default [
               "value": "TAN …………………………………. COMO "
             },
             {
-              "type": "text",
-              "value": "AS  + ADJETIVO + AS "
+              "type": "structure",
+              "value": ["AS ","+","ADJETIVO","+","AS "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; Peter is as tall as Paul; Peter es tan alto como Paul"
+              "value": "Ej: [ej;] Peter is as tall as Paul; Peter es tan alto como Paul"
             },
             {
               "type": "text",
@@ -1205,7 +1044,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Sarah is as thin as him; falta"
+              "value": "Ej: [ej;] Sarah is as thin as him; falta"
             }
           ],
           "subcontent": []
@@ -1223,24 +1062,24 @@ export default [
               "value": "- Adjetivos de dos sílabas o menos. "
             },
             {
-              "type": "text",
-              "value": "ADJETIVO + ER + THAN "
+              "type": "structure",
+              "value": ["ADJETIVO","+","ER","+","THAN "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; John is taller than Paul; John es más alto que Paul"
+              "value": "Ej: [ej;] John is taller than Paul; John es más alto que Paul"
             },
             {
               "type": "list",
               "value": "- Adjetivos de más de dos sílabas. "
             },
             {
-              "type": "text",
-              "value": "MORE + ADJETIVO + THAN "
+              "type": "structure",
+              "value": ["MORE","+","ADJETIVO","+","THAN "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; Susan is more intelligent than Mary; Susan es más inteligente que Mary"
+              "value": "Ej: [ej;] Susan is more intelligent than Mary; Susan es más inteligente que Mary"
             }
           ],
           "subcontent": []
@@ -1258,12 +1097,12 @@ export default [
               "value": "- Adjetivos de dos sílabas o menos. "
             },
             {
-              "type": "text",
-              "value": "THE ADJETIVO + EST "
+              "type": "structure",
+              "value": ["THE ADJETIVO","+","EST "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; He is the tallest boy; El niño más alto"
+              "value": "Ej: [ej;] He is the tallest boy; El niño más alto"
             },
             {
               "type": "text",
@@ -1271,11 +1110,11 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Susan is the thinnest girl in the school. "
+              "value": "Ej: [ej;] Susan is the thinnest girl in the school. "
             },
             {
               "type": "list",
-              "value": "Ej: falta; This is the happiest day of my life; falta"
+              "value": "Ej: [ej;] This is the happiest day of my life; falta"
             },
             {
               "type": "text",
@@ -1290,11 +1129,11 @@ export default [
           "content": [
             {
               "type": "list",
-              "value": "Ej: falta; Peter is the most intelligent student in the classroom; falta"
+              "value": "Ej: [ej;] Peter is the most intelligent student in the classroom; falta"
             },
             {
               "type": "list",
-              "value": "Ej: falta; Today is the most important day of the year; falta"
+              "value": "Ej: [ej;] Today is the most important day of the year; falta"
             }
           ],
           "subcontent": []
@@ -1455,20 +1294,20 @@ export default [
               "value": "UNTIL: HASTA "
             },
             {
-              "type": "text",
-              "value": "DURING: DURANTE ( DURING + SUSTANTIVOS: Se utiliza con expresiones que respondan a la pregunta WHEN?) "
+              "type": "structure",
+              "value": ["DURING: DURANTE ( DURING","+","SUSTANTIVOS: Se utiliza con expresiones que respondan a la pregunta WHEN?) "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; During the summer, during November; falta"
+              "value": "Ej: [ej;] During the summer, during November; falta"
             },
             {
-              "type": "text",
-              "value": "FOR: DURANTE ( DURING + NÚMEROS + PERIODOS DE TIEMPO: Se utiliza con expresiones que respondan a la pregunta HOW LONG?. "
+              "type": "structure",
+              "value": ["FOR: DURANTE ( DURING","+","NÚMEROS","+","PERIODOS DE TIEMPO: Se utiliza con expresiones que respondan a la pregunta HOW LONG?. "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; For six months, for five minutes; falta"
+              "value": "Ej: [ej;] For six months, for five minutes; falta"
             },
             {
               "type": "text",
@@ -1480,11 +1319,11 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; I lived in London from 1987 to 1989; falta"
+              "value": "Ej: [ej;] I lived in London from 1987 to 1989; falta"
             },
             {
               "type": "list",
-              "value": "Ej: falta; There is one train from Madrid to Valencia at 7 o’clock; falta"
+              "value": "Ej: [ej;] There is one train from Madrid to Valencia at 7 o’clock; falta"
             }
           ],
           "subcontent": []
@@ -1567,7 +1406,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "* Ej: falta; I arrived in London; falta"
+              "value": "* Ej: [ej;] I arrived in London; falta"
             },
             {
               "type": "list",
@@ -1575,7 +1414,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; I arrived at the airport; falta"
+              "value": "Ej: [ej;] I arrived at the airport; falta"
             }
           ],
           "subcontent": []
@@ -1605,11 +1444,11 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; There is some water in the fridge; falta"
+              "value": "Ej: [ej;] There is some water in the fridge; falta"
             },
             {
               "type": "list",
-              "value": "Ej: falta; There are some new students in the school; falta"
+              "value": "Ej: [ej;] There are some new students in the school; falta"
             }
           ],
           "subcontent": []
@@ -1636,7 +1475,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Have you  got any friends?; falta"
+              "value": "Ej: [ej;] Have you  got any friends?; falta"
             }
           ],
           "subcontent": []
@@ -1659,7 +1498,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Would you like some coffee?; falta"
+              "value": "Ej: [ej;] Would you like some coffee?; falta"
             },
             {
               "type": "text",
@@ -1667,7 +1506,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Can I have some water, please?; falta"
+              "value": "Ej: [ej;] Can I have some water, please?; falta"
             }
           ],
           "subcontent": []
@@ -1686,7 +1525,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; I haven’t got much money; falta"
+              "value": "Ej: [ej;] I haven’t got much money; falta"
             },
             {
               "type": "text",
@@ -1698,7 +1537,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; I have got many books; falta"
+              "value": "Ej: [ej;] I have got many books; falta"
             },
             {
               "type": "text",
@@ -1710,7 +1549,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; falta; falta"
+              "value": "Ej: [ej;] [ej;] falta"
             },
             {
               "type": "text",
@@ -1722,7 +1561,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; falta; falta"
+              "value": "Ej: [ej;] [ej;] falta"
             },
             {
               "type": "text",
@@ -1730,7 +1569,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; falta; falta"
+              "value": "Ej: [ej;] [ej;] falta"
             },
             {
               "type": "text",
@@ -1738,7 +1577,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; falta; falta"
+              "value": "Ej: [ej;] [ej;] falta"
             },
             {
               "type": "text",
@@ -1746,7 +1585,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; falta; falta"
+              "value": "Ej: [ej;] [ej;] falta"
             },
             {
               "type": "text",
@@ -1754,7 +1593,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; falta; falta"
+              "value": "Ej: [ej;] [ej;] falta"
             }
           ],
           "subcontent": []
@@ -1787,11 +1626,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: SUJETO + HAVE/HAS + PARTICIPIO PASADO VB + COMPLEMENTOS: "
+              "value": ["Estructura: SUJETO","+","HAVE/HAS","+","PARTICIPIO PASADO VB","+","COMPLEMENTOS: "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; I work in a bank. I have worked there for 10 years; Trabajo en un banco. He trabajado allí durante 10 años"
+              "value": "Ej: [ej;] I work in a bank. I have worked there for 10 years; Trabajo en un banco. He trabajado allí durante 10 años"
             }
           ],
           "subcontent": []
@@ -1802,11 +1641,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: SUJETO + HAVEN’T / HASN’T  + PART. PASADO VB + COMPLEMENTOS "
+              "value": ["Estructura: SUJETO","+","HAVEN’T / HASN’T ","+","PART. PASADO VB","+","COMPLEMENTOS "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; She is reading a book. She hasn’t finished it yet; Ella está leyendo un libro. No lo ha terminado todavía"
+              "value": "Ej: [ej;] She is reading a book. She hasn’t finished it yet; Ella está leyendo un libro. No lo ha terminado todavía"
             }
           ],
           "subcontent": []
@@ -1817,11 +1656,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: HAVE / HAS + SUJETO + PART. PASADO VB + COMPLEMENTOS? "
+              "value": ["Estructura: HAVE / HAS","+","SUJETO","+","PART. PASADO VB","+","COMPLEMENTOS? "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; Have you ever been to London?; ¿Has estado alguna vez en Londres?"
+              "value": "Ej: [ej;] Have you ever been to London?; ¿Has estado alguna vez en Londres?"
             },
             {
               "type": "text",
@@ -1829,11 +1668,11 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; I have worked here since 1976; falta"
+              "value": "Ej: [ej;] I have worked here since 1976; falta"
             },
             {
               "type": "list",
-              "value": "Ej: falta; How long have you met him? I have met him for several years; falta"
+              "value": "Ej: [ej;] How long have you met him? I have met him for several years; falta"
             },
             {
               "type": "text",
@@ -1852,7 +1691,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Have you seen Paul? He has just arrived; ¿Has visto a Paul? Acaba de llegar. "
+              "value": "Ej: [ej;] Have you seen Paul? He has just arrived; ¿Has visto a Paul? Acaba de llegar. "
             }
           ],
           "subcontent": []
@@ -1867,7 +1706,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Would you like to see Titanic? I’m sorry, I’ve already seen it; ¿Te gustaría ver Titanic? Lo siento, ya la he visto"
+              "value": "Ej: [ej;] Would you like to see Titanic? I’m sorry, I’ve already seen it; ¿Te gustaría ver Titanic? Lo siento, ya la he visto"
             }
           ],
           "subcontent": []
@@ -1882,7 +1721,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Have you read the book? No, I’m sorry, I haven’t started it yet; ¿Has leído el libro? No, lo siento, no lo he empezado todavía"
+              "value": "Ej: [ej;] Have you read the book? No, I’m sorry, I haven’t started it yet; ¿Has leído el libro? No, lo siento, no lo he empezado todavía"
             }
           ],
           "subcontent": []
@@ -1897,7 +1736,7 @@ export default [
             },
             {
               "type": "list",
-              "value": "Ej: falta; Have you ever tried Japanese food? No, not yet; ¿ Has probado alguna vez la comida japonesa? No, todavía no"
+              "value": "Ej: [ej;] Have you ever tried Japanese food? No, not yet; ¿ Has probado alguna vez la comida japonesa? No, todavía no"
             }
           ],
           "subcontent": []
@@ -1949,7 +1788,7 @@ export default [
         },
         {
           "type": "list",
-          "value": "Ej: falta; The concert had started when we arrived at the theatre; falta"
+          "value": "Ej: [ej;] The concert had started when we arrived at the theatre; falta"
         },
         {
           "type": "text",
@@ -1963,11 +1802,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: SUJETO + HAD + PARTICIPIO PASADO VB + COMPLEMENTOS: "
+              "value": ["Estructura: SUJETO","+","HAD","+","PARTICIPIO PASADO VB","+","COMPLEMENTOS: "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; I arrived at the airport when the plane had taken off; Llegué al aeropuerto cuando el avión había despegado"
+              "value": "Ej: [ej;] I arrived at the airport when the plane had taken off; Llegué al aeropuerto cuando el avión había despegado"
             }
           ],
           "subcontent": []
@@ -1978,11 +1817,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: SUJETO + HADN’T + PARTICIPIO PASADO VB + COMPLEMENTOS: "
+              "value": ["Estructura: SUJETO","+","HADN’T","+","PARTICIPIO PASADO VB","+","COMPLEMENTOS: "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; The shop hadn’t closed when I arrived; La tienda no había cerrado cuando llegué"
+              "value": "Ej: [ej;] The shop hadn’t closed when I arrived; La tienda no había cerrado cuando llegué"
             }
           ],
           "subcontent": []
@@ -1993,11 +1832,11 @@ export default [
           "content": [
             {
               "type": "structure",
-              "value": "Estructura: HAD + SUJETO + PARTICIPIO PASADO VB + COMPLEMENTOS?"
+              "value": ["Estructura: HAD","+","SUJETO","+","PARTICIPIO PASADO VB","+","COMPLEMENTOS?"]
             },
             {
               "type": "list",
-              "value": "Ej: falta; Had you finished the book when you gave it back?; ¿Habías acabado el libro cuando lo devolviste?"
+              "value": "Ej: [ej;] Had you finished the book when you gave it back?; ¿Habías acabado el libro cuando lo devolviste?"
             }
           ],
           "subcontent": []
@@ -2054,11 +1893,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + WILL + VB (INFINITIVO) + COMPLEMENTOS: "
+                  "value": ["Estructura: SUJETO","+","WILL","+","VB (INFINITIVO)","+","COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; It will rain tomorrow; Lloverá mañana"
+                  "value": "Ej: [ej;] It will rain tomorrow; Lloverá mañana"
                 }
               ],
               "subcontent": []
@@ -2069,11 +1908,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + WILL NOT (WON’T) + VB (INFINIT)+COMPLEMENTOS: "
+                  "value": ["Estructura: SUJETO","+","WILL NOT (WON’T)","+","VB (INFINIT)+COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; It will not rain tomorrow; No lloverá mañana"
+                  "value": "Ej: [ej;] It will not rain tomorrow; No lloverá mañana"
                 }
               ],
               "subcontent": []
@@ -2084,11 +1923,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: WILL + SUJETO + VB(INFINITIVO) + COMPLEMENTOS? "
+                  "value": ["Estructura: WILL","+","SUJETO","+","VB(INFINITIVO)","+","COMPLEMENTOS? "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Will it rain tomorrow?; ¿Lloverá mañana?"
+                  "value": "Ej: [ej;] Will it rain tomorrow?; ¿Lloverá mañana?"
                 }
               ],
               "subcontent": []
@@ -2123,11 +1962,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + TO BE  + GOING TO + VB (INFINITIVO) + COMPLEMENTOS: "
+                  "value": ["Estructura: SUJETO","+","TO BE ","+","GOING TO","+","VB (INFINITIVO)","+","COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; (I have this blue velvet) I am going to make a new dress; Tengo este terciopelo azul)  Voy a hacerme un vestido Nuevo"
+                  "value": "Ej: [ej;] (I have this blue velvet) I am going to make a new dress; Tengo este terciopelo azul)  Voy a hacerme un vestido Nuevo"
                 }
               ],
               "subcontent": []
@@ -2138,11 +1977,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: SUJETO + TO BE NOT + GOING TO + VB (INFINIT) + COMPLEMENTOS: "
+                  "value": ["Estructura: SUJETO","+","TO BE NOT","+","GOING TO","+","VB (INFINIT)","+","COMPLEMENTOS: "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; I am not going to make a new dress; falta"
+                  "value": "Ej: [ej;] I am not going to make a new dress; falta"
                 }
               ],
               "subcontent": []
@@ -2153,11 +1992,11 @@ export default [
               "content": [
                 {
                   "type": "structure",
-                  "value": "Estructura: TO BE + SUJETO + GOING TO + VB (INFINIT) + COMPLEMENTOS? "
+                  "value": ["Estructura: TO BE","+","SUJETO","+","GOING TO","+","VB (INFINIT)","+","COMPLEMENTOS? "]
                 },
                 {
                   "type": "list",
-                  "value": "Ej: falta; Are you going to make a new dress?: falta"
+                  "value": "Ej: [ej;] Are you going to make a new dress?: falta"
                 },
                 {
                   "type": "text",
@@ -2221,12 +2060,12 @@ export default [
               "value": "Hay un 100 % de posibilidades de que la condición se cumpla si se cumple una de las partes de la condición: "
             },
             {
-              "type": "text",
-              "value": "IF + PRESENTE / FUTURO "
+              "type": "structure",
+              "value": ["IF","+","PRESENTE / FUTURO "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; if you phone me I will go to the cinema; falta"
+              "value": "Ej: [ej;] if you phone me I will go to the cinema; falta"
             },
             {
               "type": "text",
@@ -2244,20 +2083,20 @@ export default [
               "value": "Las posibilidades de que se cumpla la condición se reducen a un 50%. "
             },
             {
-              "type": "text",
-              "value": "IF + PASADO SIMPLE / WOULD + INFINITIVO "
+              "type": "structure",
+              "value": ["IF","+","PASADO SIMPLE / WOULD","+","INFINITIVO "]
             },
             {
-              "type": "text",
-              "value": "COULD  + INFINITIVO "
-            },
-            {
-              "type": "list",
-              "value": "Ej: falta; If I know your address I would visit you; falta"
+              "type": "structure",
+              "value": ["COULD ","+","INFINITIVO "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; I had money I could travel all over the world; falta"
+              "value": "Ej: [ej;] If I know your address I would visit you; falta"
+            },
+            {
+              "type": "list",
+              "value": "Ej: [ej;] I had money I could travel all over the world; falta"
             }
           ],
           "subcontent": []
@@ -2275,12 +2114,12 @@ export default [
               "value": "posibilidad de cambiar el pasado. "
             },
             {
-              "type": "text",
-              "value": "IF + PAST PERFECT / WOULD HAVE + PAST PARTICIPLE "
+              "type": "structure",
+              "value": ["IF","+","PAST PERFECT / WOULD HAVE","+","PAST PARTICIPLE "]
             },
             {
               "type": "list",
-              "value": "Ej: falta; If you had studied more you would have passed the exam; falta"
+              "value": "Ej: [ej;] If you had studied more you would have passed the exam; falta"
             }
           ],
           "subcontent": []

@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ILineLyrics } from '@core/models/ILineLyrics';
-import { fileToLinesLyric } from '@core/utils/file';
-import { InputFileComponent } from '@shared/components/input-file/input-file.component';
+import { ILineLyrics } from "src/app/core/models/ILineLyrics";
+import { fileToLinesLyric } from 'src/app/core/utils/file';
+import { InputFileComponent } from 'src/app/shared/components/input-file/input-file.component';
 import { NavigationEnd, Route, Router } from '@angular/router';
 import { filter } from 'rxjs/internal/operators/filter';
 
@@ -44,16 +44,19 @@ export class ReadComponent {
     }
 
     constructor() {
+    }
+
+    ngOnInit() {
         this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: any) => {
             this.setStateNav(event.url)
         });
-        this.router.navigate([], { queryParams: { nav: this.isShowNav } });
-        this.setStateNav(this.router.url);
     }
+
     setStateNav(url: any) {
         let dataUrl = this.router.parseUrl(url).queryParams;
         if (dataUrl["nav"]) {
             this.isShowNav = "true" == dataUrl["nav"]
+            console.log('>> >>: paser', this.isShowNav);
         }
     }
 

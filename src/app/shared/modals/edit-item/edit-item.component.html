@@ -8,17 +8,17 @@
         <div class="content">
             <form id="editItemResourceForm" >
 
-                <span>Question</span>
+                <!-- <span>Question</span>
                 <textarea name="question" placeholder="Question" >{{data.statement}}</textarea>
                 <span>Answer</span>
-                <textarea name="answer" placeholder="Answer">{{data.answer}}</textarea>
+                <textarea name="answer" placeholder="Answer">{{data.answer}}</textarea> -->
                 
                 <span>Tags</span>
                 <textarea name="tags" placeholder="Tagas">{{data.tags}}</textarea>
                 <span>Cycle</span>
                 <input type="number" name="cycle" placeholder="0" [value]="data.cycle">
 
-                <label class="rating-label">
+                <!-- <label class="rating-label">
                     Completed
                     <input class="rating" max="5" name="rangeCopleted"
                         oninput="this.style.setProperty('--value', this.value)" 
@@ -26,7 +26,7 @@
                         style="--stars:5;--value:0" 
                         type="range" 
                         [value]="data.rangeCopleted">
-                </label>
+                </label> -->
 
                 <app-button [title]="'Delete'" (eventClick)="handleDeleteItemResource($event)"></app-button>
 

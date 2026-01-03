@@ -1,6 +1,23 @@
-<div class="card_container">
-    <div class="card_content">
-        <h4># {{title}}</h4>
-        {{description}}
+<div class="card_container relative rounded-3xl border-[#00827A] border-2 overflow-hidden
+shadow-2xl
+">
+
+    @if (img) {
+        <div class="absolute z-0 sm:-top-[50px] -top-[20px] left-0 w-full h-full bg-no-repeat {{img}} bg-contain opacity-90 pointer-events-none"></div>
+    }
+
+    <svg class="pointer-events-none absolute top-[30%] left-[40%] w-[68px] h-[68px] z-30" width="50" height="46" viewBox="0 0 50 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="50" height="46" rx="22" fill="white" fill-opacity="0.19"/>
+        <path d="M17 4.92498L42.1784 22.619L17 40.3131V22.619V4.92498Z" fill="#326B50" stroke="#8CB6A7" stroke-width="2"/>
+        </svg>
+
+    <div class="absolute z-20 top-0 left-0 h-full w-full bg-cover bg-no-repeat bg-[url('/backgrounds/background.svg')] opacity-15
+        "></div>
+
+    <div class="h-20"></div>
+
+    <div class=" text-white flex justify-end p-9 flex-col flex-grow w-full sm:w-[29rem] h-[12rem] bg-[url('/backgrounds/card-home.svg')] bg-cover z-10 relative">
+        <h4 class="font-semibold text-2xl mb-1"># {{title}}</h4>
+        <div class="mb-2 text-slate-400">{{description}}</div>
     </div>
 </div>

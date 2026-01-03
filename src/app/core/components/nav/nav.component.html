@@ -1,41 +1,112 @@
-<div class="btnHidden" [class]="{'hidden': !isNavHidden}" (click)="setHiddenNav()">{{isNavHidden? "▼": "▲"}}</div>
+<div class="btnHidden" [class]="{'hidden': !isNavHidden}" (click)="setHiddenNav()"> 
+  <span class="mt-2">{{isNavHidden? "▼": "▲"}}</span>
+</div>
 <div class="block_spacing" [class]="{'hidden': isNavHidden}"></div>
 
 <header class="nav" [class]="{'hidden': isNavHidden}">
 
     <div class="name_page">{{namePage}}</div>
 
+
+
     <nav class="main-navigation" [class]="{'hidden-nav': isOpenNavLeft}" [style]="{'overflow': 'hidden'}">
 
         <ul class="menu menu-center">
-            <li class="practice"> <a class="link" routerLink="/"> 
-                <i class="ico"></i>
-                Practice</a>
+
+            <li class="logo mr-2" routerLink="/">
+                <svg width="40" height="34" viewBox="0 0 199 169" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M145.676 20H53.3235C35.4717 20 21 34.4388 21 52.25L31.5 118.5C31.5 136.311 58.1482 151.5 76 151.5H124.5C142.352 151.5 172.5 136.311 172.5 118.5L178 52.25C178 34.4388 163.528 20 145.676 20Z" fill="#1E583F"/>
+                    <path d="M100 139.5C82 124.5 53 126 53 126V75C53 75 77.5 72 99 84M100 139.5C114.5 124.5 146.5 126 146.5 126V75C146.5 75 124.5 72.5 99 84M100 139.5L99 84" stroke="#F1FFEF" stroke-width="9"/>
+                    <path d="M148.419 8H50.5811C27.6165 8 9 26.7824 9 49.9516V119.048C9 142.218 27.6165 161 50.5811 161H148.419C171.384 161 190 142.218 190 119.048V49.9516C190 26.7824 171.384 8 148.419 8Z" stroke="#1E583F" stroke-width="8"/>
+                    <path d="M120 47C120 51.9631 115.199 60 115.199 60C115.199 60 106.083 67 100 67C93.9174 67 84.8008 60 84.8008 60C84.8008 60 80 51.9631 80 47C80 42.0369 84.8008 34 84.8008 34C84.8008 34 93.9174 27 100 27C106.083 27 115.199 34 115.199 34C115.199 34 120 42.0369 120 47Z" fill="#F1FFEF"/>
+                    <rect x="43" y="88" width="19" height="21" fill="#F1FFEF"/>
+                    <rect x="137" y="88" width="19" height="21" fill="#F1FFEF"/>
+                </svg>
             </li>
-            <li class="resource"><a class="link" routerLink="library-manager">
+
+            <li class="practice">
+              <a class="link" routerLink="/">
                 <i class="ico"></i>
-                Resource</a>
+                <span>Inicio</span>
+              </a>
             </li>
-            <li class="read"> <a class="link" routerLink="read">
+            <li class="resource">
+              <a class="link" routerLink="resource-manager">
                 <i class="ico"></i>
-                Read</a>
+                <span>Administrar recursos</span>
+              </a>
             </li>
-            <li class="contact"> <a class="link" routerLink="contact">
+            <li class="read">
+              <a class="link" routerLink="read" [queryParams]="{ nav: true }">
                 <i class="ico"></i>
-                Contact</a>
+                <span>Lectura</span>
+              </a>
             </li>
         </ul>
+
         <ul class="menu menu-right">
-            <li>
+          <li class="contact">
+            @if (isLoggedIn === true) {
+              <a class="link" (click)="signOut()">
+                <i class="ico"></i>
+                <span class="text-nowrap">Cerrar sesión</span>
+              </a>
+            } @else {
+              <a class="link" (click)="openLogin()">
+                <i class="ico"></i>
+                <span class="text-nowrap">Iniciar sesión</span>
+              </a>
+            }
+          </li>
+          <!--<li class="sub-menu contact">
+            <a class="link">
+              <i class="ico"></i>
+              <span class="text-nowrap">Cuenta</span>
+            </a>
+
+            <ul>
+              <li class="contact">
+                @if (isLoggedIn === true) {
+                  <a class="link" (click)="signOut()">
+                    <i class="ico"></i>
+                    <span class="text-nowrap">Cerrar sesión</span>
+                  </a>
+                } @else {
+                  <a class="link" (click)="openLogin()">
+                    <i class="ico"></i>
+                    <span class="text-nowrap">Iniciar sesión</span>
+                  </a>
+                }
+              </li>
+            </ul>
+
+          </li>-->
+
+            <li class="li-btnHidden">
                 <div class="btnHidden" (click)="setHiddenNav()">{{isNavHidden? "▼": "▲"}}</div>
-            </li>
-            <li>
-                <div class="theme" (click)="isDark=!isDark">{{isDark? "🌙": "🌞"}}</div>
             </li>
         </ul>
     </nav>
 
     <div class="btn_nav">
+        <ul class="menu_icons">
+          <li class="practice">
+              <a class="link" routerLink="/">
+                <i class="ico"></i>
+              </a>
+          </li>
+          <li class="resource">
+            <a class="link" routerLink="resource-manager">
+              <i class="ico"></i>
+            </a>
+          </li>
+          <li class="read">
+            <a class="link" routerLink="read"  [queryParams]="{ nav: true }">
+              <i class="ico"></i>
+            </a>
+          </li>
+        </ul>
+
         <div class="black" [class]="{'hidden-nav': isOpenNavLeft}" (click)="isOpenNavLeft=!isOpenNavLeft"></div>
 
         <div class="menu_ico_container c">
@@ -47,3 +118,10 @@
         </div>
     </div>
 </header>
+
+<!--FIXME @if (toastData) {
+  <toast [data]="toastData"></toast>
+} -->
+@if (this.alert) {
+  <alert [data]="this.alert" />
+}

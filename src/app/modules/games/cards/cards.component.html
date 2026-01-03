@@ -1,104 +1,119 @@
-<div class="container">
+<div class="container_cards">
     <div class="controls">
-        <btn-img identifier="menu" imgPath="assets/menu.svg" (eventClick)="isMenuOptions=!isMenuOptions"
-            [type]="isMenuOptions? 'orange':'green'"></btn-img>
+        <div>
+            <btn-img identifier="menu" imgPath="/menu.svg" (eventClick)="isMenuOptions=!isMenuOptions"
+                [type]="isMenuOptions? 'orange':'green'"></btn-img>
 
-        <btn-difficulty style="width: 3.1rem;" difficulty="easy" (eventClick)="decrease()" title="A-"></btn-difficulty>
-        <btn-difficulty style="width: 3.1rem;" difficulty="easy" (eventClick)="increase()" title="A+"></btn-difficulty>
+            <div [ngClass]="isMenuOptions?'':'hidden'" class="menu_options">
+                <button (click)="isListResources=!isListResources" class="btn "><span>Select Resource</span></button>
+                <!-- <button (click)="random()" class="btn"><span>Random</span></button> -->
 
-        <div [ngClass]="isMenuOptions?'':'hidden'" class="menu_options">
-            <button (click)="isListResources=!isListResources" class="btn "><span>Select Resource</span></button>
-            <!-- <button (click)="random()" class="btn"><span>Random</span></button> -->
+                <label for="time-s">
+                    Automatic time
+                    <input type="number" name="time-s" placeholder="5" (input)="onInputTimeS($event.target)">
+                </label>
 
-            <label for="time-s">
-                Automatic time
-                <input type="number" name="time-s" placeholder="5" (input)="onInputTimeS($event.target)">
-            </label>
+                <label for="time-s">
+                    Limit day
+                    <input type="number" name="limit-day" placeholder="5" (input)="onInputLimitDay($event.target)">
+                </label>
+                <button (click)="replaceCard()" class="btn"><span>Replace</span></button>
 
-            <label for="time-s">
-                Limit day
-                <input type="number" name="limit-day" placeholder="5" (input)="onInputLimitDay($event.target)">
-            </label>
-            <button (click)="replaceCard()" class="btn"><span>Replace</span></button>
+                <button (click)="nextCycle()" class="btn"><span>Next Cycle</span></button>
+                <button (click)="speack=!speack" class="btn"><span>Speak</span></button>
 
-            <button (click)="nextCycle()" class="btn"><span>Next Cycle</span></button>
-            <button (click)="speack=!speack" class="btn"><span>Speack</span></button>
+            </div>
 
+            <btn-img identifier="play" [imgPath]="isStart? '/pause.svg': '/play.svg'"
+                (eventClick)="startPause()" [type]="isStart? 'orange':'green'"></btn-img>
+
+            @if(lgc){
+            <div class="cycle cursor-pointer" (click)="openGroups()">
+                <span class="max-w-36 text-left whitespace-nowrap overflow-x-auto">
+                    {{lgc.itemsSelect?.name}}
+                </span>
+                <div class="ml-2 ico"></div>
+                {{lgc.itemsSelect?.cycle}}
+            </div>
+            }
         </div>
 
-        <btn-img identifier="play" [imgPath]="isStart? 'assets/pause.svg': 'assets/play.svg'"
-            (eventClick)="startPause()" [type]="isStart? 'orange':'green'"></btn-img>
+        <btn-game [disabled]="!lgc?.itemsSelect" style="width: 3.1rem;" difficulty="easy" (eventClick)="speak()" title="🔊"></btn-game>
 
-        @if(lgc){
-        <div class="cycle">
-            <div class="ico"></div>
-            {{lgc.resource.currentCycle}}
+        <div class="flex relative z-[101]">
+            <btn-game [disabled]="!lgc?.itemsSelect" class="sm:hidden" style="width: 3.1rem;" difficulty="easy" (eventClick)="a=!a" title="A"></btn-game>
+            <div class="lg:ml-28 absolute top-14 left-0 flex-col sm:static sm:flex-row gap-2 flex {{a?'':'hiddenA'}}">
+                <btn-game [disabled]="!lgc?.itemsSelect" style="width: 3.1rem;" difficulty="hard" (eventClick)="decrease()" title="A-"></btn-game>
+                <btn-game [disabled]="!lgc?.itemsSelect" style="width: 3.1rem;" difficulty="easy" (eventClick)="increase()" title="A+"></btn-game>
+            </div>
         </div>
-        }
     </div>
 
     @if(lgc){
     <div class="container_card">
-        @if(lgc.itemsSelect.length > 1){
-        <div (click)="toggleCard(lgc.itemsSelect[posItem])" class="flipper frame"
-            [ngClass]="{ 'active' : !lgc.itemsSelect[posItem].isStatement }" #frame>
-            <div class="card" #next>
+        @if(lgc.itemsSelect?.questions!.length > 1){
+        <div (click)="toggleCard(lgc.itemsSelect!.questions![posItem]!)" class="flipper frame"
+            [ngClass]="{ 'active' : !isFront }" #frame>
+            <div class="card blur-xs" #next>
                 <div class="itemCard" [ngStyle]="{'font-size': fontSizeCard+'rem'}">
-                    <!-- <div class="invisible">{{ lgc.itemsSelect[posItem+1].question![0].length>lgc.itemsSelect[posItem+1].answer![0].length?
-                        lgc.itemsSelect[posItem+1].question:lgc.itemsSelect[posItem+1].answer }}</div> -->
-
+                    <div class="invisible"></div>
                     <div class="question">
-                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItemNext].rangeCopleted">
-                            <span class="count">#{{posItemNext+1}}/{{lgc.resource.limit}} </span>
+                        <div class="header"
+                            [ngClass]="'difficulty'+lgc.itemsSelect!.questions![posItemNext].difficulty">
+                            <span class="count">#{{posItem+1}}/{{lgc.itemsSelect?.questions?.length}} </span>
                             <span class="title">Front</span>
                             <span class="tag">
                                 <div></div>
-                                {{lgc.itemsSelect[posItemNext].reviewCount || 0}}
+                                {{lgc.itemsSelect!.questions![posItemNext].cycle || 0}}
                             </span>
                         </div>
-                        <div [innerHTML]="lgc.itemsSelect[posItemNext].statement!.join('\n\n') | br"></div>
+                        <div class="content-text" [innerHTML]="lgc.itemsSelect!.questions![posItemNext].entry_a! | br"></div>
                     </div>
                     <div class="answer">
-                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItemNext].rangeCopleted">
-                            <span class="count">#{{posItemNext+1}}/{{lgc.resource.limit}} </span>
-                            <span class="title">Back</span>
+                        <div class="header"
+                            [ngClass]="'difficulty'+lgc.itemsSelect!.questions![posItemNext].difficulty">
+                            <span class="count">#{{posItem+1}}/{{lgc.itemsSelect?.questions?.length}} </span>
+                            <span class="title">Front</span>
                             <span class="tag">
                                 <div></div>
-                                {{lgc.itemsSelect[posItemNext].reviewCount || 0}}
+                                {{lgc.itemsSelect!.questions![posItemNext].reviewCount || 0}}
                             </span>
                         </div>
-                        <div [innerHTML]="lgc.itemsSelect[posItemNext].statement!.join('\n\n') | br"></div>
+                        <div class="content-text" [innerHTML]="lgc.itemsSelect!.questions![posItemNext].entry_a! | br"></div>
                     </div>
                 </div>
             </div>
+
             <div class="card" #current>
                 <div class="is-like"></div>
                 <div class="itemCard" [ngStyle]="{'font-size': fontSizeCard+'rem'}">
-                    <!-- <div class="invisible">{{ lgc.itemsSelect[posItem].question![0].length>lgc.itemsSelect[posItem].answer![0].length?
-                        lgc.itemsSelect[posItem].question:  lgc.itemsSelect[posItem].answer }}</div> -->
+                    <!-- <div class="invisible">xxx</div> -->
+
                     <div class="question">
-                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItem].rangeCopleted">
-                            <span class="count">#{{posItem+1}}/{{lgc.resource.limit}} </span>
-                            <span class="title">Front</span>
+                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect!.questions![posItem].difficulty">
+                            <span class="count">#{{posItem+1}}/{{lgc.itemsSelect?.questions?.length}} </span>
+                            <span class="title">Frontal</span>
                             <span class="tag">
                                 <div></div>
-                                {{lgc.itemsSelect[posItem].reviewCount || 0}}
+                                {{lgc.itemsSelect!.questions![posItem].cycle || 0}}
                             </span>
                         </div>
-                        <div [innerHTML]="lgc.itemsSelect[posItem].statement!.join('\n\n') | br"></div>
+                        <div class="content-text" [innerHTML]="lgc.itemsSelect!.questions![posItem].entry_a! | br"></div>
                     </div>
+
                     <div class="answer" style="white-space: pre-line;">
-                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect[posItem].rangeCopleted">
-                            <span class="count">#{{posItem+1}}/{{lgc.resource.limit}} </span>
-                            <span class="title">Back</span>
+                        <div class="header" [ngClass]="'difficulty'+lgc.itemsSelect!.questions![posItem].difficulty">
+                            <span class="count">#{{posItem+1}}/{{lgc.itemsSelect?.questions?.length}} </span>
+                            <span class="title">Reverso</span>
                             <span class="tag">
                                 <div></div>
-                                {{lgc.itemsSelect[posItem].reviewCount || 0}}
+                                {{lgc.itemsSelect!.questions![posItem].reviewCount || 0}}
                             </span>
                         </div>
 
-                        <div [innerHTML]="lgc.itemsSelect[posItem].answer!.join('\n\n') | br"></div>
+                        <div class="content-text" [innerHTML]="lgc.itemsSelect!.questions![posItem].entry_b! | br"></div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -106,13 +121,20 @@
     </div>
     }
 
-    <div class="next_previous">
-        <div><btn-difficulty class="a" difficulty="hard" (eventClick)="hard()" title="Hard"></btn-difficulty></div>
-        <div><btn-difficulty class="b" difficulty="medium" (eventClick)="medium()" title="Medium"></btn-difficulty>
+    @if (!lgc?.itemsSelect) {
+        <div class=" w-full flex justify-center items-center h-3/6">
+            <div class="w-50 max-w-50"> <btn-game difficulty="easy" (eventClick)="routeSelectResourse()" title="Seleccionar recurso"></btn-game> </div>
         </div>
-        <div><btn-difficulty class="c" difficulty="easy" (eventClick)="easy()" title="Easy"></btn-difficulty></div>
-    </div>
+    }@else {   
+        <div class="next_previous">
+            <div> <btn-game [disabled]="!lgc?.itemsSelect" class="a" difficulty="hard" (eventClick)="hard()" title="Hard"></btn-game> </div>
+            <div> <btn-game [disabled]="!lgc?.itemsSelect" class="b" difficulty="medium" (eventClick)="medium()" title="Medium"></btn-game> </div>
+            <div> <btn-game [disabled]="!lgc?.itemsSelect" class="c" difficulty="easy" (eventClick)="easy()" title="Easy"></btn-game> </div>
+        </div>
+    }
 
-    <list-resources [show]="isListResources" (eventShow)="isListResources=!isListResources"
-        (onSelectList)="onSelectList($event)" [lists]="listsResources"></list-resources>
 </div>
+
+@if (groupModal) {
+    <app-groups [data]="groupModal"></app-groups>
+}

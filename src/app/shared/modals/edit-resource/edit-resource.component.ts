@@ -1,17 +1,16 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ButtonComponent } from '@shared/components/button/button.component';
-import { GeneralTableResponse } from '@shared/components/general-table/GeneralTableResponse';
-import { LS_LISTS } from '@core/constants/constants';
-import { BtnImgComponent } from '@shared/components/btn-img/btn-img.component';
-import { Question, QuestionSet } from '@core/models/QuestionSet';
-import { getListLS } from '@core/services/localstorange/LS.list';
-import { AlertComponent } from '../alert/alert.component';
-import { ToastComponent } from '@shared/components/toast/toast.component';
+import { ButtonComponent } from 'src/app/shared/components/button/button.component';
+import { GeneralTableResponse } from 'src/app/shared/components/general-table/GeneralTableResponse';
+import { LS_LISTS } from 'src/app/core/constants/constants';
+import { BtnImgComponent } from 'src/app/shared/components/btn-img/btn-img.component';
+import { Question, QuestionSet } from 'src/app/core/models/QuestionSet';
+import { getListLS } from 'src/app/core/services/localstorange/LS.list';
+import { ToastComponent } from 'src/app/shared/components/toast/toast.component';
 
 @Component({
   selector: 'edit-resource',
   standalone: true,
-  imports: [ButtonComponent, BtnImgComponent, AlertComponent, ToastComponent],
+  imports: [ButtonComponent, BtnImgComponent, ToastComponent],
   templateUrl: './edit-resource.component.html',
   styleUrls: ['./edit-resource.component.scss']
 })
@@ -72,7 +71,7 @@ export class EditResourceComponent {
 
       this.resource.questions?.forEach(item => {
 
-        if (item.id != undefined) {
+        /* if (item.id != undefined) {
         }
         if (item.statement != undefined) {
         }
@@ -89,7 +88,7 @@ export class EditResourceComponent {
         this.data += `${item.answer || ''};`;
         this.data += `${item.rangeCopleted || ''};`;
         this.data += `${item.tags || ''};`;
-        this.data += `${item.cycle || ''}`;
+        this.data += `${item.cycle || ''}`; */
 
         this.data += "\n"
       });
@@ -157,7 +156,7 @@ export class EditResourceComponent {
         throw new Error("columns out of range: " + numColsActive + " - " + cells.length);
       }
 
-      item.isStatement = true
+      /* item.isStatement = true
       if (this.typeRequest == 'update') {
       } else {
         item.id = startId + "" + index
@@ -183,14 +182,14 @@ export class EditResourceComponent {
       }
       if (this.colsActive[5].state) {
         item.cycle = Number(cells[count]);
-      }
+      } */
 
       list.push(item)
     })
 
 
     if (this.typeRequest == 'create') {
-      
+
       let finalData: QuestionSet = {
         id: '',
         name: this.resource.name,
@@ -253,7 +252,7 @@ export class EditResourceComponent {
     if (!this.generalTableResponse.rowId) return
     localStorage.setItem(LS_LISTS.listSelectedId, this.generalTableResponse.rowId)
     this.eventActionResource.emit({ action: "selectResource", object: this.generalTableResponse })
-    //TODO: route games 
+    //TODO: route games
     this.toggleShow()
   }
   colsSelect(event: any) {

@@ -1,0 +1,13 @@
+@if (data && data.id) {
+<div class="minput input">
+    @if(data.label){
+        <label class="mlabel" [for]="data.id">{{data.label}}</label>
+    }
+    <textarea rows="18"
+    [placeholder]="data.placeholder? data.placeholder:''"
+    [name]="data.id" 
+    (input)="dataChange($event.target)" 
+    [value]="data.values![0]" 
+    >{{data.values![0]||''}}</textarea>
+</div>
+}

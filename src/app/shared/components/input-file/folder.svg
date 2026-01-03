@@ -1,18 +1,1 @@
-<svg width="88" height="71" viewBox="0 0 88 71" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M6.89551 7C6.89551 3.13401 10.0295 0 13.8955 0H26.1268C28.6174 0 30.9205 1.32343 32.1746 3.47531L33.6604 6.02469C34.9145 8.17657 37.2176 9.5 39.7083 9.5H61.1542H72.2404C76.1064 9.5 79.2404 12.634 79.2404 16.5V62C79.2404 65.866 76.1064 69 72.2404 69H13.8955C10.0295 69 6.89551 65.866 6.89551 62V7Z" fill="#E9BA2D"/>
-<g filter="url(#filter0_d_1302_52)">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M16.9835 23C14.1263 23 11.6813 25.4383 11.1847 28.7832L6.43305 60.7832C5.79657 65.0697 8.57035 69 12.2319 69H73.3583C76.2155 69 78.6605 66.5617 79.1572 63.2168L83.9087 31.2168C84.5452 26.9303 81.7715 23 78.1099 23H16.9835ZM44 47L43.5 49C43.5 49 43.1801 51 44 51H70.7111C70.8854 51 71.135 49 71.135 49C71.135 49 71.7977 47 70.9779 47H44ZM42.5 58C42.5 58 43.0008 56 43.1751 56H69.2038C70.0236 56 70 58.5 70 58.5C69.8578 58.6199 69.3781 60.2844 69.2038 60.2844H43.1751C42.3553 60.2844 42.5 58 42.5 58Z" fill="#FFCB2F"/>
-</g>
-<defs>
-<filter id="filter0_d_1302_52" x="0.341797" y="15" width="87.6582" height="56" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="-1" dy="-3"/>
-<feGaussianBlur stdDeviation="2.5"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1302_52"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1302_52" result="shape"/>
-</filter>
-</defs>
-</svg>
+<svg fill="#ffffff" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M19.757 20.171c-.791.524-1.739.829-2.757.829-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5c0 1.018-.305 1.966-.829 2.757l2.829 2.829-1.414 1.414-2.829-2.829zm-7.654.829h-12.103v-20h7c1.695 1.942 2.371 3 4 3h11v7.103c-.574-.586-1.25-1.072-2-1.428v-3.675h-9c-2.339 0-3.537-1.388-4.917-3h-4.083v16h8.675c.356.75.842 1.426 1.428 2zm4.897-8c1.656 0 3 1.344 3 3s-1.344 3-3 3-3-1.344-3-3 1.344-3 3-3z"/></svg>

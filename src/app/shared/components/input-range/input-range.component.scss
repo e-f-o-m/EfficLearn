@@ -1,0 +1,84 @@
+.minput>.mlabel {
+    color: var(--input-label);
+    font-size: 0.925rem;
+    border: 1px solid #63636330;
+    margin-top: 15px;
+    position: sticky;
+    left: 20px;
+    transition: all 0.1s ease;
+    border-width: 0 2px 0 2px;
+    padding: 1px 6px;
+  }
+  
+  .minput > label input {
+    margin: 7px 0 0px 0; 
+    border:  solid 1px #63636363;
+    border-radius: 6px;
+    transition: all 0.1s;
+    font-size: 0.96rem;
+    color: var(--text);
+    background: #e0e6e30a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .minput > label input:focus {
+    outline: 0;
+    border-color: #37caa5bb; 
+  }
+  
+  
+  .rating {
+    --dir: right;
+    --fill: gold;
+    --fillbg: rgba(100, 100, 100, 0.15);
+    --star: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.25l-6.188 3.75 1.641-7.031-5.438-4.734 7.172-0.609 2.813-6.609 2.813 6.609 7.172 0.609-5.438 4.734 1.641 7.031z"/></svg>');
+    --stars: 5;
+    --starsize: 2.9rem;
+    --value: 1;
+    --x: calc(100% * (var(--value) / var(--stars)));
+    block-size: var(--starsize);
+    inline-size: calc(var(--stars) * var(--starsize));
+    position: relative;
+    touch-action: manipulation;
+    appearance: none;
+}
+
+[dir="rtl"] .rating {
+    --dir: left;
+}
+
+.rating::-moz-range-track {
+    background: linear-gradient(to var(--dir), var(--fill) 0 var(--x), var(--fillbg) 0 var(--x));
+    block-size: 100%;
+    mask: repeat left center/var(--starsize) var(--star);
+}
+
+.rating::-webkit-slider-runnable-track {
+    background: linear-gradient(to var(--dir), var(--fill) 0 var(--x), var(--fillbg) 0 var(--x));
+    block-size: 100%;
+    mask: repeat left center/var(--starsize) var(--star);
+    -webkit-mask: repeat left center/var(--starsize) var(--star);
+}
+
+.rating::-moz-range-thumb {
+    height: var(--starsize);
+    opacity: 0;
+    width: calc(var(--starsize) / 2);
+}
+
+.rating::-webkit-slider-thumb {
+    height: var(--starsize);
+    opacity: 0;
+    width: calc(var(--starsize) / 2);
+    -webkit-appearance: none;
+}
+
+.rating,
+.rating-label {
+    display: block;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.rating-label {
+    margin-block-end: 1rem;
+}

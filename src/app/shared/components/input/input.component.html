@@ -1,13 +1,15 @@
-<div class="minput input" >
-    <label
-        class="mlabel"
-        [for]="identifier" >{{name}}</label>
+@if (data && data.id) {
+<div class="minput input">
+    @if(data.label){
+        <label class="mlabel text-slate-300" [for]="data.id">{{data.label}}</label>
+    }
     <input
-        [type]="type"
-        [placeholder]="placeholder"
-        [name]="identifier" 
-        (input)="dataChange($event.target)"
-        (value)="value"
-        />
+    #miInput
+    [type]="data.typeFormControl!.split('-')[1]"
+    [placeholder]="data.placeholder? data.placeholder:''"
+    [name]="data.id"
+    (input)="dataChange($event.target)"
+    [value]="data.values![0]"
+    />
 </div>
-
+}

@@ -10,4 +10,5 @@ import { Component, Input } from '@angular/core';
 export class CardGameComponent {
   @Input() title?: string
   @Input() description?:string
+  @Input() img?:string
 }

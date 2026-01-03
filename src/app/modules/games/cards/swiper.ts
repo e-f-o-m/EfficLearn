@@ -52,7 +52,6 @@ export class Swiper {
     onPointerMove = (event: PointerEvent) => {
         this.moveX = event.clientX - this.startX
         this.moveY = event.clientY - this.startY
-        console.log(this.moveX, this.moveY)
 
         this.setTransform(this.moveX, this.moveY, this.moveX / innerWidth * 50, 0)
     }

@@ -1,0 +1,103 @@
+<div class="main-container">
+    <div class="xheader">
+        <div class="title pl-4 sm:pl-20">
+            <h1>EDITAR LISTA</h1>
+            <div>Listas</div>
+        </div>
+
+        <div class="buttons_actions ml-12">
+            <div class="bg-[#1D542E] w-11 h-11 rounded-xl p-1 cursor-pointer hover:contrast-[1.1]" (click)="add()">
+                <img class="invert" src="/add.svg" alt="">
+            </div>
+        </div>
+        <br>
+    </div>
+
+    <div class="w-full sm:p-8 flex items-start justify-evenly flex-wrap gap-8 sm:-mt-16 text-white">
+
+        <!-- QUESTIONS -->
+        <div class="mcard card min-w-[390px] max-w-[700px] grow ">
+            <div class="flex flex-row gap-4 mt-1 mb-6 items-center">
+                <h2 class="font-semibold">Preguntas</h2>
+                <app-input (event)="serach($event)" [data]="{placeholder: '🔍 Buscar', id: 'search', values: [''], typeFormControl: 'input-text'}" />
+
+            </div>
+
+            <div class="content mb-8">
+                @for (group of groups; track $index) {
+                    <div class="w-full text-green-100 mt-4 -mb-1">
+                        {{group.name}}
+                    </div>
+                    @for (question of group.questions; track $index) {
+
+                    @if (!search || (question.entry_a+' '+question.entry_b).includes(search) ) {
+                        <div class=" flex flex-col gap-1 mt-2 bg-[#1E2624] w-full p-2 rounded-xl cursor-pointer" (click)="editQuestion(question)">
+                            <div class="flex gap-2">
+                                <div class="px-[5px] py-[3px] rounded-md bg-[#14542E] text-slate-300 text-[12px] w-fit">
+                                    {{group.name}}
+                                </div>
+                                <div class="px-[5px] py-[3px] rounded-md bg-[#74582B] text-slate-300 text-[12px] w-fit">
+                                    Dificultad: {{question.difficulty}}
+                                </div>
+                            </div>
+
+                            <div class="flex felx-row gap-3 items-center">
+                                <div class="h-2 w-2 bg-[#0A513F] rounded-full"></div>
+                                <div class="text-slate-300 w-full truncate ...">{{question.entry_a}}</div>
+                            </div>
+
+                            <div class="flex felx-row gap-3 items-center">
+                                <div class="h-2 w-2 bg-[#0A513F] rounded-full"></div>
+                                <div class="text-slate-400 text-sm w-full truncate ...">{{question.entry_b}}</div>
+                            </div>
+                        </div>
+                    }
+                    }
+                }
+            </div>
+        </div>
+
+        <!-- GRUPOS -->
+        <div class="mcard card max-w-[850px] min-w-96">
+            <div class="flex flex-row gap-4 mt-1 mb-6 items-center">
+                <h2 class="font-semibold">Grupos</h2>
+                <app-input (event)="serach($event)" [data]="{placeholder: '🔍 Buscar', id: 'search', values: [''], typeFormControl: 'input-text'}" />
+                <div class="bg-[#1D542E] w-11 h-11 rounded-xl p-1 cursor-pointer hover:contrast-[1.1]" (click)="addGroup()">
+                    <img class="invert" src="/add.svg" alt="">
+                </div>
+            </div>
+
+            <div class="content gap-4 flex flex-row flex-wrap justify-around pb-8">
+                @for (group of groups; track $index) {
+                <div class="basis-60 grow flex flex-row items-center justify-between gap-4 mt-2 bg-[#1E2624] w-full px-4 py-2 rounded-xl ">
+
+                    <app-porcent-chart-xs [data]="{value: countStars(group), goal: (group.questions?.length!*5), type: 'porcent'}"></app-porcent-chart-xs>
+
+                    <div class="flex flex-col gap-2">
+                        <div class="text-green-300/50 text-xs">{{(group.questions?.length || 0) +' / '+ 10}}</div>
+                        <div class="text-slate-300 w-full truncate ...">{{group.name}}</div>
+                    </div>
+
+
+                    <button class="w-10 h-10 p-2 block bg-[#255038] rounded-xl disabled:opacity-40" (click)="editGroup(group)" [disabled]="group.type == 'empty'">
+                        <img class="invert cursor-pointer" src="/edit.svg" alt="" />
+                    </button>
+
+                </div>
+                }
+            </div>
+        </div>
+
+
+    </div>
+
+    @if (this.alert) {
+    <alert [data]="this.alert" />
+    }
+    @if (this.alertEdit) {
+    <alert-edit [data]="this.alertEdit" />
+    }
+    @if (this.questionForm) {
+    <question-form [data]="this.questionForm" [question_vault_id]="this.question_vault_id!" />
+    }
+</div>
