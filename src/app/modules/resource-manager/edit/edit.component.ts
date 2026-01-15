@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { Group, Question, Question2, Question_vault, QuestionSet } from 'src/app/core/models/QuestionSet';
+import { Group, Question2, Question_vault } from 'src/app/core/models/QuestionSet';
 import { IndexeddbService } from 'src/app/core/services/indexeddb/indexeddb.service';
 import { GeneralTableResponse } from 'src/app/shared/components/general-table/GeneralTableResponse';
 import { AlertComponent, IAlert } from 'src/app/shared/modals/alert/alert.component';
@@ -8,19 +8,20 @@ import { ResourceManagerService } from '../resource-manager.service';
 import { InputComponent } from 'src/app/shared/components/input/input.component';
 import { PorcentChartComponentXs } from 'src/app/shared/components/porcent-chart/porcent-chart-xs.component';
 import { AlertEditComponent, IAlertEdit } from 'src/app/shared/modals/alert-edit/alert-edit.component';
+import { nowFormatYMDHMS } from 'src/app/shared/date-time.utils';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
+import { GroupsComponent } from 'src/app/shared/modals/groups/groups.component';
 
 @Component({
   selector: 'app-edit',
   standalone: true,
   imports: [
-    QuestionFormComponent,
-    InputComponent, PorcentChartComponentXs, AlertEditComponent, AlertComponent
+    QuestionFormComponent, InputComponent, PorcentChartComponentXs, AlertEditComponent, AlertComponent, GroupsComponent
   ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss'
 })
 export class EditComponent {
-  toastData?: { type: 's' | 'i' | 'w', timeS: number, title?: string, message: string, end: () => void }
   alert?: IAlert
   alertEdit?: IAlertEdit
   questionForm?: IQuestionForm
@@ -30,61 +31,141 @@ export class EditComponent {
   isFreeResource = false
   isTableResouces = true
   generalTableItemSelected = new GeneralTableResponse()
-  listsResources: QuestionSet[] = []
-  question_vaults: Question_vault[] = []
-  dataItemResource: Question  = {}
+  question_vaults: Question_vault | null = null
   question_vault_id?: number
-
   questions?: Question2[]
   groups?: Group[]
   search = ''
+  countChange = 0
+  viewAll = false;
+  selectedQuestions: { [key: string]: boolean } = {}
+  selectedGroups: { [key: string]: boolean } = {}
+  isEditMode = false;
+  groupModal?: { question_vault_id: number, accept: (field: Group) => void, cancel: () => void }
 
   constructor(
-    private readonly changeDetectorRef: ChangeDetectorRef, 
-    private readonly _indexeddbService: IndexeddbService, 
+    private readonly toastService: ToastService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly _indexeddbService: IndexeddbService,
     private readonly _resourseManegerService: ResourceManagerService) {
-    this.questions = this._resourseManegerService.questions
-    this.groups = this._resourseManegerService.groups
     this.question_vault_id = this._resourseManegerService.question_vault_id
   }
 
 
   ngOnInit() {
-    this.listsResources = [
-      {
-        id: "freeVerbes1",
-        name: "Free Verbs",
-        description: "",
-        quantity: 1,
-        completed: 0,
-        questions: []
-      }
-    ]
     this.getData()
   }
 
-  async getData() {
-    await this._resourseManegerService.getQuestionsByVault(this._resourseManegerService.question_vault_id!)
-    await this._resourseManegerService.getGroupsByVault(this._resourseManegerService.question_vault_id!)
-    this._resourseManegerService.setQuestionsToGroups()
-    this.questions = this._resourseManegerService.questions
-    this.groups = this._resourseManegerService.groups
+  moveToGroup() {
+    this.groupModal = {
+      question_vault_id: this.question_vault_id!,
+      accept: async (group: Group) => {
+        if (!group) return
+        for (const [key, value] of Object.entries(this.selectedQuestions)) {
+          if (value === true) {
+            let questionUpdate = this.questions?.find(_question => _question.question_id + "" == key)
+            if (questionUpdate) {
+              questionUpdate.group_id = group.group_id;
+              await this._indexeddbService.updateQuestion(questionUpdate);
+            }
+            this.selectedQuestions[key] = false;
+          }
+        }
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "¡Pregunta movidas con exito!", message: "" });
+        this.isEditMode = false
+        this.groupModal = undefined
+        await this.getData();
+      }, cancel: () => {
+        this.groupModal = undefined
+      }
+    }
     this.changeDetectorRef.detectChanges()
   }
 
-  serach(event: any){
+  selectQuestion(question_id?: number) {
+    if (!question_id) return;
+    this.selectedQuestions[question_id] = !this.selectedQuestions[question_id]
+    if (!this.selectedQuestions[question_id]) {
+      this.isEditMode = false;
+      for (const element of Object.values(this.selectedQuestions)) {
+        if (element) {
+          this.isEditMode = true;
+          return;
+        }
+      }
+    } else {
+      this.isEditMode = true;
+    }
+  }
+
+  async getData() {
+    await this._resourseManegerService.getQuestionsByVault(this._resourseManegerService.question_vault_id!);
+    await this._resourseManegerService.getGroupsByVault(this._resourseManegerService.question_vault_id!);
+    await this._resourseManegerService.setQuestionsToGroups(this._resourseManegerService.question_vault_id!);
+    let aux = await this._indexeddbService.getQuestion_vault(this._resourseManegerService.question_vault_id!);
+    if(aux?.data){
+      this.question_vaults = aux.data;
+    }
+
+    this.questions = this._resourseManegerService.questions;
+    this.groups = this._resourseManegerService.groups;
+    this.countChange++;
+    if ((this.questions?.length || 0) < 20) {
+      this.viewAll = true;
+    }
+    this.changeDetectorRef.detectChanges();
+  }
+
+  toggleGroup(groupID: number) {
+    this.selectedGroups[groupID] = !this.selectedGroups[groupID]
+  }
+
+  serach(event: string) {
+    if(this.groups){
+      this.groups.forEach(res=>{
+        if(res.group_id != null){
+          this.selectedGroups[res.group_id] = true;
+        }
+      })
+      let posWintoutGroup = this.groups[this.groups.length-1].group_id || -1
+      this.selectedGroups[posWintoutGroup] = true;
+    }
+    this.changeDetectorRef.detectChanges();
+
+
     this.search = event
   }
 
   countStars(group: Group): number {
+    let easy = 0
+    let normal = 0
+    for (const question of group.questions ?? []) {
+      if (question.difficulty == 0) {
+        easy++;
+      }
+      if (question.difficulty == 1) {
+        normal++;
+      }
+    }
+    let sum = easy + normal / 2
+    return sum
+  }
+
+  countCompleted(group: Group): number {
     let sum = 0
-    for (const question of group.questions??[]) {
-      sum += Number(question.difficulty!)
+    for (const question of group.questions ?? []) {
+      if (question.difficulty == 0) {
+        sum++
+      }
     }
     return sum
   }
 
-  add(){
+  toggleViewAll() {
+    this.viewAll = !this.viewAll
+  }
+
+  add() {
     this.questionForm = {
       title: 'Agregar pregunta',
       question_vault_id: this._resourseManegerService.question_vault_id!,
@@ -93,26 +174,25 @@ export class EditComponent {
         this.questionForm = undefined
         const data = await this._indexeddbService.insertQuestion(question)
         if (!data) return
-        this.toastData = { type: 's', timeS: 1.5, title: "Pregunta creada con exito!", message: "", end: () => { this.toastData = undefined } }
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta creada con exito!", message: "" });
         await this.getData()
       }, cancel: () => {
         this.questionForm = undefined
       },
-      massive: async (questions: Question2[]) => {
-        console.log('>> >>: question', questions);
+      massive: async (_questions: Question2[]) => {
         this.questionForm = undefined
-        for (const question of questions) {
+        for (const question of _questions) {
           const data = await this._indexeddbService.insertQuestion(question)
           if (!data) throw new Error('Error insert questions')
         }
         await this.getData()
-        this.toastData = { type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "", end: () => { this.toastData = undefined } }
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "" });
       }
     }
 
   }
 
-  async addGroup(){
+  async addGroup() {
     this.alert = {
       title: 'Crear grupo', input: { values: [''], id: 'name', typeFormControl: 'input-text', label: 'Nombre' },
       accept: async (newName: any) => {
@@ -120,14 +200,14 @@ export class EditComponent {
         const group: Group = {
           name: newName,
           cycle: 0,
-          create_at: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 19).replace('T', ' '),
+          create_at: nowFormatYMDHMS(),
           type: '',
           question_vault_id: this._resourseManegerService.question_vault_id
         }
         this.alert = undefined
         const data = await this._indexeddbService.insertGroup(group)
         if (!data) return
-        this.toastData = { type: 's', timeS: 1.5, title: "Grupo creado con exito!", message: "", end: () => { this.toastData = undefined } }
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Grupo creado con exito!", message: "" });
         await this.getData()
       }, cancel: () => {
         this.alert = undefined
@@ -135,26 +215,26 @@ export class EditComponent {
     }
   }
 
-  editQuestion(question: Question2){
+  editQuestion(question: Question2) {
     this.questionForm = {
       title: 'Editar pregunta',
       question: question,
       question_vault_id: this._resourseManegerService.question_vault_id!,
       delete: async (question: Question2) => {
-        if (!question) return
-        this.questionForm = undefined
-        const data = await this._indexeddbService.deleteQuestion(question.question_id!)
-        if (!data) return
-        await this.getData()
-        this.toastData = { type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "", end: () => { this.toastData = undefined } }
+        if (!question) return;
+        this.questionForm = undefined;
+        const data = await this._indexeddbService.deleteQuestion(question.question_id!);
+        if (!data) return;
+        await this.getData();
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "" });
       },
       accept: async (question: Question2) => {
-        if (!question) return
-        this.questionForm = undefined
-        const data = await this._indexeddbService.updateQuestion(question)
-        if (!data) return
-        await this.getData()
-        this.toastData = { type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "", end: () => { this.toastData = undefined } }
+        if (!question) return;
+        this.questionForm = undefined;
+        const data = await this._indexeddbService.updateQuestion(question);
+        if (!data) return;
+        await this.getData();
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "" });
       }, cancel: () => {
         this.questionForm = undefined
       },
@@ -162,7 +242,7 @@ export class EditComponent {
     }
   }
 
-  async editGroup(group: Group){
+  async editGroup(group: Group) {
     this.alertEdit = {
       title: 'Editar grupo', input: { values: [group.name!], id: 'name', typeFormControl: 'input-text', label: 'Nombre' },
       accept: async (newName: any) => {
@@ -170,7 +250,7 @@ export class EditComponent {
         this.alertEdit = undefined
         const data = await this._indexeddbService.renameGroup(group.group_id!, newName)
         if (!data) return
-        this.toastData = { type: 's', timeS: 1.5, title: "Grupo actualizado con exito!", message: "", end: () => { this.toastData = undefined } }
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Grupo actualizado con exito!", message: "" });
 
         await this.getData()
       }, cancel: () => {
@@ -226,7 +306,7 @@ export class EditComponent {
       this.getDataItems(event.object.rowId!)
       this.isTableResouces = false
     } else if ("deleteResource" == event.action) {
-      this.toastData = { type: 's', timeS: 1.5, title: "Successful", message: "Deleted", end: () => { this.toastData = undefined } }
+      this.toastService.setToast({ type: 's', timeS: 1.5, title: "Successful", message: "Deleted" });
       let auxList = this.tableData
       this.tableData = []
       for (const rows of auxList) {
@@ -238,16 +318,16 @@ export class EditComponent {
         }
       }
     } else if ("updateResource" == event.action) {
-      this.toastData = { type: 's', timeS: 1.5, title: "Successful", message: "Updated", end: () => { this.toastData = undefined } }
+      this.toastService.setToast({ type: 's', timeS: 1.5, title: "Successful", message: "Updated" });
     } else if ("insertResource" == event.action) {
-      this.toastData = { type: 's', timeS: 1.5, title: "Successful", message: "Inserted", end: () => { this.toastData = undefined } }
+      this.toastService.setToast({ type: 's', timeS: 1.5, title: "Successful", message: "Inserted" });
     }
     /* this.getData() */
   }
-  eventActionItemResource(event: { action: string, object: Question }) {
+  eventActionItemResource(event: { action: string, object: Question2 }) {
     if ("insertItemResource" == event.action) {
       this.getDataItems(this.generalTableItemSelected.rowId!)
-      this.toastData = { type: 's', timeS: 1.5, title: "Successful", message: "Inserted", end: () => { this.toastData = undefined } }
+      this.toastService.setToast({ type: 's', timeS: 1.5, title: "Successful", message: "Inserted" });
     } else if ("deleteItemResource" == event.action) {
       let auxList = this.tableData
       this.tableData = []
@@ -259,10 +339,10 @@ export class EditComponent {
           }
         }
       }
-      this.toastData = { type: 's', timeS: 1.5, title: "Successful", message: "Deleted", end: () => { this.toastData = undefined } }
+      this.toastService.setToast({ type: 's', timeS: 1.5, title: "Successful", message: "Deleted" });
     } else if ("updateItemResource" == event.action) {
       this.getDataItems(this.generalTableItemSelected.identifierTable!)
-      this.toastData = { type: 's', timeS: 1.5, title: "Successful", message: "Updated", end: () => { this.toastData = undefined } }
+      this.toastService.setToast({ type: 's', timeS: 1.5, title: "Successful", message: "Updated" });
     }
   }
 }

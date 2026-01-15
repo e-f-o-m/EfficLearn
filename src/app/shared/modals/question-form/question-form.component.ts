@@ -10,7 +10,8 @@ import { IndexeddbService } from 'src/app/core/services/indexeddb/indexeddb.serv
 import { TextareaComponent } from 'src/app/shared/components/textarea/textarea.component';
 import { getFileContent, textToQuestions } from 'src/app/core/utils/file';
 import { AlertComponent, IAlert } from '../alert/alert.component';
-import { ToastComponent } from 'src/app/shared/components/toast/toast.component';
+import { nowFormatYMDHMS } from '../../date-time.utils';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 
 
 export interface IQuestionForm { title: string, question_vault_id: number, question?: Question2, delete?: (field: Question2) => void, accept: (field: Question2) => void, cancel: () => void, massive?: (field: Question2[]) => void }
@@ -18,10 +19,7 @@ export interface IQuestionForm { title: string, question_vault_id: number, quest
 @Component({
   selector: 'question-form',
   standalone: true,
-  imports: [ButtonComponent, InputComponent, InputRangeComponent, InputFileComponent, InputSwitchComponent, GroupsComponent, TextareaComponent,
-    AlertComponent,
-    ToastComponent,
-   ],
+  imports: [ButtonComponent, InputComponent, InputRangeComponent, InputFileComponent, InputSwitchComponent, GroupsComponent, TextareaComponent, AlertComponent,],
   templateUrl: './question-form.component.html',
   styleUrls: ['./question-form.component.scss']
 })
@@ -34,6 +32,7 @@ export class QuestionFormComponent {
   isUpdate = false
 
   constructor(
+    private readonly toastService: ToastService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly _indexeddbService: IndexeddbService) {
   }
@@ -56,12 +55,12 @@ export class QuestionFormComponent {
       const groupResult = await this._indexeddbService.getGroupsById(this.data?.question?.group_id)
       if (!groupResult) return
       this.group = groupResult.data
+      this.changeDetectorRef.detectChanges()
     }
 
   }
 
   alert?: IAlert
-  toastData?: { type: 's' | 'i' | 'w', timeS: number, title?: string, message: string, end: () => void }
   openCreateGroups() {
     this.alert = {
       title: 'Crear grupo', input: { values: [''], id: 'name', typeFormControl: 'input-text', label: 'Nombre' },
@@ -70,7 +69,7 @@ export class QuestionFormComponent {
         const group: Group = {
           name: newName,
           cycle: 0,
-          create_at: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 19).replace('T', ' '),
+          create_at: nowFormatYMDHMS(),
           type: '',
           question_vault_id: this.question_vault_id!
         }
@@ -78,7 +77,7 @@ export class QuestionFormComponent {
         const data = await this._indexeddbService.insertGroup(group)
         if (!data) return
 
-        this.toastData = { type: 's', timeS: 1.5, title: "Grupo creado con exito!", message: "", end: () => { this.toastData = undefined } }
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Grupo creado con exito!", message: ""})
       }, cancel: () => {
         this.alert = undefined
       }
@@ -121,11 +120,12 @@ export class QuestionFormComponent {
       this.data?.massive!(questions)
       return
     }
+
     const question: Question2 = {
       description: fields['description'],
       entry_a: fields['entry_a'],
       entry_b: fields['entry_b'],
-      difficulty: (Number(fields['difficulty'])-1) as 0|1|2,
+      difficulty: (Number(fields['difficulty'])) as 0|1|2,
       cycle: Number(fields['cycle']??0),
       group_id: this.group?.group_id,
       question_vault_id: this.data?.question_vault_id!,
@@ -136,7 +136,6 @@ export class QuestionFormComponent {
       question['tags'] = this.data?.question.tags //TODO: falta
       question['question_vault_id'] = this.data?.question.question_vault_id
     }
-      console.log('>> >>: 222 no', );
 
     this.data?.accept(question)
   }

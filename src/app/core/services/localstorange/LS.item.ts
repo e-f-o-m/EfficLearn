@@ -1,4 +1,4 @@
-import { LS_LISTS } from 'src/app/core/constants/constants';
+/* import { LS_LISTS } from 'src/app/core/constants/constants';
 import { Question, QuestionSet } from 'src/app/core/models/QuestionSet';
 
 export function getItemResourceLS(idList: string, idItem: string): Question {
@@ -90,3 +90,4 @@ export async function insertItemResourceLS(data: Question, idResource: string): 
     }
     return statusReturn
 }
+ */

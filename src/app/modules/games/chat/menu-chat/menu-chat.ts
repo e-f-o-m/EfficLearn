@@ -10,6 +10,7 @@ import {Group, Question2} from 'src/app/core/models/QuestionSet';
 import {IndexeddbService} from 'src/app/core/services/indexeddb/indexeddb.service';
 import {getFileContent, textToQuestions} from 'src/app/core/utils/file';
 import {IQuestionForm} from 'src/app/shared/modals/question-form/question-form.component';
+import { nowFormatYMDHMS } from 'src/app/shared/date-time.utils';
 
 @Component({
   selector: 'app-menu-chat',
@@ -81,7 +82,7 @@ export class MenuChat {
         const group: Group = {
           name: newName,
           cycle: 0,
-          create_at: new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 19).replace('T', ' '),
+          create_at: nowFormatYMDHMS(),
           type: '',
           question_vault_id: this.question_vault_id!
         }

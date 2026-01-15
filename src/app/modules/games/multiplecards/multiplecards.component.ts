@@ -68,11 +68,13 @@ export class MultiplecardsComponent {
     this.isDragging = false;
   }
 
+  dragCount = 0
   checkDrag(event: any): void {
+    this.dragCount++
     if (this.currentIndex === -1) return;
     
     const clientX = event.touches ? event.touches[0].clientX : event.clientX;
-    if (Math.abs(clientX - this.dragStartX) > 10) {
+    if (Math.abs(clientX - this.dragStartX) > 15) {
       this.isDragging = true;
     }
   }
@@ -85,11 +87,12 @@ export class MultiplecardsComponent {
     event.clientX;
     const deltaX = clientX - this.dragStartX;
     
-    if (this.isDragging && Math.abs(deltaX) > 50) {
+    if (this.isDragging && Math.abs(deltaX) > 59 && this.dragCount > 37) {
       event.preventDefault();
       deltaX > 0 ? this.swipeRight(item) : this.swipeLeft(item);
     }
     
+    this.dragCount=0
     this.currentIndex = -1;
     this.isDragging = false;
   }
@@ -115,7 +118,7 @@ export class MultiplecardsComponent {
       this._cardsService.updateQuestion(item);
       setTimeout(() => {
         item.animation = 'left-swiped';
-      }, 10);
+      }, 20);
     }, 300);
   }
   
@@ -128,7 +131,7 @@ export class MultiplecardsComponent {
       this._cardsService.updateQuestion(item);
       setTimeout(() => {
         item.animation = 'right-swiped';
-      }, 10);
+      }, 20);
     }, 300);
   }
 

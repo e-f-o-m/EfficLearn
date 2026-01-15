@@ -1,4 +1,4 @@
-import { LS_LISTS } from 'src/app/core/constants/constants';
+/* import { LS_LISTS } from 'src/app/core/constants/constants';
 import { Question, QuestionSet } from 'src/app/core/models/QuestionSet';
 
 export function getNameListsLS(): QuestionSet[] {
@@ -79,3 +79,4 @@ export async function getSelectsResourceLS(): Promise<QuestionSet> {
         throw new Error("Error");
     }
 }
+ */

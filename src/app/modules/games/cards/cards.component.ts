@@ -1,23 +1,26 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListResourcesComponent } from 'src/app/shared/modals/list-resources/list-resources.component';
-import { Group, Question2, QuestionSet } from 'src/app/core/models/QuestionSet';
+import { Group, Question2, STATES_QUESTION } from 'src/app/core/models/QuestionSet';
 import { LogicGameCards } from 'src/app/core/utils/LogicGameCards';
 import { BtnGameComponent } from 'src/app/shared/components/btn-game/btn-game.component';
 import { BtnImgComponent } from 'src/app/shared/components/btn-img/btn-img.component';
 import { BrPipe } from 'src/app/shared/pipes/br.pipe';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LocalstorageService } from 'src/app/core/services/localstorange/localstorange.service';
-import { CardsService } from './cards.service';
+import { CardsService, EModes } from './cards.service';
 import { GroupsComponent } from 'src/app/shared/modals/groups/groups.component';
 import { speak } from 'src/app/core/services/speacking/speacking';
+import { nowFormatYMDHMS } from 'src/app/shared/date-time.utils';
+import { IQuestionForm, QuestionFormComponent } from 'src/app/shared/modals/question-form/question-form.component';
+import { IndexeddbService } from 'src/app/core/services/indexeddb/indexeddb.service';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
+import { IAlert } from 'src/app/shared/modals/alert/alert.component';
+import { CardsModeComponent } from './cards-mode/cards-mode.component';
 
 @Component({
   selector: 'app-trivial',
   standalone: true,
-  imports: [CommonModule, ListResourcesComponent, BtnGameComponent,
-    BtnImgComponent, BrPipe, GroupsComponent
-  ],
+  imports: [CommonModule, BtnGameComponent, CardsModeComponent, BtnImgComponent, QuestionFormComponent, BrPipe, GroupsComponent, RouterLink],
   templateUrl: './cards.component.html',
   styleUrls: ['./cards.component.scss']
 })
@@ -27,15 +30,15 @@ export class CardsComponent {
   @ViewChild("next", { static: false }) next!: ElementRef<HTMLDivElement>;
   toastData?: { type: 's' | 'i' | 'w', timeS: number, title?: string, message?: string, end: () => void }
   groupModal?: { question_vault_id: number, accept: (field: Group) => void, cancel: () => void }
+  modeModal?: IAlert
+  questionForm?: IQuestionForm
 
   isStart = false
   isListResources = false
   isMenuOptions = false
-  listsResources: QuestionSet[] = []
-  questions: Question2[] = []
-  nameNext = "next"
-  nameCurrent = "current"
-  lgc!: LogicGameCards
+  groupSelected: Group | null = null
+  mode: string | null = null;
+
   likeText: any = {}
   startX = 0
   startY = 0
@@ -44,72 +47,92 @@ export class CardsComponent {
   posItem: number = 0
   posItemNext: number = 1
   timeS: number = 5
-  stars:0|1|2 = 2
+  stars: 0 | 1 | 2 = 2
   isEntableToggle = true
   fontSizeCard = 1.5
   speack = false
   isFront = true
-  a=false
+  a = false
+  isDragging = false;
+  question_vault_id: number | null = null;
 
   constructor(
-    private readonly _cardsService: CardsService, 
-    private readonly changeDetectorRef: ChangeDetectorRef, 
-    private readonly router: Router, 
+    private readonly toastService: ToastService,
+    private readonly _indexeddbService: IndexeddbService,
+    private readonly _cardsService: CardsService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly router: Router,
     private readonly _localstorageService: LocalstorageService) {
     this._localstorageService.gameSelected = 'games/cards'
-    const question_vault_id = this._localstorageService.getQuestionVaultSelected()
-    if (!question_vault_id) {
+    this.question_vault_id = this._localstorageService.getQuestionVaultSelected()
+    if (!this.question_vault_id) {
       this.router.navigate(['resource-manager'])
-    }
-  }
-
-  async getData() {
-    const question_vault_id = this._localstorageService.getQuestionVaultSelected()
-    if (!question_vault_id) throw new Error('Error question_vault_id: ' + question_vault_id)
-    await this._cardsService.setQuestionsToGroups(question_vault_id)
-    this.lgc = new LogicGameCards(this._cardsService.groups!)
-  }
-
-  breakLine(arg0: string[]) {
-    return arg0.join().replace(/\\n/g, '<br>');
-  }
-
-  openGroups(){
-    this.groupModal = {
-      question_vault_id: this._localstorageService.getQuestionVaultSelected()!,
-      accept: async (group: Group) => {
-        if (!group) return
-        this.lgc.getData(group)
-
-        this.startX = 0
-        this.startY = 0
-        this.moveX = 0
-        this.moveY = 0
-        this.posItem = 0
-        this.posItemNext = 1
-        this.stars = this.lgc.itemsSelect?.questions![this.posItem]!.difficulty!
-        this.isEntableToggle = true
-        this.speack = false
-        this.isFront = true
-
-        this.changeDetectorRef.detectChanges();
-        this.likeText = this.current.nativeElement.children[0]
-        this.initCard(this.current.nativeElement)
-
-        this.toastData = { type: 's', timeS: 1.5, title: "Grupo seleccionado", message: group.name, end: () => { this.toastData = undefined } }
-        this.groupModal = undefined
-      }, cancel: () => {
-        this.groupModal = undefined
-      }
     }
   }
 
   async ngAfterViewInit() {
     await this.getData()
+    this.startGame();
+  }
+
+  ngOnDestroy() {
+    this.isStart = false;
+    this.isListResources = false;
+    this.isMenuOptions = false;
+    this.speack = false;
+  }
+
+  //Start component, change mode
+  async getData() {
+    if (!this.question_vault_id) throw new Error('Error question_vault_id: ' + this.question_vault_id)
+    await this._cardsService.setQuestionsToGroups(this.question_vault_id);
+    this.groupSelected = this._cardsService.getCurrentGroup()
+    this.mode = this._cardsService.mode;
     this.changeDetectorRef.detectChanges();
-    this.likeText = this.current?.nativeElement?.children?.[0]
-    if(!this.likeText) return;
-    this.initCard(this.current?.nativeElement)
+  }
+
+  //Change group
+  startGame() {
+    this.posItem = 0
+    this.startX = 0
+    this.startY = 0
+    this.moveX = 0
+    this.moveY = 0
+    this.posItem = 0
+    this.posItemNext = 1
+    this.isEntableToggle = true
+    this.isFront = true
+    this.isStart = false
+
+    if (this.groupSelected?.questions?.[this.posItem]) {
+      this.stars = this.groupSelected.questions[this.posItem].difficulty || 0
+      this.likeText = this.current.nativeElement.children[0]
+      this.initCard(this.current.nativeElement)
+      this.likeText = this.current?.nativeElement?.children?.[0]
+      if (this.likeText) {
+        this.initCard(this.current?.nativeElement)
+      }
+    } else {
+      this.stars = 0
+    }
+    this.changeDetectorRef.detectChanges();
+  }
+
+  openGroups() {
+    this.groupModal = {
+      question_vault_id: this._localstorageService.getQuestionVaultSelected()!,
+      accept: async (_group: Group) => {
+        if (!_group) return
+        this._cardsService.setPosGroup(_group.group_id);
+        this.groupSelected = this._cardsService.getCurrentGroup();
+        this.startGame();
+
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Grupo seleccionado", message: _group.name });
+        this.groupModal = undefined;
+      }, cancel: () => {
+        this.groupModal = undefined
+      }
+    }
   }
 
   decrease() {
@@ -118,17 +141,24 @@ export class CardsComponent {
   increase() {
     this.fontSizeCard = this.fontSizeCard + 0.2
   }
-  onInputLimitDay(event: any) {
-    /* this.lgc.resource.limit = Number(event.value) */
-  }
-  replaceCard() {
-    /* this.lgc.manualStateAndReplace(this.lgc.itemsSelect[this.posItem], STATES_CARD.completed) */
-  }
 
-  nextCycle() {
-    this.lgc.changeCycle(this.lgc.itemsSelect?.cycle! + 1)//.then
-    this.posItem = 0
-    this.posItemNext = 1
+  openMode() {
+    this.modeModal = {
+      title: '',
+      message: this._cardsService.mode + '',
+      accept: async (data: EModes) => {
+        if (!data) return
+        this._cardsService.changeMode(data);
+        this.mode = data;
+        this.groupSelected = this._cardsService.getCurrentGroup();
+        this.startGame();
+        this.changeItem(0)
+        this.isMenuOptions = false; 
+        this.modeModal = undefined
+      }, cancel: () => {
+        this.modeModal = undefined
+      }
+    }
   }
 
   routeSelectResourse() {
@@ -139,40 +169,57 @@ export class CardsComponent {
   sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   async speak() {
-    if(!this.lgc.itemsSelect?.questions![this.posItem]?.entry_a) { return };
-    await speak(this.lgc.itemsSelect!.questions![this.posItem]!.entry_a!, "es-ES")
+    if (!this.groupSelected?.questions?.[this.posItem]) { return };
+    if (!this.groupSelected.questions[this.posItem]?.entry_a) { return };
+    await speak(this.groupSelected.questions[this.posItem].entry_a!, "en-US")
   }
   async startPause() {
-    this.isStart = !this.isStart
+    if (!this.groupSelected?.questions) { return };
+
+    this.isStart = !this.isStart;
     while (this.isStart) {
       if (this.timeS < 0.5) {
         this.isStart = false; return
       }
       if (this.speack) {
         //pronunciar ingles
-        /* await speak(this.lgc.itemsSelect![this.posItem].statement![0], "en-EN") */
+        await speak(this.groupSelected.questions[this.posItem].entry_a!, "en-US")
       }
+
+
+      let accelerateTime = (100 * (2 - (this.groupSelected.questions[this.posItem].difficulty || 0)))
       //esperar tiempo seleccionado
-      await this.sleep(this.timeS * 1000);
+
+      await this.sleep(this.timeS * (1000 - accelerateTime));
       if (!this.isStart) {
         return
       };
 
       //voltear tarjeta
-      this.toggleCard(this.lgc.itemsSelect!.questions![this.posItem]!)
+      this.isEntableToggle = true;
+      this.toggleCard()
+      this.changeDetectorRef.detectChanges();
       if (this.speack) {
         //pronunciar en español
-        /* await speak(this.lgc.itemsSelect![this.posItem].answer![0], "es-ES") */
+        await speak(this.groupSelected.questions[this.posItem].entry_b!, "es-ES")
       }
       //esperar
-      await this.sleep(this.timeS * 1000);
+      await this.sleep(this.timeS * (800 - accelerateTime));
       //voltear tarjeta
-      this.toggleCard(this.lgc.itemsSelect!.questions![this.posItem])
+      this.toggleCard()
+      this.changeDetectorRef.detectChanges();
       //voltear esperar
       if (!this.isStart) { return };
 
-      await this.sleep(this.timeS * 1000);
+      await this.sleep(this.timeS * 180);
+      this.isDragging = true;
+
+      this.setTransform(50, -this.frame.nativeElement.clientHeight * 1.2, 30, 280);
+      await this.sleep(180);
       this.changeItem(1)
+      this.setTransform(0, 0, 0, 180);
+
+      this.changeDetectorRef.detectChanges();
     }
   }
 
@@ -198,97 +245,108 @@ export class CardsComponent {
     this.complete()
   }
 
+  countGroupsMode = 0
+  countQuestionsMode = 0
   changeItem(newPos: number) {
-    if ((this.posItem + newPos) < this.lgc.itemsSelect!.questions!.length && (this.posItem + newPos) >= 0) {
-      this.posItem = (this.posItem + newPos)
-      this.posItemNext = this.posItem + 1
+    if (!this.groupSelected?.questions) { return };
 
-      if (this.posItemNext == this.lgc.itemsSelect?.questions!.length!) {
-        this.posItemNext = 0
+    //Mismo grupo
+    if ((this.posItem + newPos) < this.groupSelected.questions.length && (this.posItem + newPos) >= 0) {
+      this.posItem = (this.posItem + newPos);
+      this.posItemNext = this.posItem + 1;
+
+      if (this.posItemNext == this.groupSelected.questions.length) {
+        this.posItemNext = 0;
       }
     } else {
-      this.posItemNext = 1
-      this.posItem = 0
-      //TODO: logica finalización
-      this.toastData = { type: 'i', timeS: 1, title: 'Nuevo ciclo', end: () => { this.toastData = undefined } }
-
-      this.lgc.itemsSelect!.cycle!++
-      this.lgc.itemsSelect!.create_at = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 19).replace('T', ' ')
-      this._cardsService.updateGroup({ ...this.lgc.itemsSelect! })
+      //Finaliza gropo
+      this.posItemNext = 1;
+      this.posItem = 0;
+      if (this.groupSelected?.cycle) {
+        this.groupSelected['cycle'] = 0;
+      }
+      if (this.mode == EModes.thisGroup) {
+        this.toastService.setToast({ type: 'i', timeS: 1, title: 'Nuevo ciclo' });
+        this.groupSelected.cycle!++;
+        this.groupSelected.create_at = nowFormatYMDHMS();
+        this._cardsService.updateGroup({ ...this.groupSelected });
+      }
     }
-    this.isFront = true
+
+    this.isFront = true;
+
+    //Si es todos los groups, siguiente grupo, si está vacío 
+    if ((this.mode == EModes.everything || this.mode == EModes.onlyHardGroups || this.mode == EModes.onlyMediumGroups || this.mode == EModes.onlyEasyGroups)) {
+      //Siguiente grupo, recorrido en circulo
+      if(this.posItem == 0){
+        this.groupSelected = this._cardsService.nextGroup();
+        this.countQuestionsMode = 0;
+      }
+
+      //Error: No debe entrar aquí
+      if (this.countGroupsMode > this._cardsService.groups.length) {
+        this.toastService.setToast({ title: "Error 500: No se encontraron grupos", type: 'w', timeS: 2 })
+        this.countGroupsMode = 0;
+        return;
+      }
+
+      //Si el grupo no tiene preguntas, 
+      if (!this.groupSelected?.questions
+        || (this.groupSelected.questions && !this.groupSelected.group_id && this.mode !== EModes.everything)
+        || (this.groupSelected.questions && this.groupSelected.questions.length == 0)) {
+
+          this.countGroupsMode++;
+          this.changeItem(0);
+          return;
+      } else {
+        this.countGroupsMode = 0;
+      }
+    }
+
+    if (this.mode != EModes.thisGroup) {
+      if (this.countQuestionsMode > this.groupSelected.questions.length - 1) {
+        this.countQuestionsMode = 0;
+        this.toastService.setToast({ title: "Sin existencias", type: 'w', timeS: 1 })
+        this.mode = EModes.thisGroup;
+        return;
+      } else if (this.mode == EModes.everything) {
+        this.countQuestionsMode = 0;
+      } else if ((this.mode == EModes.onlyEasyGroups || this.mode == EModes.onlyEasy) && this.groupSelected.questions[this.posItem].difficulty == 0) {
+        this.countQuestionsMode = 0;
+      } else if ((this.mode == EModes.onlyMediumGroups || this.mode == EModes.onlyMedium) && this.groupSelected.questions[this.posItem].difficulty == 1) {
+        this.countQuestionsMode = 0;
+      } else if ((this.mode == EModes.onlyHardGroups || this.mode == EModes.onlyHard) && this.groupSelected.questions[this.posItem].difficulty == 2) {
+        this.countQuestionsMode = 0;
+      } else {
+        this.countQuestionsMode++;
+        this.changeItem(1);
+      }
+    }
   }
 
-  toggleCard(data: Question2) {
+  toggleCard() {
     if (this.isEntableToggle) {
       this.isFront = !this.isFront
     }
   }
 
   random() {
-    const shuffledArray = [...this.lgc.itemsSelect!.questions!]; // Crear una copia del array original
+    if (!this.groupSelected?.questions) { return };
+    const shuffledArray = [...this.groupSelected.questions]; // Crear una copia del array original
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1)); // Obtener un índice aleatorio
       // Intercambiar elementos
       [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
     }
-    this.lgc.itemsSelect!.questions! = shuffledArray
+    this.groupSelected.questions = shuffledArray
     this.isMenuOptions = false
+    this.changeDetectorRef.detectChanges();
   }
 
   initCard = (card: any) => {
     card.addEventListener('pointerdown', this.onPointerDown)
   }
 
-  setTransform = (x: number, y: number, deg: number, duration: number) => {
-    this.current.nativeElement.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${deg}deg)`
-    this.likeText.style.display = "flex"
-    this.likeText.style.zIndex = "1000"
-    this.likeText.style.opacity = Math.abs((x / innerWidth * 2.1) + (y / innerWidth * 1.2))
-
-    if (x > 50 && y > -100 && y < 100) {
-      this.likeText.className = `is-like like`
-      this.stars = 2
-    } else if (x < -50 && y > -100 && y < 100) {
-      this.likeText.className = `is-like nope`
-      this.stars = 0
-    } else if (x > -80 && x < 80 && y < 0) {
-      this.likeText.className = `is-like medium`
-      this.stars = 1
-    }
-
-    if (duration) this.current.nativeElement.style.transition = `transform ${duration}ms`
-  }
-
-  onPointerDown = (event: PointerEvent) => {
-    this.startX = event.clientX
-    this.startY = event.clientY
-    if (this.current) {
-      this.current.nativeElement.addEventListener('pointermove', this.onPointerMove)
-      this.current.nativeElement.addEventListener('pointerup', this.onPointerUp)
-      this.current.nativeElement.addEventListener('pointerleave', this.onPointerUp)
-    }
-  }
-
-  onPointerMove = (event: PointerEvent) => {
-    this.isEntableToggle = false
-    this.moveX = event.clientX - this.startX
-    this.moveY = event.clientY - this.startY
-    this.setTransform(this.moveX, this.moveY, this.moveX / innerWidth * 50, 0)
-  }
-
-  onPointerUp = () => {
-    this.current.nativeElement.removeEventListener('pointermove', this.onPointerMove)
-    this.current.nativeElement.removeEventListener('pointerup', this.onPointerUp)
-    this.current.nativeElement.removeEventListener('pointerleave', this.onPointerUp)
-    if (Math.abs(this.moveY) > this.frame.nativeElement.clientHeight / 2.2) {
-      this.current.nativeElement.removeEventListener('pointerdown', this.onPointerDown)
-      this.complete()
-    } else if (Math.abs(this.moveX) > this.frame.nativeElement.clientWidth / 2.1) {
-      this.current.nativeElement.removeEventListener('pointerdown', this.onPointerDown)
-      this.complete()
-    } else this.cancel()
-  }
 
   complete = () => {
     let flyX = (Math.abs(this.moveX) / this.moveX) * innerWidth * 1.3
@@ -299,20 +357,28 @@ export class CardsComponent {
     }
 
     this.setTransform(flyX, flyY, flyX / innerWidth * 50, 20)
-    
 
     setTimeout(() => {
       this.setTransform(0, 0, 0, 0)
       this.initCard(this.current.nativeElement)
       setTimeout(() => {
+        if (!this.groupSelected?.questions?.[this.posItem]) { return };
+        let q = this.groupSelected.questions[this.posItem];
         this.current.nativeElement.style.transition = ''
+        q.difficulty = this.stars
+        q.cycle = q.cycle !== undefined ? q.cycle + 1 : 0
 
+        if (q.difficulty > 0) {
+          //Difícil y medio
+          q.state = STATES_QUESTION.review
+        } else if (q.difficulty === 0) {
+          //Fácil
+          q.state = STATES_QUESTION.completed
+        }
 
-        this.lgc.itemsSelect!.questions![this.posItem]!.difficulty = this.stars
-        this.lgc.setStars(this.lgc.itemsSelect!.questions![this.posItem]!)
-
+        this.groupSelected.questions[this.posItem] = q
+        this._cardsService.updateQuestion(this.groupSelected.questions[this.posItem])
         this.changeItem(1)
-        this._cardsService.updateQuestion(this.lgc.itemsSelect!.questions![this.posItem]!)
 
         this.moveX = 0
         this.moveY = 0
@@ -321,6 +387,103 @@ export class CardsComponent {
         this.changeDetectorRef.detectChanges();
       })
     }, 200)
+  }
+
+  editQuestion(question: Question2) {
+    this.questionForm = {
+      title: 'Editar pregunta',
+      question: question,
+      question_vault_id: question.question_vault_id!,
+      delete: async (question: Question2) => {
+        if (!question) return;
+        this.questionForm = undefined;
+        const data = await this._indexeddbService.deleteQuestion(question.question_id!);
+        if (!data) return;
+        await this.getData();
+        this.isMenuOptions = false; 
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "" });
+      },
+      accept: async (question: Question2) => {
+        if (!question) return;
+        this.questionForm = undefined;
+        const data = await this._indexeddbService.updateQuestion(question);
+        if (!data) return;
+        await this.getData();
+        this.isMenuOptions = false; 
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "" });
+      }, cancel: () => {
+        this.questionForm = undefined
+      },
+
+    }
+  }
+
+  /* ================= SWIPE ================= */
+
+  setTransform = (x: number, y: number, deg: number, duration: number) => {
+    this.current.nativeElement.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${deg}deg)`
+    this.likeText.style.display = "flex"
+    this.likeText.style.zIndex = "1000"
+    this.likeText.style.opacity = Math.abs((x / innerWidth * 2.1) + (y / innerWidth * 1.2))
+
+    if (x > 50 && y > -100 && y < 100) {
+      this.likeText.className = `is-like like`
+      this.stars = 0
+    } else if (x < -50 && y > -100 && y < 100) {
+      this.likeText.className = `is-like nope`
+      this.stars = 2
+    } else if (x > -80 && x < 80 && y < 0) {
+      this.likeText.className = `is-like medium`
+      this.stars = 1
+    }
+
+    if (duration) this.current.nativeElement.style.transition = `transform ${duration}ms`
+  }
+
+  onPointerDown = (event: PointerEvent) => {
+    this.isDragging = false;
+    this.startX = event.clientX
+    this.startY = event.clientY
+    if (this.current) {
+      this.current.nativeElement.addEventListener('pointermove', this.onPointerMove)
+      this.current.nativeElement.addEventListener('pointerup', this.onPointerUp)
+      this.current.nativeElement.addEventListener('pointerleave', this.onPointerUp)
+    }
+  }
+
+  onPointerMove = (event: PointerEvent) => {
+    this.moveX = event.clientX - this.startX;
+    this.moveY = event.clientY - this.startY;
+    // Calcular la distancia total movida (teorema de Pitágoras)
+    const distance = Math.sqrt(this.moveX * this.moveX + this.moveY * this.moveY);
+    // Umbral mínimo (ej: 5px)
+    const MIN_MOVE_THRESHOLD = 5;
+    if (distance > MIN_MOVE_THRESHOLD) {
+      this.isEntableToggle = false; // No es un click, es arrastre
+      this.setTransform(this.moveX, this.moveY, this.moveX / innerWidth * 50, 0);
+    } else {
+      this.isEntableToggle = true;
+    }
+  }
+
+  onPointerUp = () => {
+    this.current.nativeElement.removeEventListener('pointermove', this.onPointerMove)
+    this.current.nativeElement.removeEventListener('pointerup', this.onPointerUp)
+    this.current.nativeElement.removeEventListener('pointerleave', this.onPointerUp)
+
+    // Si no fue un drag, ejecutar toggle
+    if (!this.isDragging && this.isEntableToggle !== false) {
+      return
+    }
+    this.isDragging = false;
+
+    if (Math.abs(this.moveY) > this.frame.nativeElement.clientHeight / 2.2) {
+      this.current.nativeElement.removeEventListener('pointerdown', this.onPointerDown)
+      this.complete()
+    } else if (Math.abs(this.moveX) > this.frame.nativeElement.clientWidth / 2.1) {
+      this.current.nativeElement.removeEventListener('pointerdown', this.onPointerDown)
+      this.complete()
+    } else this.cancel()
   }
 
   cancel = () => {
@@ -334,4 +497,8 @@ export class CardsComponent {
   }
 
 
+  /* Other */
+  breakLine(arg0: string[]) {
+    return arg0.join().replace(/\\n/g, '<br>');
+  }
 }

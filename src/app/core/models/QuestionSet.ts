@@ -1,27 +1,3 @@
-export interface QuestionSet {
-    id?: string
-    name?: string
-    description?: string
-    limit?: number
-    currentCycle?: number
-    time?: number
-    questions?: Question[]
-    practiceMode?: string //Id o identifier mode game
-    
-    quantity?: number
-    completed?: number
-}
-
-/* 
-identificador unico
-statemnts enunciados de la pregunta
-answers respuetas de la pregunta en el mismo orden
-rangeCompleted Logrado o completado 5 estrellas
-observaciones de la pregunta, separar texto explicativo por ejemplo
-state 
-
-*/
-
 export interface Group {
     group_id?: number,
     name?: string,
@@ -52,11 +28,10 @@ export interface Question2 {
     state?: 'review'|'due'|'completed'|'suspend'
     question_vault_id?: number
     //OTHERS
-    reviewCount?: number
     animation?: string
 }
 
-export interface Question {
+export interface Questionx {
     id?: string
     statement?: string[]
     answer?: string[]
@@ -68,7 +43,7 @@ export interface Question {
     cycle?: number
     currentCycle?: number
     isStatement?: boolean
-    reviewCount?: number
+    review_count?: number
 }
 
 export enum STATES_QUESTION {

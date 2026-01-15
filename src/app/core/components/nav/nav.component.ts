@@ -4,6 +4,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { AlertComponent, IAlert } from '../../../shared/modals/alert/alert.component';
+import { IndexeddbService } from '../../services/indexeddb/indexeddb.service';
 
 @Component({
   selector: 'app-nav',
@@ -25,6 +26,7 @@ export default class NavComponent {
 
   constructor(
     private readonly firebaseService: FirebaseService, 
+    private readonly _indexeddbService: IndexeddbService,
     private readonly _changeDetectorRef: ChangeDetectorRef) {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: any) => {
       this.setStateNav(event.url)
@@ -35,13 +37,11 @@ export default class NavComponent {
 
   ngAfterViewInit() {
     this.firebaseService.auth$.subscribe(state  => {
-      if (state.loading) {
-        return;
-      }
+      if (state.loading) { return; }
       if (state.user) {
         this.isLoggedIn = true
 
-        this.firebaseService.getUserName().then((userDB: string | null) => {
+        this.firebaseService.userDB$.subscribe(userDB => {
           if(userDB) return
           this.alert = {
             title: 'Actualizar nombre', input: { values: [''], id: 'name', label: 'Nombre de usuario', typeFormControl: 'input-text' },
@@ -62,8 +62,6 @@ export default class NavComponent {
           this._changeDetectorRef.detectChanges();
         })
         this._changeDetectorRef.detectChanges();
-
-
       }
     });
   }
@@ -86,6 +84,8 @@ export default class NavComponent {
 
   signOut(){
     this.firebaseService.logout().then(r => {
+      this._indexeddbService.deleteDatabase();
+      this.router.navigate([]);
       console.log('>> >>: logout', r);
     })
   }

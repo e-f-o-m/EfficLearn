@@ -1,24 +1,10 @@
-$top: 3.1rem;
-
 .background{
     position: fixed;
     top: 0;
-    background-color: #192726;
     height: 100%;
     width: 100%;
     z-index: -1;
-    &::after {
-        content: '';
-        position: fixed;
-        top: 0;
-        background-image: url(/backgrounds/background.svg);
-        background-size: cover;
-        height: 100%;
-        width: 100%;
-        opacity: 0.09;
-    }
 }
 .layount-container {
-    /* padding-top: calc($top); */
-    height: calc(99.9% );
+    height: 100dvh;
 }

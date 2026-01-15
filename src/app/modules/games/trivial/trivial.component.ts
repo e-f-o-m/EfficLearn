@@ -1,15 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListResourcesComponent } from 'src/app/shared/modals/list-resources/list-resources.component';
-import { Question, QuestionSet, STATES_CARD } from 'src/app/core/models/QuestionSet';
-import { deleteSelectsResourceLS, getLastListsLS, getListLS, getNameListsLS, getSelectsResourceLS, insertResourceLS } from 'src/app/core/services/localstorange/LS.list';
-import { speak } from 'src/app/core/services/speacking/speacking';
-import { ButtonComponent } from 'src/app/shared/components/button/button.component';
-import { LogicGameCards } from 'src/app/core/utils/LogicGameCards';
-import { BtnGameComponent } from 'src/app/shared/components/btn-game/btn-game.component';
-import { BtnImgComponent } from 'src/app/shared/components/btn-img/btn-img.component';
-import { BrPipe } from 'src/app/shared/pipes/br.pipe';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-trivial',

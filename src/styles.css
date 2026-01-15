@@ -6,6 +6,7 @@
   --h-nav: 54px;
   --text-dark: #1c1e1e;
   --text-dark-secondary: #5d5d5d;
+
 }
 
 @font-face {
@@ -18,12 +19,33 @@
 
 @theme {
   /* opago #244c43  brillante #005349*/
-  --color-bg: #1a4e48;
-  --color-primary: #419E26;
+  --color-bg: #07453e;
+  --color-primary: #269B6A;
 
   --background-image-bg-gradient: linear-gradient(-155deg, #19493FBE, var(--color-bg), var(--color-bg));
 
   --color-primary-100: #91d87e;
   --color-primary-600: #2e8116;
   --font-display: "josefin-sans", "sans-serif";
+}
+
+
+/* En tu archivo CSS global */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #0d0f0e;
+  border-radius: 6px;
+  border: solid 1px #106a6b56;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #10696b;
+  border-radius: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #0c5051; /* blue-600 */
 }

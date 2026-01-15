@@ -3,7 +3,7 @@
 </div>
 <div class="block_spacing" [class]="{'hidden': isNavHidden}"></div>
 
-<header class="nav" [class]="{'hidden': isNavHidden}">
+<header class="nav bg-bg" [class]="{'hidden': isNavHidden}">
 
     <div class="name_page">{{namePage}}</div>
 
@@ -47,9 +47,9 @@
         <ul class="menu menu-right">
           <li class="contact">
             @if (isLoggedIn === true) {
-              <a class="link" (click)="signOut()">
+              <a class="link" routerLink="profile">
                 <i class="ico"></i>
-                <span class="text-nowrap">Cerrar sesión</span>
+                <span class="text-nowrap">Perfil</span>
               </a>
             } @else {
               <a class="link" (click)="openLogin()">

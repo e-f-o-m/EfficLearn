@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Question2 } from 'src/app/core/models/QuestionSet';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
-import { Question } from 'src/app/core/models/QuestionSet';
-import { deleteItemResourceLS, insertItemResourceLS, updateItemResourceLS } from 'src/app/core/services/localstorange/LS.item';
 
 @Component({
   selector: 'edit-item',
@@ -12,10 +11,10 @@ import { deleteItemResourceLS, insertItemResourceLS, updateItemResourceLS } from
 })
 export class EditItemComponent {
   @Input() show = false;
-  @Input() data: Question = {};
+  @Input() data: Question2 = {};
   @Input() idResource: string = "";
   @Output() eventShow = new EventEmitter<boolean>(false);
-  @Output() eventActionItemResource = new EventEmitter<{ action: string, object: Question }>();
+  @Output() eventActionItemResource = new EventEmitter<{ action: string, object: Question2 }>();
   toggleShow() {
     this.show = !this.show;
     this.eventShow.emit(this.show)

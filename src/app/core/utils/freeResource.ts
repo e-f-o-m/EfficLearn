@@ -1,1305 +1,552 @@
-import { QuestionSet } from "src/app/core/models/QuestionSet";
+/* import { QuestionSet } from "src/app/core/models/QuestionSet"; */
 
 
-export const GRAMMAR_QUESTIONS: string = `She is a talented artist.
-TO BE: ORACIONES AFIRMATIVAS\\nSUJETO+VERBO TO BE+COMPLEMENTOS\\nElla es una artista talentosa
-
-They are not teachers.
-TO BE: ORACIONES NEGATIVAS\\nSUJETO+VERBO TO BE+NOT+COMPLEMENTOS\\nEllos no son profesores.
-
-Is she your sister?
-TO BE: ORACIONES INTERROGATIVAS\\nVERBO TO BE+SUJETO+COMPLEMENTOS\\n¿Es ella tu hermana?
-
-What is that?
-WORD QUESTION\\nQUESTION WORD+VERBO TO BE+SUJETO+COMPLEMENTOS\\n¿Qué es eso?
-
-There is a cat on the bed.
-THERE IS/ARE: ORACIONES AFIRMATIVAS\\nTHERE IS/ARE+COMPLEMENTOS\\nHay un gato en la cama.
-
-There aren’t any books on the table.
-THERE IS/ARE: ORACIONES NEGATIVAS\\nTHERE IS/ARE NOT+COMPLEMENTOS\\nNo hay libros en la mesa.
-
-Is there a phone in your bag?
-THERE IS/ARE: ORACIONES INTERROGATIVAS\\nIS/ARE THERE+COMPLEMENTOS\\n¿Hay un teléfono en tu bolsa?
-
-The book is on the table.
-ARTÍCULOS\\nARTÍCULO+SUSTANTIVO+COMPLEMENTOS\\nEl libro está en la mesa.
-
-He is a good person.
-ADJETIVOS\\nSUJETO+VERBO TO BE+ADJETIVO+COMPLEMENTOS\\nÉl es una buena persona.
-
-I have two brothers.
-CONJUGACIÓN DEL VERBO TO HAVE Y ESTRUCTURAS: ORACIONES AFIRMATIVAS\\nSUJETO+VERBO TO HAVE+COMPLEMENTOS\\nTengo dos hermanos.
-
-I don’t have any money.
-CONJUGACIÓN DEL VERBO TO HAVE Y ESTRUCTURAS: ORACIONES NEGATIVAS\\nSUJETO+VERBO TO HAVE+NOT+COMPLEMENTOS\\nNo tengo dinero.
-
-Do you have a car?
-CONJUGACIÓN DEL VERBO TO HAVE Y ESTRUCTURAS: ORACIONES INTERROGATIVAS\\nDO/DOES+SUJETO+VERBO TO HAVE+COMPLEMENTOS\\n¿Tienes un coche?
-
-This is my house.
-PRONOMBRES DEMOSTRATIVOS\\nTHIS/THAT/THESE/THOSE+VERBO TO BE+COMPLEMENTOS\\nEsta es mi casa.
-
-Their car is blue.
-PRONOMBRES\\nSUJETO+VERBO TO BE+PRONOMBRE+COMPLEMENTOS\\nSu coche es azul.
-
-I gave it to him.
-PRONOMBRES DE OBJETO\\nSUJETO+VERBO+PRONOMBRE DE OBJETO+COMPLEMENTOS\\nSe lo di a él.
-
-This book is mine.
-PRONOMBRES POSESIVOS\\nSUJETO+VERBO TO BE+PRONOMBRE POSESIVO+COMPLEMENTOS\\nEste libro es mío.
-
-This is John's car.
-GENITIVO SAJÓN\\nSUJETO+VERBO TO BE+POSSESSOR'S+SUSTANTIVO+COMPLEMENTOS\\nEste es el coche de John.
-
-She is studying English.
-PRESENTE CONTINUO\\nSUJETO+VERBO TO BE+VERBO EN -ING+COMPLEMENTOS\\nElla está estudiando inglés.
-
-I’m running quickly.
-ING SPELLING\\nSUJETO+VERBO TO BE+VERBO EN -ING+COMPLEMENTOS\\nEstoy corriendo rápidamente.
-
-She plays the piano.
-PRESENTE SIMPLE\\nSUJETO+VERBO EN PRESENTE+COMPLEMENTOS\\nElla toca el piano.
-
-I was at home yesterday.
-PASADO DEL VERBO TO BE\\nSUJETO+VERBO TO BE EN PASADO+COMPLEMENTOS\\nYo estuve en casa ayer.
-
-He visited his grandparents last week.
-PASADO SIMPLE\\nSUJETO+VERBO EN PASADO SIMPLE+COMPLEMENTOS\\nÉl visitó a sus abuelos la semana pasada.
-
-She was reading a book.
-PASADO CONTINUO\\nSUJETO+VERBO TO BE EN PASADO+VERBO EN -ING+COMPLEMENTOS\\nElla estaba leyendo un libro.
-
-She is as tall as her brother.
-COMPARATIVO DE IGUALDAD\\nSUJETO+VERBO TO BE+AS+ADJETIVO+AS+COMPLEMENTOS\\nElla es tan alta como su hermano.
-
-He is taller than me.
-COMPARATIVO DE SUPERIORIDAD\\nSUJETO+VERBO TO BE+ADJETIVO EN COMPARATIVO+THAN+COMPLEMENTOS\\nÉl es más alto que yo.
-
-This is the best movie.
-SUPERLATIVO\\nSUJETO+VERBO TO BE+THE+ADJETIVO EN SUPERLATIVO+COMPLEMENTOS\\nEsta es la mejor película.
-
-This is the most interesting book.
-THE MOST + ADJETIVO\\nSUJETO+VERBO TO BE+THE MOST+ADJETIVO+COMPLEMENTOS\\nEste es el libro más interesante.
-
-Good is better than bad.
-ADJETIVOS IRREGULARES\\nSUJETO+VERBO TO BE+ADJETIVO IRREGULAR+THAN+COMPLEMENTOS\\nBueno es mejor que malo.
-
-The meeting is in the morning.
-PREPOSICIONES DE TIEMPO: IN\\nSUJETO+VERBO TO BE+PREPOSICIÓN+COMPLEMENTOS\\nLa reunión es en la mañana.
-
-The party is on Friday.
-PREPOSICIONES DE TIEMPO: ON\\nSUJETO+VERBO TO BE+PREPOSICIÓN+COMPLEMENTOS\\nLa fiesta es el viernes.
-
-The bus arrives at 8 o’clock.
-PREPOSICIONES DE TIEMPO: AT\\nSUJETO+VERBO+PREPOSICIÓN+HORA+COMPLEMENTOS\\nEl bus llega a las 8 en punto.
-
-The cat is under the table.
-PREPOSICIONES DE LUGAR\\nSUJETO+VERBO TO BE+PREPOSICIÓN+LUGAR+COMPLEMENTOS\\nEl gato está debajo de la mesa.
-
-We will meet after lunch.
-OTRAS PREPOSICIONES DE TIEMPO\\nSUJETO+VERBO+PREPOSICIÓN+COMPLEMENTOS\\nNos encontraremos después del almuerzo.
-
-The dog is behind the house.
-OTRAS PREPOSICIONES DE LUGAR\\nSUJETO+VERBO TO BE+PREPOSICIÓN+LUGAR+COMPLEMENTOS\\nEl perro está detrás de la casa.
-
-There is some water in the fridge.
-EXPRESIÓN DE CANTIDAD: SOME\\nSUJETO+VERBO TO BE+EXPRESIÓN+COMPLEMENTOS\\nHay algo de agua en la nevera.
-
-There isn’t any sugar in the cupboard.
-EXPRESIÓN DE CANTIDAD: ANY\\nSUJETO+VERBO TO BE+EXPRESIÓN+COMPLEMENTOS\\nNo hay azúcar en el armario.
-
-Is there some milk in the fridge?
-SOME EN ORACIONES INTERROGATIVAS\\nIS/ARE THERE+EXPRESIÓN+COMPLEMENTOS\\n¿Hay algo de leche en la nevera?
-
-She has already finished the work.
-VERB TENSES: PRESENT PERFECT\\nSUJETO+VERBO TO HAVE+VERBO EN PARTICIPIO+COMPLEMENTOS\\nElla ya ha terminado el trabajo.
-
-I haven’t seen that movie yet.
-PRESENT PERFECT: O. NEGATIVAS\\nSUJETO+VERBO TO HAVE+NOT+VERBO EN PARTICIPIO+COMPLEMENTOS\\nNo he visto esa película todavía.
-
-Have you ever been to London?
-PRESENT PERFECT: O. INTERROGATIVAS\\nVERBO TO HAVE+SUJETO+VERBO EN PARTICIPIO+COMPLEMENTOS\\n¿Alguna vez has estado en Londres?
-
-I have just finished my homework.
-PRESENT PERFECT: JUST\\nSUJETO+VERBO TO HAVE+JUST+VERBO EN PARTICIPIO+COMPLEMENTOS\\nAcabo de terminar mi tarea.
-
-They had already left when I arrived.
-PAST PERFECT: O. AFIRMATIVAS\\nSUJETO+VERBO TO HAVE EN PASADO+VERBO EN PARTICIPIO+COMPLEMENTOS\\nEllos ya se habían ido cuando llegué.
-
-She hadn’t eaten before the meeting.
-PAST PERFECT: O. NEGATIVAS\\nSUJETO+VERBO TO HAVE EN PASADO+NOT+VERBO EN PARTICIPIO+COMPLEMENTOS\\nElla no había comido antes de la reunión.
-
-Had they finished the project by noon?
-PAST PERFECT: O. INTERROGATIVAS\\nVERBO TO HAVE EN PASADO+SUJETO+VERBO EN PARTICIPIO+COMPLEMENTOS\\n¿Habían terminado el proyecto para el mediodía?
-
-We will travel next week.
-FUTURO CON WILL\\nSUJETO+WILL+VERBO+COMPLEMENTOS\\nViajaremos la próxima semana.
-
-I am going to buy a new car.
-FUTURO CON TO BE GOING TO\\nSUJETO+VERBO TO BE+GOING TO+VERBO+COMPLEMENTOS\\nVoy a comprar un coche nuevo.
-
-If it rains, I will stay home.
-CONDICIONALES DE TIPO 1: PROBABLES\\nIF+SUJETO+VERBO EN PRESENTE, SUJETO+WILL+VERBO\\nSi llueve, me quedaré en casa.
-
-If I were rich, I would travel the world.
-CONDICIONALES DE TIPO 2: IMPROBABLES\\nIF+SUJETO+VERBO EN PASADO, SUJETO+WOULD+VERBO\\nSi fuera rico, viajaría por el mundo.
-
-If they had studied, they would have passed the exam.
-CONDICIONALES TIPO 3: IMPOSIBLES\\nIF+SUJETO+HAD+VERBO EN PARTICIPIO, SUJETO+WOULD HAVE+VERBO EN PARTICIPIO\\nSi hubieran estudiado, habrían aprobado el examen.
-`
-
-
-export const tempData: QuestionSet = {
-  id: "tempData_borrar",
-  name: "Temp - Borrar",
-  description: "",
-  quantity: 27,
-  limit: 3,
-  completed: 0,
-  currentCycle: 0,
-  /* questions: [
-    {statement:["a"], answer:["r-a"], isStatement:true},
-    {statement:["b"], answer:["r-b"], isStatement:true},
-    {statement:["c"], answer:["r-c"], isStatement:true},
-    {statement:["d"], answer:["r-d"], isStatement:true},
-    {statement:["e"], answer:["r-e"], isStatement:true},
-    {statement:["f"], answer:["r-f"], isStatement:true},
-    {statement:["g"], answer:["r-g"], isStatement:true},
-    {statement:["h"], answer:["r-h"], isStatement:true},
-    {statement:["i"], answer:["r-i"], isStatement:true},
-    {statement:["j"], answer:["r-j"], isStatement:true},
-    {statement:["k"], answer:["r-k"], isStatement:true},
-    {statement:["l"], answer:["r-l"], isStatement:true},
-    {statement:["m"], answer:["r-m"], isStatement:true},
-    {statement:["n"], answer:["r-n"], isStatement:true},
-    {statement:["ñ"], answer:["r-ñ"], isStatement:true},
-    {statement:["o"], answer:["r-o"], isStatement:true},
-    {statement:["p"], answer:["r-p"], isStatement:true},
-    {statement:["q"], answer:["r-q"], isStatement:true},
-    {statement:["r"], answer:["r-r"], isStatement:true},
-    {statement:["s"], answer:["r-s"], isStatement:true},
-    {statement:["t"], answer:["r-t"], isStatement:true},
-    {statement:["u"], answer:["r-u"], isStatement:true},
-    {statement:["v"], answer:["r-v"], isStatement:true},
-    {statement:["w"], answer:["r-w"], isStatement:true},
-    {statement:["x"], answer:["r-x"], isStatement:true},
-    {statement:["y"], answer:["r-y"], isStatement:true},
-    {statement:["z"], answer:["r-z"], isStatement:true},
-  ] */
-}
-
-
-export const freeVerbs: QuestionSet = {
-      id: "freeVerbes1",
-      name: "Free Verbs",
-      description: "",
-      quantity: 1100,
-      limit: 10,
-      completed: 0,
-      /* questions: [
-        {statement:["a"],answer:["una"], isStatement:true},
-        {statement:["ability"],answer:["capacidad"], isStatement:true},
-        {statement:["able"],answer:["poder"], isStatement:true},
-        {statement:["about"],answer:["acerca de"], isStatement:true},
-        {statement:["above"],answer:["encima"], isStatement:true},
-        {statement:["access"],answer:["acceso"], isStatement:true},
-        {statement:["accept"],answer:["aceptar"], isStatement:true},
-        {statement:["accord"],answer:["acuerdo"], isStatement:true},
-        {statement:["account"],answer:["cuenta"], isStatement:true},
-        {statement:["achieve"],answer:["lograr"], isStatement:true},
-        {statement:["across"],answer:["a través de"], isStatement:true},
-        {statement:["act"],answer:["acto"], isStatement:true},
-        {statement:["action"],answer:["acción"], isStatement:true},
-        {statement:["actually"],answer:["en realidad / de hecho"], isStatement:true},
-        {statement:["add"],answer:["añadir"], isStatement:true},
-        {statement:["addition"],answer:["adición"], isStatement:true},
-        {statement:["address"],answer:["dirección"], isStatement:true},
-        {statement:["adult"],answer:["adulto"], isStatement:true},
-        {statement:["advance"],answer:["avanzar"], isStatement:true},
-        {statement:["advantage"],answer:["ventaja"], isStatement:true},
-        {statement:["affect"],answer:["afectar"], isStatement:true},
-        {statement:["after"],answer:["después"], isStatement:true},
-        {statement:["afternoon"],answer:["tarde"], isStatement:true},
-        {statement:["again"],answer:["otra vez"], isStatement:true},
-        {statement:["against"],answer:["en contra"], isStatement:true},
-        {statement:["agency"],answer:["agencia"], isStatement:true},
-        {statement:["agent"],answer:["agente"], isStatement:true},
-        {statement:["ago"],answer:["hace"], isStatement:true},
-        {statement:["agree"],answer:["de acuerdo"], isStatement:true},
-        {statement:["agreement"],answer:["acuerdo"], isStatement:true},
-        {statement:["ahead"],answer:["adelante"], isStatement:true},
-        {statement:["aim"],answer:["objetivo"], isStatement:true},
-        {statement:["air"],answer:["aire"], isStatement:true},
-        {statement:["all"],answer:["todos"], isStatement:true},
-        {statement:["allow"],answer:["permitir"], isStatement:true},
-        {statement:["almost"],answer:["casi"], isStatement:true},
-        {statement:["alone"],answer:["solo"], isStatement:true},
-        {statement:["along"],answer:["a lo largo"], isStatement:true},
-        {statement:["already"],answer:["ya"], isStatement:true},
-        {statement:["also"],answer:["además"], isStatement:true},
-        {statement:["although"],answer:["a pesar de que"], isStatement:true},
-        {statement:["always"],answer:["siempre"], isStatement:true},
-        {statement:["among"],answer:["entre"], isStatement:true},
-        {statement:["amount"],answer:["cantidad"], isStatement:true},
-        {statement:["analysis"],answer:["análisis"], isStatement:true},
-        {statement:["animal"],answer:["animal"], isStatement:true},
-        {statement:["another"],answer:["otro"], isStatement:true},
-        {statement:["answer"],answer:["responder"], isStatement:true},
-        {statement:["any"],answer:["alguna"], isStatement:true},
-        {statement:["anyone"],answer:["nadie"], isStatement:true},
-        {statement:["anything"],answer:["cualquier cosa"], isStatement:true},
-        {statement:["anyway"],answer:["de todas formas"], isStatement:true},
-        {statement:["appear"],answer:["aparecer"], isStatement:true},
-        {statement:["application"],answer:["solicitud"], isStatement:true},
-        {statement:["apply"],answer:["aplicar"], isStatement:true},
-        {statement:["approach"],answer:["enfoque"], isStatement:true},
-        {statement:["area"],answer:["zona"], isStatement:true},
-        {statement:["argue"],answer:["discutir"], isStatement:true},
-        {statement:["argument"],answer:["argumento"], isStatement:true},
-        {statement:["arm"],answer:["brazo"], isStatement:true},
-        {statement:["around"],answer:["alrededor"], isStatement:true},
-        {statement:["arrive"],answer:["llegar"], isStatement:true},
-        {statement:["art"],answer:["arte"], isStatement:true},
-        {statement:["article"],answer:["artículo"], isStatement:true},
-        {statement:["as"],answer:["como"], isStatement:true},
-        {statement:["ask"],answer:["pedir"], isStatement:true},
-        {statement:["associate"],answer:["asociar"], isStatement:true},
-        {statement:["assume"],answer:["asumir"], isStatement:true},
-        {statement:["at"],answer:["en"], isStatement:true},
-        {statement:["attack"],answer:["ataque"], isStatement:true},
-        {statement:["attempt"],answer:["intento"], isStatement:true},
-        {statement:["attend"],answer:["asistir"], isStatement:true},
-        {statement:["attention"],answer:["atención"], isStatement:true},
-        {statement:["author"],answer:["autor"], isStatement:true},
-        {statement:["available"],answer:["disponible"], isStatement:true},
-        {statement:["average"],answer:["promedio"], isStatement:true},
-        {statement:["avoid"],answer:["evitar"], isStatement:true},
-        {statement:["away"],answer:["lejos"], isStatement:true},
-        {statement:["baby"],answer:["bebé"], isStatement:true},
-        {statement:["back"],answer:["atrás"], isStatement:true},
-        {statement:["bad"],answer:["malo"], isStatement:true},
-        {statement:["balance"],answer:["equilibrar"], isStatement:true},
-        {statement:["bank"],answer:["banco"], isStatement:true},
-        {statement:["bar"],answer:["bar"], isStatement:true},
-        {statement:["base"],answer:["base"], isStatement:true},
-        {statement:["basic"],answer:["básico"], isStatement:true},
-        {statement:["basis"],answer:["base"], isStatement:true},
-        {statement:["be"],answer:["ser o estar"], isStatement:true},
-        {statement:["bear"],answer:["oso"], isStatement:true},
-        {statement:["beautiful"],answer:["hermoso"], isStatement:true},
-        {statement:["because"],answer:["porque"], isStatement:true},
-        {statement:["become"],answer:["volverse"], isStatement:true},
-        {statement:["bed"],answer:["cama"], isStatement:true},
-        {statement:["before"],answer:["antes de"], isStatement:true},
-        {statement:["begin"],answer:["empezar"], isStatement:true},
-        {statement:["behavior"],answer:["comportamiento"], isStatement:true},
-        {statement:["behind"],answer:["detrás"], isStatement:true},
-        {statement:["believe"],answer:["creer"], isStatement:true},
-        {statement:["below"],answer:["abajo"], isStatement:true},
-        {statement:["benefit"],answer:["beneficio"], isStatement:true},
-        {statement:["between"],answer:["entre"], isStatement:true},
-        {statement:["beyond"],answer:["más allá"], isStatement:true},
-        {statement:["big"],answer:["grande"], isStatement:true},
-        {statement:["bill"],answer:["cuenta"], isStatement:true},
-        {statement:["bit"],answer:["poco"], isStatement:true},
-        {statement:["black"],answer:["negro"], isStatement:true},
-        {statement:["board"],answer:["tablero"], isStatement:true},
-        {statement:["body"],answer:["cuerpo"], isStatement:true},
-        {statement:["book"],answer:["libro"], isStatement:true},
-        {statement:["both"],answer:["ambos"], isStatement:true},
-        {statement:["box"],answer:["caja"], isStatement:true},
-        {statement:["boy"],answer:["niño"], isStatement:true},
-        {statement:["break"],answer:["descanso"], isStatement:true},
-        {statement:["bring"],answer:["traer"], isStatement:true},
-        {statement:["brother"],answer:["hermano"], isStatement:true},
-        {statement:["build"],answer:["construir"], isStatement:true},
-        {statement:["bus"],answer:["autobús"], isStatement:true},
-        {statement:["business"],answer:["negocio"], isStatement:true},
-        {statement:["but"],answer:["pero"], isStatement:true},
-        {statement:["buy"],answer:["comprar"], isStatement:true},
-        {statement:["by"],answer:["por"], isStatement:true},
-        {statement:["call"],answer:["llamada"], isStatement:true},
-        {statement:["campaign"],answer:["campaña"], isStatement:true},
-        {statement:["can"],answer:["puede"], isStatement:true},
-        {statement:["capital"],answer:["capital"], isStatement:true},
-        {statement:["card"],answer:["tarjeta"], isStatement:true},
-        {statement:["care"],answer:["cuidado"], isStatement:true},
-        {statement:["career"],answer:["carrera"], isStatement:true},
-        {statement:["carry"],answer:["llevar"], isStatement:true},
-        {statement:["case"],answer:["caso"], isStatement:true},
-        {statement:["catch"],answer:["captura"], isStatement:true},
-        {statement:["cause"],answer:["porque"], isStatement:true},
-        {statement:["cell"],answer:["célula"], isStatement:true},
-        {statement:["cent"],answer:["centavo"], isStatement:true},
-        {statement:["center"],answer:["centrar"], isStatement:true},
-        {statement:["central"],answer:["central"], isStatement:true},
-        {statement:["century"],answer:["siglo"], isStatement:true},
-        {statement:["certain"],answer:["cierto"], isStatement:true},
-        {statement:["certainly"],answer:["ciertamente"], isStatement:true},
-        {statement:["challenge"],answer:["reto"], isStatement:true},
-        {statement:["chance"],answer:["oportunidad"], isStatement:true},
-        {statement:["change"],answer:["cambio"], isStatement:true},
-        {statement:["character"],answer:["personaje"], isStatement:true},
-        {statement:["charge"],answer:["cargar"], isStatement:true},
-        {statement:["check"],answer:["comprobar"], isStatement:true},
-        {statement:["child"],answer:["niño"], isStatement:true},
-        {statement:["choice"],answer:["elección"], isStatement:true},
-        {statement:["choose"],answer:["escoger"], isStatement:true},
-        {statement:["church"],answer:["Iglesia"], isStatement:true},
-        {statement:["claim"],answer:["reclamación"], isStatement:true},
-        {statement:["class"],answer:["clase"], isStatement:true},
-        {statement:["clean"],answer:["limpiar"], isStatement:true},
-        {statement:["clear"],answer:["claro"], isStatement:true},
-        {statement:["clearly"],answer:["claramente"], isStatement:true},
-        {statement:["clock"],answer:["reloj"], isStatement:true},
-        {statement:["close"],answer:["cerrar"], isStatement:true},
-        {statement:["clothes"],answer:["ropa"], isStatement:true},
-        {statement:["club"],answer:["club"], isStatement:true},
-        {statement:["cold"],answer:["frío"], isStatement:true},
-        {statement:["college"],answer:["universidad"], isStatement:true},
-        {statement:["color"],answer:["color"], isStatement:true},
-        {statement:["come"],answer:["ven"], isStatement:true},
-        {statement:["comment"],answer:["comentario"], isStatement:true},
-        {statement:["common"],answer:["común"], isStatement:true},
-        {statement:["communication"],answer:["comunicación"], isStatement:true},
-        {statement:["community"],answer:["comunidad"], isStatement:true},
-        {statement:["company"],answer:["empresa"], isStatement:true},
-        {statement:["compare"],answer:["comparar"], isStatement:true},
-        {statement:["competition"],answer:["competencia"], isStatement:true},
-        {statement:["complete"],answer:["completar"], isStatement:true},
-        {statement:["completely"],answer:["completamente"], isStatement:true},
-        {statement:["computer"],answer:["computadora"], isStatement:true},
-        {statement:["concern"],answer:["preocupación"], isStatement:true},
-        {statement:["conclusion"],answer:["conclusión"], isStatement:true},
-        {statement:["condition"],answer:["condición"], isStatement:true},
-        {statement:["consider"],answer:["considerar"], isStatement:true},
-        {statement:["contact"],answer:["contacto"], isStatement:true},
-        {statement:["contain"],answer:["contiene"], isStatement:true},
-        {statement:["continue"],answer:["continuar"], isStatement:true},
-        {statement:["contract"],answer:["contrato"], isStatement:true},
-        {statement:["control"],answer:["controlar"], isStatement:true},
-        {statement:["conversation"],answer:["conversacion"], isStatement:true},
-        {statement:["cost"],answer:["costo"], isStatement:true},
-        {statement:["could"],answer:["podría"], isStatement:true},
-        {statement:["country"],answer:["país"], isStatement:true},
-        {statement:["couple"],answer:["Pareja"], isStatement:true},
-        {statement:["course"],answer:["curso"], isStatement:true},
-        {statement:["court"],answer:["corte"], isStatement:true},
-        {statement:["cover"],answer:["cubrir"], isStatement:true},
-        {statement:["create"],answer:["crear"], isStatement:true},
-        {statement:["credit"],answer:["crédito"], isStatement:true},
-        {statement:["cross"],answer:["cruzar"], isStatement:true},
-        {statement:["culture"],answer:["cultura"], isStatement:true},
-        {statement:["current"],answer:["corriente"], isStatement:true},
-        {statement:["customer"],answer:["cliente"], isStatement:true},
-        {statement:["daily"],answer:["diario"], isStatement:true},
-        {statement:["damage"],answer:["dañar"], isStatement:true},
-        {statement:["dance"],answer:["baile / danza"], isStatement:true},
-        {statement:["dark"],answer:["oscuro"], isStatement:true},
-        {statement:["data"],answer:["datos"], isStatement:true},
-        {statement:["date"],answer:["fecha"], isStatement:true},
-        {statement:["daughter"],answer:["hija"], isStatement:true},
-        {statement:["dead"],answer:["muerto"], isStatement:true},
-        {statement:["deal"],answer:["acuerdo"], isStatement:true},
-        {statement:["death"],answer:["muerte"], isStatement:true},
-        {statement:["debate"],answer:["debate"], isStatement:true},
-        {statement:["decide"],answer:["decidir"], isStatement:true},
-        {statement:["decision"],answer:["decisión"], isStatement:true},
-        {statement:["deep"],answer:["profundo"], isStatement:true},
-        {statement:["define"],answer:["definir"], isStatement:true},
-        {statement:["degree"],answer:["la licenciatura"], isStatement:true},
-        {statement:["demand"],answer:["demanda"], isStatement:true},
-        {statement:["department"],answer:["departamento"], isStatement:true},
-        {statement:["depend"],answer:["depender"], isStatement:true},
-        {statement:["describe"],answer:["describir"], isStatement:true},
-        {statement:["design"],answer:["diseño"], isStatement:true},
-        {statement:["despite"],answer:["a pesar de"], isStatement:true},
-        {statement:["detail"],answer:["detalle"], isStatement:true},
-        {statement:["determine"],answer:["determinar"], isStatement:true},
-        {statement:["develop"],answer:["desarrollar"], isStatement:true},
-        {statement:["development"],answer:["desarrollo"], isStatement:true},
-        {statement:["die"],answer:["morir"], isStatement:true},
-        {statement:["difference"],answer:["diferencia"], isStatement:true},
-        {statement:["different"],answer:["diferente"], isStatement:true},
-        {statement:["difficult"],answer:["difícil"], isStatement:true},
-        {statement:["difficulty"],answer:["dificultad"], isStatement:true},
-        {statement:["direction"],answer:["dirección"], isStatement:true},
-        {statement:["director"],answer:["director"], isStatement:true},
-        {statement:["discover"],answer:["descubrir"], isStatement:true},
-        {statement:["discuss"],answer:["discutir"], isStatement:true},
-        {statement:["discussion"],answer:["discusión"], isStatement:true},
-        {statement:["disease"],answer:["enfermedad"], isStatement:true},
-        {statement:["do"],answer:["hacer"], isStatement:true},
-        {statement:["doctor"],answer:["doctor"], isStatement:true},
-        {statement:["document"],answer:["documento"], isStatement:true},
-        {statement:["dog"],answer:["perro"], isStatement:true},
-        {statement:["dollar"],answer:["dólar"], isStatement:true},
-        {statement:["door"],answer:["puerta"], isStatement:true},
-        {statement:["doubt"],answer:["duda"], isStatement:true},
-        {statement:["down"],answer:["abajo"], isStatement:true},
-        {statement:["draw"],answer:["dibujar"], isStatement:true},
-        {statement:["dream"],answer:["sueño"], isStatement:true},
-        {statement:["dress"],answer:["vestido"], isStatement:true},
-        {statement:["drink"],answer:["beber"], isStatement:true},
-        {statement:["drive"],answer:["conducir"], isStatement:true},
-        {statement:["drop"],answer:["soltar"], isStatement:true},
-        {statement:["drug"],answer:["fármaco"], isStatement:true},
-        {statement:["due"],answer:["debido"], isStatement:true},
-        {statement:["during"],answer:["durante"], isStatement:true},
-        {statement:["each"],answer:["cada"], isStatement:true},
-        {statement:["early"],answer:["temprano"], isStatement:true},
-        {statement:["earn"],answer:["ganar"], isStatement:true},
-        {statement:["easily"],answer:["fácilmente"], isStatement:true},
-        {statement:["easy"],answer:["fácil"], isStatement:true},
-        {statement:["eat"],answer:["comer"], isStatement:true},
-        {statement:["economic"],answer:["económico"], isStatement:true},
-        {statement:["economy"],answer:["economía"], isStatement:true},
-        {statement:["education"],answer:["educación"], isStatement:true},
-        {statement:["effect"],answer:["efecto"], isStatement:true},
-        {statement:["effort"],answer:["esfuerzo"], isStatement:true},
-        {statement:["either"],answer:["ya sea"], isStatement:true},
-        {statement:["election"],answer:["elección"], isStatement:true},
-        {statement:["else"],answer:["más"], isStatement:true},
-        {statement:["employee"],answer:["empleado"], isStatement:true},
-        {statement:["encourage"],answer:["animar"], isStatement:true},
-        {statement:["end"],answer:["fin"], isStatement:true},
-        {statement:["energy"],answer:["energía"], isStatement:true},
-        {statement:["enjoy"],answer:["disfrutar"], isStatement:true},
-        {statement:["enough"],answer:["suficiente"], isStatement:true},
-        {statement:["enter"],answer:["entrar"], isStatement:true},
-        {statement:["environment"],answer:["ambiente"], isStatement:true},
-        {statement:["especially"],answer:["especialmente"], isStatement:true},
-        {statement:["establish"],answer:["establecer"], isStatement:true},
-        {statement:["estimate"],answer:["estimado"], isStatement:true},
-        {statement:["even"],answer:["incluso"], isStatement:true},
-        {statement:["evening"],answer:["noche"], isStatement:true},
-        {statement:["event"],answer:["evento"], isStatement:true},
-        {statement:["ever"],answer:["siempre"], isStatement:true},
-        {statement:["every"],answer:["cada"], isStatement:true},
-        {statement:["everybody"],answer:["todos"], isStatement:true},
-        {statement:["everyone"],answer:["todo el mundo"], isStatement:true},
-        {statement:["everything"],answer:["todo"], isStatement:true},
-        {statement:["evidence"],answer:["evidencia"], isStatement:true},
-        {statement:["exactly"],answer:["exactamente"], isStatement:true},
-        {statement:["example"],answer:["ejemplo"], isStatement:true},
-        {statement:["except"],answer:["excepto"], isStatement:true},
-        {statement:["exercise"],answer:["ejercicio"], isStatement:true},
-        {statement:["exist"],answer:["existe"], isStatement:true},
-        {statement:["expect"],answer:["esperar"], isStatement:true},
-        {statement:["experience"],answer:["experiencia"], isStatement:true},
-        {statement:["explain"],answer:["explique"], isStatement:true},
-        {statement:["express"],answer:["expresar"], isStatement:true},
-        {statement:["extend"],answer:["ampliar"], isStatement:true},
-        {statement:["eye"],answer:["ojo"], isStatement:true},
-        {statement:["face"],answer:["cara"], isStatement:true},
-        {statement:["facility"],answer:["instalaciones"], isStatement:true},
-        {statement:["fact"],answer:["hecho"], isStatement:true},
-        {statement:["factor"],answer:["factor"], isStatement:true},
-        {statement:["fail"],answer:["fallar"], isStatement:true},
-        {statement:["fall"],answer:["otoño"], isStatement:true},
-        {statement:["family"],answer:["familia"], isStatement:true},
-        {statement:["far"],answer:["lejos"], isStatement:true},
-        {statement:["fast"],answer:["rápido"], isStatement:true},
-        {statement:["father"],answer:["padre"], isStatement:true},
-        {statement:["favorite"],answer:["favorito"], isStatement:true},
-        {statement:["fear"],answer:["temor"], isStatement:true},
-        {statement:["feature"],answer:["característica"], isStatement:true},
-        {statement:["feel"],answer:["sensación"], isStatement:true},
-        {statement:["female"],answer:["hembra"], isStatement:true},
-        {statement:["few"],answer:["pocos"], isStatement:true},
-        {statement:["field"],answer:["campo"], isStatement:true},
-        {statement:["fight"],answer:["lucha"], isStatement:true},
-        {statement:["figure"],answer:["figura"], isStatement:true},
-        {statement:["file"],answer:["expediente"], isStatement:true},
-        {statement:["fill"],answer:["llenar"], isStatement:true},
-        {statement:["film"],answer:["película"], isStatement:true},
-        {statement:["final"],answer:["final"], isStatement:true},
-        {statement:["finally"],answer:["finalmente"], isStatement:true},
-        {statement:["financial"],answer:["financiero"], isStatement:true},
-        {statement:["find"],answer:["encontrar"], isStatement:true},
-        {statement:["fine"],answer:["multa"], isStatement:true},
-        {statement:["finish"],answer:["terminar"], isStatement:true},
-        {statement:["fire"],answer:["fuego"], isStatement:true},
-        {statement:["firm"],answer:["sólido, firme"], isStatement:true},
-        {statement:["first"],answer:["primero"], isStatement:true},
-        {statement:["fish"],answer:["pez"], isStatement:true},
-        {statement:["fit"],answer:["ajuste"], isStatement:true},
-        {statement:["fix"],answer:["fijar"], isStatement:true},
-        {statement:["floor"],answer:["piso"], isStatement:true},
-        {statement:["fly"],answer:["volar"], isStatement:true},
-        {statement:["focus"],answer:["atención"], isStatement:true},
-        {statement:["follow"],answer:["seguir"], isStatement:true},
-        {statement:["food"],answer:["comida"], isStatement:true},
-        {statement:["foot"],answer:["pie"], isStatement:true},
-        {statement:["for"],answer:["para"], isStatement:true},
-        {statement:["force"],answer:["fuerza"], isStatement:true},
-        {statement:["foreign"],answer:["extranjero"], isStatement:true},
-        {statement:["forget"],answer:["olvidar"], isStatement:true},
-        {statement:["form"],answer:["formar"], isStatement:true},
-        {statement:["former"],answer:["ex"], isStatement:true},
-        {statement:["forward"],answer:["adelante"], isStatement:true},
-        {statement:["free"],answer:["gratis"], isStatement:true},
-        {statement:["friend"],answer:["amigo"], isStatement:true},
-        {statement:["from"],answer:["desde"], isStatement:true},
-        {statement:["front"],answer:["frente"], isStatement:true},
-        {statement:["full"],answer:["completo"], isStatement:true},
-        {statement:["fun"],answer:["divertido"], isStatement:true},
-        {statement:["function"],answer:["función"], isStatement:true},
-        {statement:["fund"],answer:["financiar"], isStatement:true},
-        {statement:["further"],answer:["promover"], isStatement:true},
-        {statement:["future"],answer:["futuro"], isStatement:true},
-        {statement:["gain"],answer:["ganancia"], isStatement:true},
-        {statement:["garden"],answer:["jardín"], isStatement:true},
-        {statement:["general"],answer:["general"], isStatement:true},
-        {statement:["generally"],answer:["generalmente"], isStatement:true},
-        {statement:["generation"],answer:["Generacion"], isStatement:true},
-        {statement:["get"],answer:["obtener"], isStatement:true},
-        {statement:["girl"],answer:["niña"], isStatement:true},
-        {statement:["give"],answer:["dar"], isStatement:true},
-        {statement:["goal"],answer:["gol"], isStatement:true},
-        {statement:["go"],answer:["ir"], isStatement:true},
-        {statement:["good"],answer:["bueno"], isStatement:true},
-        {statement:["government"],answer:["gobierno"], isStatement:true},
-        {statement:["great"],answer:["genial"], isStatement:true},
-        {statement:["green"],answer:["verde"], isStatement:true},
-        {statement:["ground"],answer:["suelo"], isStatement:true},
-        {statement:["group"],answer:["grupo"], isStatement:true},
-        {statement:["grow"],answer:["crecer"], isStatement:true},
-        {statement:["growth"],answer:["crecimiento"], isStatement:true},
-        {statement:["guess"],answer:["adivinar"], isStatement:true},
-        {statement:["guy"],answer:["chico"], isStatement:true},
-        {statement:["hair"],answer:["pelo"], isStatement:true},
-        {statement:["half"],answer:["mitad"], isStatement:true},
-        {statement:["hand"],answer:["mano"], isStatement:true},
-        {statement:["happen"],answer:["ocurrir"], isStatement:true},
-        {statement:["happy"],answer:["feliz"], isStatement:true},
-        {statement:["hard"],answer:["difícil"], isStatement:true},
-        {statement:["have"],answer:["tener"], isStatement:true},
-        {statement:["he"],answer:["él"], isStatement:true},
-        {statement:["head"],answer:["cabeza"], isStatement:true},
-        {statement:["health"],answer:["salud"], isStatement:true},
-        {statement:["hear"],answer:["oír"], isStatement:true},
-        {statement:["heart"],answer:["corazón"], isStatement:true},
-        {statement:["help"],answer:["ayuda"], isStatement:true},
-        {statement:["here"],answer:["aquí"], isStatement:true},
-        {statement:["herself"],answer:["Ella misma"], isStatement:true},
-        {statement:["high"],answer:["alto"], isStatement:true},
-        {statement:["himself"],answer:["él mismo"], isStatement:true},
-        {statement:["history"],answer:["historia"], isStatement:true},
-        {statement:["hit"],answer:["golpear"], isStatement:true},
-        {statement:["hold"],answer:["sostener"], isStatement:true},
-        {statement:["holiday"],answer:["vacaciones"], isStatement:true},
-        {statement:["home"],answer:["casa"], isStatement:true},
-        {statement:["hope"],answer:["esperanza"], isStatement:true},
-        {statement:["hospital"],answer:["hospital"], isStatement:true},
-        {statement:["hot"],answer:["caliente"], isStatement:true},
-        {statement:["hotel"],answer:["hotel"], isStatement:true},
-        {statement:["hour"],answer:["hora"], isStatement:true},
-        {statement:["how"],answer:["cómo"], isStatement:true},
-        {statement:["however"],answer:["sin embargo"], isStatement:true},
-        {statement:["huge"],answer:["enorme"], isStatement:true},
-        {statement:["human"],answer:["humano"], isStatement:true},
-        {statement:["husband"],answer:["marido"], isStatement:true},
-        {statement:["i"],answer:["yo"], isStatement:true},
-        {statement:["idea"],answer:["idea"], isStatement:true},
-        {statement:["identify"],answer:["identificar"], isStatement:true},
-        {statement:["if"],answer:["si"], isStatement:true},
-        {statement:["image"],answer:["imagen"], isStatement:true},
-        {statement:["imagine"],answer:["imagina"], isStatement:true},
-        {statement:["immediately"],answer:["inmediatamente"], isStatement:true},
-        {statement:["important"],answer:["importante"], isStatement:true},
-        {statement:["improve"],answer:["mejorar"], isStatement:true},
-        {statement:["in"],answer:["en"], isStatement:true},
-        {statement:["include"],answer:["incluir"], isStatement:true},
-        {statement:["income"],answer:["ingresos"], isStatement:true},
-        {statement:["increase"],answer:["incrementar"], isStatement:true},
-        {statement:["indeed"],answer:["en efecto"], isStatement:true},
-        {statement:["indicate"],answer:["indicar"], isStatement:true},
-        {statement:["individual"],answer:["individual"], isStatement:true},
-        {statement:["industry"],answer:["industria"], isStatement:true},
-        {statement:["influence"],answer:["influencia"], isStatement:true},
-        {statement:["information"],answer:["información"], isStatement:true},
-        {statement:["inside"],answer:["dentro"], isStatement:true},
-        {statement:["instance"],answer:["ejemplo"], isStatement:true},
-        {statement:["instead"],answer:["en lugar"], isStatement:true},
-        {statement:["interest"],answer:["interesar"], isStatement:true},
-        {statement:["international"],answer:["internacional"], isStatement:true},
-        {statement:["interview"],answer:["entrevista"], isStatement:true},
-        {statement:["into"],answer:["dentro"], isStatement:true},
-        {statement:["introduce"],answer:["introducir"], isStatement:true},
-        {statement:["investment"],answer:["inversión"], isStatement:true},
-        {statement:["involve"],answer:["implicar"], isStatement:true},
-        {statement:["issue"],answer:["problema"], isStatement:true},
-        {statement:["it"],answer:["eso"], isStatement:true},
-        {statement:["item"],answer:["artículo"], isStatement:true},
-        {statement:["itself"],answer:["sí mismo"], isStatement:true},
-        {statement:["job"],answer:["trabajo"], isStatement:true},
-        {statement:["join"],answer:["unirse"], isStatement:true},
-        {statement:["judge"],answer:["juez"], isStatement:true},
-        {statement:["just"],answer:["sólo"], isStatement:true},
-        {statement:["keep"],answer:["mantener"], isStatement:true},
-        {statement:["key"],answer:["llave"], isStatement:true},
-        {statement:["kid"],answer:["niño"], isStatement:true},
-        {statement:["kill"],answer:["matar"], isStatement:true},
-        {statement:["kind"],answer:["tipo"], isStatement:true},
-        {statement:["know"],answer:["saber"], isStatement:true},
-        {statement:["knowledge"],answer:["conocimiento"], isStatement:true},
-        {statement:["lack"],answer:["ausencia"], isStatement:true},
-        {statement:["land"],answer:["tierra"], isStatement:true},
-        {statement:["language"],answer:["idioma"], isStatement:true},
-        {statement:["large"],answer:["grande"], isStatement:true},
-        {statement:["last"],answer:["último"], isStatement:true},
-        {statement:["late"],answer:["tarde"], isStatement:true},
-        {statement:["laugh"],answer:["risa"], isStatement:true},
-        {statement:["law"],answer:["ley"], isStatement:true},
-        {statement:["lead"],answer:["dirigir"], isStatement:true},
-        {statement:["leader"],answer:["líder"], isStatement:true},
-        {statement:["learn"],answer:["aprender"], isStatement:true},
-        {statement:["least"],answer:["menos"], isStatement:true},
-        {statement:["leave"],answer:["salir"], isStatement:true},
-        {statement:["legal"],answer:["legal"], isStatement:true},
-        {statement:["less"],answer:["menos"], isStatement:true},
-        {statement:["let"],answer:["dejar"], isStatement:true},
-        {statement:["letter"],answer:["carta"], isStatement:true},
-        {statement:["level"],answer:["nivel"], isStatement:true},
-        {statement:["lie"],answer:["mentira"], isStatement:true},
-        {statement:["life"],answer:["vida"], isStatement:true},
-        {statement:["light"],answer:["ligero"], isStatement:true},
-        {statement:["like"],answer:["me gusta"], isStatement:true},
-        {statement:["likely"],answer:["probable"], isStatement:true},
-        {statement:["limit"],answer:["límite"], isStatement:true},
-        {statement:["line"],answer:["línea"], isStatement:true},
-        {statement:["link"],answer:["enlazar"], isStatement:true},
-        {statement:["list"],answer:["lista"], isStatement:true},
-        {statement:["listen"],answer:["escucha"], isStatement:true},
-        {statement:["little"],answer:["pequeño"], isStatement:true},
-        {statement:["live"],answer:["vivir"], isStatement:true},
-        {statement:["local"],answer:["local"], isStatement:true},
-        {statement:["long"],answer:["largo"], isStatement:true},
-        {statement:["look"],answer:["mira"], isStatement:true},
-        {statement:["lose"],answer:["perder"], isStatement:true},
-        {statement:["loss"],answer:["pérdida"], isStatement:true},
-        {statement:["lot"],answer:["mucho"], isStatement:true},
-        {statement:["love"],answer:["amor"], isStatement:true},
-        {statement:["low"],answer:["bajo"], isStatement:true},
-        {statement:["machine"],answer:["máquina"], isStatement:true},
-        {statement:["magazine"],answer:["revista"], isStatement:true},
-        {statement:["main"],answer:["principal"], isStatement:true},
-        {statement:["maintain"],answer:["mantener"], isStatement:true},
-        {statement:["major"],answer:["mayor"], isStatement:true},
-        {statement:["make"],answer:["hacer"], isStatement:true},
-        {statement:["male"],answer:["masculino"], isStatement:true},
-        {statement:["man"],answer:["hombre"], isStatement:true},
-        {statement:["manage"],answer:["gestionar"], isStatement:true},
-        {statement:["management"],answer:["administración"], isStatement:true},
-        {statement:["manager"],answer:["gerente"], isStatement:true},
-        {statement:["many"],answer:["muchos"], isStatement:true},
-        {statement:["mark"],answer:["marca"], isStatement:true},
-        {statement:["market"],answer:["mercado"], isStatement:true},
-        {statement:["marry"],answer:["casar"], isStatement:true},
-        {statement:["match"],answer:["partido"], isStatement:true},
-        {statement:["material"],answer:["material"], isStatement:true},
-        {statement:["matter"],answer:["importar"], isStatement:true},
-        {statement:["may"],answer:["mayo"], isStatement:true},
-        {statement:["maybe"],answer:["tal vez"], isStatement:true},
-        {statement:["mean"],answer:["media"], isStatement:true},
-        {statement:["measure"],answer:["medida"], isStatement:true},
-        {statement:["medium"],answer:["medio"], isStatement:true},
-        {statement:["meet"],answer:["reunirse"], isStatement:true},
-        {statement:["member"],answer:["miembro"], isStatement:true},
-        {statement:["memory"],answer:["memoria"], isStatement:true},
-        {statement:["mention"],answer:["mencionar"], isStatement:true},
-        {statement:["message"],answer:["mensaje"], isStatement:true},
-        {statement:["method"],answer:["método"], isStatement:true},
-        {statement:["middle"],answer:["medio"], isStatement:true},
-        {statement:["might"],answer:["podría"], isStatement:true},
-        {statement:["mile"],answer:["milla"], isStatement:true},
-        {statement:["military"],answer:["militar"], isStatement:true},
-        {statement:["mind"],answer:["mente"], isStatement:true},
-        {statement:["mine"],answer:["mía"], isStatement:true},
-        {statement:["minute"],answer:["minuto"], isStatement:true},
-        {statement:["miss"],answer:["perder"], isStatement:true},
-        {statement:["model"],answer:["modelo"], isStatement:true},
-        {statement:["modern"],answer:["moderno"], isStatement:true},
-        {statement:["moment"],answer:["momento"], isStatement:true},
-        {statement:["money"],answer:["dinero"], isStatement:true},
-        {statement:["month"],answer:["mes"], isStatement:true},
-        {statement:["more"],answer:["más"], isStatement:true},
-        {statement:["morning"],answer:["mañana"], isStatement:true},
-        {statement:["most"],answer:["más"], isStatement:true},
-        {statement:["mother"],answer:["madre"], isStatement:true},
-        {statement:["move"],answer:["movimiento"], isStatement:true},
-        {statement:["movement"],answer:["movimiento"], isStatement:true},
-        {statement:["movie"],answer:["película"], isStatement:true},
-        {statement:["much"],answer:["mucho"], isStatement:true},
-        {statement:["music"],answer:["música"], isStatement:true},
-        {statement:["must"],answer:["debe"], isStatement:true},
-        {statement:["myself"],answer:["mí mismo"], isStatement:true},
-        {statement:["name"],answer:["nombre"], isStatement:true},
-        {statement:["nation"],answer:["nación"], isStatement:true},
-        {statement:["national"],answer:["nacional"], isStatement:true},
-        {statement:["natural"],answer:["natural"], isStatement:true},
-        {statement:["nature"],answer:["naturaleza"], isStatement:true},
-        {statement:["near"],answer:["cerca"], isStatement:true},
-        {statement:["nearly"],answer:["casi"], isStatement:true},
-        {statement:["necessary"],answer:["necesario"], isStatement:true},
-        {statement:["need"],answer:["necesitar"], isStatement:true},
-        {statement:["network"],answer:["red"], isStatement:true},
-        {statement:["never"],answer:["nunca"], isStatement:true},
-        {statement:["new"],answer:["nuevo"], isStatement:true},
-        {statement:["news"],answer:["noticias"], isStatement:true},
-        {statement:["newspaper"],answer:["periódico"], isStatement:true},
-        {statement:["next"],answer:["siguiente"], isStatement:true},
-        {statement:["nice"],answer:["agradable"], isStatement:true},
-        {statement:["night"],answer:["noche"], isStatement:true},
-        {statement:["nor"],answer:["ni"], isStatement:true},
-        {statement:["normal"],answer:["normal"], isStatement:true},
-        {statement:["not"],answer:["no"], isStatement:true},
-        {statement:["note"],answer:["nota"], isStatement:true},
-        {statement:["nothing"],answer:["nada"], isStatement:true},
-        {statement:["notice"],answer:["darse cuenta"], isStatement:true},
-        {statement:["now"],answer:["ahora"], isStatement:true},
-        {statement:["number"],answer:["número"], isStatement:true},
-        {statement:["object"],answer:["objeto"], isStatement:true},
-        {statement:["obviously"],answer:["obviamente"], isStatement:true},
-        {statement:["occur"],answer:["ocurrir"], isStatement:true},
-        {statement:["of"],answer:["de"], isStatement:true},
-        {statement:["off"],answer:["apagado"], isStatement:true},
-        {statement:["offer"],answer:["oferta"], isStatement:true},
-        {statement:["office"],answer:["oficina"], isStatement:true},
-        {statement:["officer"],answer:["oficial"], isStatement:true},
-        {statement:["official"],answer:["oficial"], isStatement:true},
-        {statement:["often"],answer:["a menudo"], isStatement:true},
-        {statement:["oil"],answer:["petróleo"], isStatement:true},
-        {statement:["okay"],answer:["bueno"], isStatement:true},
-        {statement:["old"],answer:["antiguo"], isStatement:true},
-        {statement:["on"],answer:["en"], isStatement:true},
-        {statement:["once"],answer:["una vez"], isStatement:true},
-        {statement:["one"],answer:["uno"], isStatement:true},
-        {statement:["only"],answer:["solamente"], isStatement:true},
-        {statement:["open"],answer:["abierto"], isStatement:true},
-        {statement:["operate"],answer:["funcionar"], isStatement:true},
-        {statement:["operation"],answer:["operación"], isStatement:true},
-        {statement:["opinion"],answer:["opinión"], isStatement:true},
-        {statement:["opportunity"],answer:["oportunidad"], isStatement:true},
-        {statement:["option"],answer:["opción"], isStatement:true},
-        {statement:["or"],answer:["o"], isStatement:true},
-        {statement:["order"],answer:["orden"], isStatement:true},
-        {statement:["organization"],answer:["organización"], isStatement:true},
-        {statement:["organize"],answer:["organizar"], isStatement:true},
-        {statement:["original"],answer:["original"], isStatement:true},
-        {statement:["other"],answer:["otro"], isStatement:true},
-        {statement:["out"],answer:["afuera"], isStatement:true},
-        {statement:["outside"],answer:["exterio"], isStatement:true},
-        {statement:["over"],answer:["terminado"], isStatement:true},
-        {statement:["own"],answer:["propio"], isStatement:true},
-        {statement:["page"],answer:["página"], isStatement:true},
-        {statement:["paint"],answer:["pintar"], isStatement:true},
-        {statement:["paper"],answer:["papel"], isStatement:true},
-        {statement:["parent"],answer:["padre"], isStatement:true},
-        {statement:["park"],answer:["parque"], isStatement:true},
-        {statement:["part"],answer:["parte"], isStatement:true},
-        {statement:["particular"],answer:["especial"], isStatement:true},
-        {statement:["particularly"],answer:["particularmente"], isStatement:true},
-        {statement:["party"],answer:["partido"], isStatement:true},
-        {statement:["pass"],answer:["pasar"], isStatement:true},
-        {statement:["past"],answer:["pasado"], isStatement:true},
-        {statement:["patient"],answer:["paciente"], isStatement:true},
-        {statement:["pattern"],answer:["modelo"], isStatement:true},
-        {statement:["pause"],answer:["pausa"], isStatement:true},
-        {statement:["pay"],answer:["paga"], isStatement:true},
-        {statement:["people"],answer:["gente"], isStatement:true},
-        {statement:["per"],answer:["por"], isStatement:true},
-        {statement:["percent"],answer:["por ciento"], isStatement:true},
-        {statement:["perform"],answer:["realizar"], isStatement:true},
-        {statement:["performance"],answer:["actuación"], isStatement:true},
-        {statement:["perhaps"],answer:["quizás"], isStatement:true},
-        {statement:["period"],answer:["período"], isStatement:true},
-        {statement:["person"],answer:["persona"], isStatement:true},
-        {statement:["personal"],answer:["personal"], isStatement:true},
-        {statement:["phone"],answer:["teléfono"], isStatement:true},
-        {statement:["pick"],answer:["recoger"], isStatement:true},
-        {statement:["picture"],answer:["imagen"], isStatement:true},
-        {statement:["piece"],answer:["trozo"], isStatement:true},
-        {statement:["place"],answer:["lugar"], isStatement:true},
-        {statement:["plan"],answer:["plan"], isStatement:true},
-        {statement:["plant"],answer:["planta"], isStatement:true},
-        {statement:["play"],answer:["jugar"], isStatement:true},
-        {statement:["player"],answer:["jugador"], isStatement:true},
-        {statement:["please"],answer:["por favor"], isStatement:true},
-        {statement:["point"],answer:["punto"], isStatement:true},
-        {statement:["police"],answer:["policía"], isStatement:true},
-        {statement:["policy"],answer:["política"], isStatement:true},
-        {statement:["political"],answer:["político"], isStatement:true},
-        {statement:["poor"],answer:["pobre"], isStatement:true},
-        {statement:["popular"],answer:["popular"], isStatement:true},
-        {statement:["population"],answer:["población"], isStatement:true},
-        {statement:["position"],answer:["posición"], isStatement:true},
-        {statement:["positive"],answer:["positivo"], isStatement:true},
-        {statement:["possibility"],answer:["posibilidad"], isStatement:true},
-        {statement:["possible"],answer:["posible"], isStatement:true},
-        {statement:["post"],answer:["enviar"], isStatement:true},
-        {statement:["potential"],answer:["potencial"], isStatement:true},
-        {statement:["pound"],answer:["libra"], isStatement:true},
-        {statement:["power"],answer:["poder"], isStatement:true},
-        {statement:["practice"],answer:["práctica"], isStatement:true},
-        {statement:["prefer"],answer:["preferir"], isStatement:true},
-        {statement:["prepare"],answer:["preparar"], isStatement:true},
-        {statement:["present"],answer:["presente"], isStatement:true},
-        {statement:["president"],answer:["presidente"], isStatement:true},
-        {statement:["press"],answer:["prensa"], isStatement:true},
-        {statement:["pressure"],answer:["presión"], isStatement:true},
-        {statement:["pretty"],answer:["bonita"], isStatement:true},
-        {statement:["previous"],answer:["anterior"], isStatement:true},
-        {statement:["price"],answer:["precio"], isStatement:true},
-        {statement:["private"],answer:["privado"], isStatement:true},
-        {statement:["probably"],answer:["probablemente"], isStatement:true},
-        {statement:["problem"],answer:["problema"], isStatement:true},
-        {statement:["process"],answer:["proceso"], isStatement:true},
-        {statement:["produce"],answer:["Produce"], isStatement:true},
-        {statement:["product"],answer:["producto"], isStatement:true},
-        {statement:["production"],answer:["producción"], isStatement:true},
-        {statement:["professional"],answer:["profesional"], isStatement:true},
-        {statement:["profit"],answer:["lucro"], isStatement:true},
-        {statement:["program"],answer:["programa"], isStatement:true},
-        {statement:["project"],answer:["proyecto"], isStatement:true},
-        {statement:["promise"],answer:["promesa"], isStatement:true},
-        {statement:["property"],answer:["propiedad"], isStatement:true},
-        {statement:["proposal"],answer:["propuesta"], isStatement:true},
-        {statement:["propose"],answer:["proponer"], isStatement:true},
-        {statement:["protect"],answer:["proteger"], isStatement:true},
-        {statement:["prove"],answer:["probar"], isStatement:true},
-        {statement:["provide"],answer:["proporcionar"], isStatement:true},
-        {statement:["public"],answer:["público"], isStatement:true},
-        {statement:["pull"],answer:["halar"], isStatement:true},
-        {statement:["purchase"],answer:["comprar"], isStatement:true},
-        {statement:["purpose"],answer:["propósito"], isStatement:true},
-        {statement:["push"],answer:["empujar"], isStatement:true},
-        {statement:["put"],answer:["poner"], isStatement:true},
-        {statement:["quality"],answer:["calidad"], isStatement:true},
-        {statement:["quarter"],answer:["trimestre"], isStatement:true},
-        {statement:["question"],answer:["pregunta"], isStatement:true},
-        {statement:["quickly"],answer:["con rapidez"], isStatement:true},
-        {statement:["quite"],answer:["bastante"], isStatement:true},
-        {statement:["race"],answer:["carrera"], isStatement:true},
-        {statement:["raise"],answer:["aumento"], isStatement:true},
-        {statement:["range"],answer:["distancia"], isStatement:true},
-        {statement:["rate"],answer:["tarifa"], isStatement:true},
-        {statement:["rather"],answer:["más bien"], isStatement:true},
-        {statement:["reach"],answer:["alcanzar"], isStatement:true},
-        {statement:["read"],answer:["leer"], isStatement:true},
-        {statement:["ready"],answer:["listo"], isStatement:true},
-        {statement:["real"],answer:["real"], isStatement:true},
-        {statement:["realize"],answer:["darse cuenta de"], isStatement:true},
-        {statement:["really"],answer:["De Verdad"], isStatement:true},
-        {statement:["reason"],answer:["razón"], isStatement:true},
-        {statement:["receive"],answer:["recibir"], isStatement:true},
-        {statement:["recent"],answer:["reciente"], isStatement:true},
-        {statement:["recently"],answer:["recientemente"], isStatement:true},
-        {statement:["recognize"],answer:["reconocer"], isStatement:true},
-        {statement:["record"],answer:["grabar"], isStatement:true},
-        {statement:["red"],answer:["rojo"], isStatement:true},
-        {statement:["reduce"],answer:["reducir"], isStatement:true},
-        {statement:["refer"],answer:["referir"], isStatement:true},
-        {statement:["reference"],answer:["referencia"], isStatement:true},
-        {statement:["reflect"],answer:["reflejar"], isStatement:true},
-        {statement:["regard"],answer:["considerar"], isStatement:true},
-        {statement:["region"],answer:["región"], isStatement:true},
-        {statement:["relate"],answer:["relacionar"], isStatement:true},
-        {statement:["relation"],answer:["relación"], isStatement:true},
-        {statement:["relationship"],answer:["relación"], isStatement:true},
-        {statement:["release"],answer:["lanzamiento"], isStatement:true},
-        {statement:["remain"],answer:["permanecer"], isStatement:true},
-        {statement:["remember"],answer:["recuerda"], isStatement:true},
-        {statement:["replace"],answer:["Reemplazar"], isStatement:true},
-        {statement:["report"],answer:["informe"], isStatement:true},
-        {statement:["represent"],answer:["representar"], isStatement:true},
-        {statement:["require"],answer:["exigir"], isStatement:true},
-        {statement:["research"],answer:["investigación"], isStatement:true},
-        {statement:["resource"],answer:["recurso"], isStatement:true},
-        {statement:["respect"],answer:["el respeto"], isStatement:true},
-        {statement:["response"],answer:["respuesta"], isStatement:true},
-        {statement:["responsibility"],answer:["responsabilidad"], isStatement:true},
-        {statement:["rest"],answer:["descanso"], isStatement:true},
-        {statement:["restaurant"],answer:["restaurante"], isStatement:true},
-        {statement:["result"],answer:["resultado"], isStatement:true},
-        {statement:["return"],answer:["regreso"], isStatement:true},
-        {statement:["review"],answer:["revisión"], isStatement:true},
-        {statement:["right"],answer:["Correcto"], isStatement:true},
-        {statement:["ring"],answer:["anillo"], isStatement:true},
-        {statement:["rise"],answer:["subir"], isStatement:true},
-        {statement:["risk"],answer:["riesgo"], isStatement:true},
-        {statement:["road"],answer:["la carretera"], isStatement:true},
-        {statement:["rock"],answer:["rock"], isStatement:true},
-        {statement:["role"],answer:["papel"], isStatement:true},
-        {statement:["room"],answer:["habitación"], isStatement:true},
-        {statement:["round"],answer:["redondo"], isStatement:true},
-        {statement:["rule"],answer:["regla"], isStatement:true},
-        {statement:["run"],answer:["correr"], isStatement:true},
-        {statement:["sale"],answer:["venta"], isStatement:true},
-        {statement:["same"],answer:["mismo"], isStatement:true},
-        {statement:["save"],answer:["salvar"], isStatement:true},
-        {statement:["say"],answer:["decir"], isStatement:true},
-        {statement:["school"],answer:["colegio"], isStatement:true},
-        {statement:["science"],answer:["ciencia"], isStatement:true},
-        {statement:["score"],answer:["Puntuación"], isStatement:true},
-        {statement:["screen"],answer:["pantalla"], isStatement:true},
-        {statement:["sea"],answer:["mar"], isStatement:true},
-        {statement:["search"],answer:["buscar"], isStatement:true},
-        {statement:["season"],answer:["temporada"], isStatement:true},
-        {statement:["seat"],answer:["asiento"], isStatement:true},
-        {statement:["second"],answer:["segundo"], isStatement:true},
-        {statement:["section"],answer:["sección"], isStatement:true},
-        {statement:["security"],answer:["seguridad"], isStatement:true},
-        {statement:["see"],answer:["ver"], isStatement:true},
-        {statement:["seek"],answer:["buscar"], isStatement:true},
-        {statement:["seem"],answer:["parecer"], isStatement:true},
-        {statement:["sell"],answer:["vender"], isStatement:true},
-        {statement:["send"],answer:["enviar"], isStatement:true},
-        {statement:["sense"],answer:["sentido"], isStatement:true},
-        {statement:["separate"],answer:["separar"], isStatement:true},
-        {statement:["series"],answer:["serie"], isStatement:true},
-        {statement:["serious"],answer:["grave"], isStatement:true},
-        {statement:["serve"],answer:["servir"], isStatement:true},
-        {statement:["service"],answer:["servicio"], isStatement:true},
-        {statement:["set"],answer:["conjunto"], isStatement:true},
-        {statement:["several"],answer:["varios"], isStatement:true},
-        {statement:["shall"],answer:["deberá"], isStatement:true},
-        {statement:["shape"],answer:["forma"], isStatement:true},
-        {statement:["share"],answer:["compartir"], isStatement:true},
-        {statement:["she"],answer:["ella"], isStatement:true},
-        {statement:["shop"],answer:["tienda"], isStatement:true},
-        {statement:["short"],answer:["corto"], isStatement:true},
-        {statement:["should"],answer:["debería"], isStatement:true},
-        {statement:["show"],answer:["espectáculo"], isStatement:true},
-        {statement:["side"],answer:["lado"], isStatement:true},
-        {statement:["sign"],answer:["firmar"], isStatement:true},
-        {statement:["significant"],answer:["significativo"], isStatement:true},
-        {statement:["similar"],answer:["similar"], isStatement:true},
-        {statement:["simple"],answer:["sencillo"], isStatement:true},
-        {statement:["simply"],answer:["simplemente"], isStatement:true},
-        {statement:["since"],answer:["ya que"], isStatement:true},
-        {statement:["sing"],answer:["canta"], isStatement:true},
-        {statement:["single"],answer:["soltero"], isStatement:true},
-        {statement:["sister"],answer:["hermana"], isStatement:true},
-        {statement:["sit"],answer:["sentar"], isStatement:true},
-        {statement:["site"],answer:["sitio"], isStatement:true},
-        {statement:["situation"],answer:["situación"], isStatement:true},
-        {statement:["size"],answer:["tamaño"], isStatement:true},
-        {statement:["skill"],answer:["habilidad"], isStatement:true},
-        {statement:["sleep"],answer:["dormir"], isStatement:true},
-        {statement:["small"],answer:["pequeña"], isStatement:true},
-        {statement:["smile"],answer:["sonreír"], isStatement:true},
-        {statement:["so"],answer:["entonces"], isStatement:true},
-        {statement:["social"],answer:["social"], isStatement:true},
-        {statement:["society"],answer:["sociedad"], isStatement:true},
-        {statement:["solution"],answer:["solución"], isStatement:true},
-        {statement:["some"],answer:["algunos"], isStatement:true},
-        {statement:["somebody"],answer:["alguien"], isStatement:true},
-        {statement:["someone"],answer:["alguien"], isStatement:true},
-        {statement:["something"],answer:["alguna cosa"], isStatement:true},
-        {statement:["sometimes"],answer:["algunas veces"], isStatement:true},
-        {statement:["son"],answer:["hijo"], isStatement:true},
-        {statement:["song"],answer:["canción"], isStatement:true},
-        {statement:["soon"],answer:["pronto"], isStatement:true},
-        {statement:["sorry"],answer:["lo siento"], isStatement:true},
-        {statement:["sort"],answer:["ordenar"], isStatement:true},
-        {statement:["sound"],answer:["sonar"], isStatement:true},
-        {statement:["source"],answer:["fuente"], isStatement:true},
-        {statement:["space"],answer:["espacio"], isStatement:true},
-        {statement:["speak"],answer:["hablar"], isStatement:true},
-        {statement:["special"],answer:["especial"], isStatement:true},
-        {statement:["specific"],answer:["específico"], isStatement:true},
-        {statement:["speech"],answer:["habla"], isStatement:true},
-        {statement:["spend"],answer:["gastar"], isStatement:true},
-        {statement:["sport"],answer:["deporte"], isStatement:true},
-        {statement:["staff"],answer:["personal"], isStatement:true},
-        {statement:["stage"],answer:["escenario"], isStatement:true},
-        {statement:["stand"],answer:["estar"], isStatement:true},
-        {statement:["standard"],answer:["estándar"], isStatement:true},
-        {statement:["star"],answer:["estrella"], isStatement:true},
-        {statement:["start"],answer:["comienzo"], isStatement:true},
-        {statement:["state"],answer:["estado"], isStatement:true},
-        {statement:["statement"],answer:["declaración"], isStatement:true},
-        {statement:["station"],answer:["estación"], isStatement:true},
-        {statement:["stay"],answer:["permanecer"], isStatement:true},
-        {statement:["step"],answer:["paso"], isStatement:true},
-        {statement:["still"],answer:["todavía"], isStatement:true},
-        {statement:["stock"],answer:["valores"], isStatement:true},
-        {statement:["stop"],answer:["detener"], isStatement:true},
-        {statement:["store"],answer:["almacenar"], isStatement:true},
-        {statement:["story"],answer:["historia"], isStatement:true},
-        {statement:["strategy"],answer:["estrategia"], isStatement:true},
-        {statement:["street"],answer:["calle"], isStatement:true},
-        {statement:["strike"],answer:["Huelga"], isStatement:true},
-        {statement:["strong"],answer:["fuerte"], isStatement:true},
-        {statement:["structure"],answer:["estructura"], isStatement:true},
-        {statement:["student"],answer:["estudiante"], isStatement:true},
-        {statement:["study"],answer:["estudiar"], isStatement:true},
-        {statement:["stuff"],answer:["cosas"], isStatement:true},
-        {statement:["style"],answer:["estilo"], isStatement:true},
-        {statement:["subject"],answer:["tema"], isStatement:true},
-        {statement:["success"],answer:["éxito"], isStatement:true},
-        {statement:["successful"],answer:["exitoso"], isStatement:true},
-        {statement:["such"],answer:["tal"], isStatement:true},
-        {statement:["suddenly"],answer:["De repente"], isStatement:true},
-        {statement:["suffer"],answer:["sufrir"], isStatement:true},
-        {statement:["suggest"],answer:["sugerir"], isStatement:true},
-        {statement:["summer"],answer:["verano"], isStatement:true},
-        {statement:["supply"],answer:["suministro"], isStatement:true},
-        {statement:["support"],answer:["apoyo"], isStatement:true},
-        {statement:["suppose"],answer:["suponer"], isStatement:true},
-        {statement:["sure"],answer:["Por supuesto"], isStatement:true},
-        {statement:["surprise"],answer:["sorpresa"], isStatement:true},
-        {statement:["system"],answer:["sistema"], isStatement:true},
-        {statement:["table"],answer:["mesa"], isStatement:true},
-        {statement:["take"],answer:["tomar"], isStatement:true},
-        {statement:["talk"],answer:["hablar"], isStatement:true},
-        {statement:["target"],answer:["objetivo"], isStatement:true},
-        {statement:["task"],answer:["tarea"], isStatement:true},
-        {statement:["tax"],answer:["impuesto"], isStatement:true},
-        {statement:["teach"],answer:["enseñar"], isStatement:true},
-        {statement:["teacher"],answer:["profesor"], isStatement:true},
-        {statement:["team"],answer:["equipo"], isStatement:true},
-        {statement:["technology"],answer:["tecnología"], isStatement:true},
-        {statement:["television"],answer:["televisión"], isStatement:true},
-        {statement:["tell"],answer:["contar"], isStatement:true},
-        {statement:["tend"],answer:["tender"], isStatement:true},
-        {statement:["term"],answer:["término"], isStatement:true},
-        {statement:["test"],answer:["prueba"], isStatement:true},
-        {statement:["than"],answer:["que"], isStatement:true},
-        {statement:["thank"],answer:["gracias"], isStatement:true},
-        {statement:["that"],answer:["ese, eso"], isStatement:true},
-        {statement:["the"],answer:["el, la, los, las"], isStatement:true},
-        {statement:["themselves"],answer:["sí mismos"], isStatement:true},
-        {statement:["then"],answer:["entonces"], isStatement:true},
-        {statement:["theory"],answer:["teoría"], isStatement:true},
-        {statement:["there"],answer:["ahí"], isStatement:true},
-        {statement:["therefore"],answer:["por lo tanto"], isStatement:true},
-        {statement:["they"],answer:["ellos"], isStatement:true},
-        {statement:["thing"],answer:["cosa"], isStatement:true},
-        {statement:["think"],answer:["pensar"], isStatement:true},
-        {statement:["this"],answer:["esta"], isStatement:true},
-        {statement:["though"],answer:["aunque"], isStatement:true},
-        {statement:["through"],answer:["mediante"], isStatement:true},
-        {statement:["throughout"],answer:["en todo"], isStatement:true},
-        {statement:["throw"],answer:["lanzar"], isStatement:true},
-        {statement:["thus"],answer:["así"], isStatement:true},
-        {statement:["time"],answer:["hora"], isStatement:true},
-        {statement:["to"],answer:["a"], isStatement:true},
-        {statement:["today"],answer:["hoy"], isStatement:true},
-        {statement:["together"],answer:["juntos"], isStatement:true},
-        {statement:["tomorrow"],answer:["mañana"], isStatement:true},
-        {statement:["too"],answer:["también"], isStatement:true},
-        {statement:["top"],answer:["parte superior"], isStatement:true},
-        {statement:["total"],answer:["total"], isStatement:true},
-        {statement:["touch"],answer:["toque"], isStatement:true},
-        {statement:["toward"],answer:["hacia"], isStatement:true},
-        {statement:["town"],answer:["pueblo"], isStatement:true},
-        {statement:["track"],answer:["pista"], isStatement:true},
-        {statement:["trade"],answer:["comercio"], isStatement:true},
-        {statement:["traditional"],answer:["tradicional "], isStatement:true},
-        {statement:["train"],answer:["entrenar"], isStatement:true},
-        {statement:["travel"],answer:["viaje"], isStatement:true},
-        {statement:["treat"],answer:["tratar"], isStatement:true},
-        {statement:["treatment"],answer:["tratamiento"], isStatement:true},
-        {statement:["tree"],answer:["árbol"], isStatement:true},
-        {statement:["trip"],answer:["viaje"], isStatement:true},
-        {statement:["trouble"],answer:["problema"], isStatement:true},
-        {statement:["true"],answer:["cierto"], isStatement:true},
-        {statement:["try"],answer:["tratar"], isStatement:true},
-        {statement:["turn"],answer:["giro"], isStatement:true},
-        {statement:["type"],answer:["tipo"], isStatement:true},
-        {statement:["unclear"],answer:["poco claro"], isStatement:true},
-        {statement:["under"],answer:["debajo"], isStatement:true},
-        {statement:["understand"],answer:["entender"], isStatement:true},
-        {statement:["unit"],answer:["unidad"], isStatement:true},
-        {statement:["university"],answer:["universidad"], isStatement:true},
-        {statement:["until"],answer:["hasta"], isStatement:true},
-        {statement:["up"],answer:["arriba"], isStatement:true},
-        {statement:["upon"],answer:["sobre"], isStatement:true},
-        {statement:["use"],answer:["utilizar"], isStatement:true},
-        {statement:["useful"],answer:["útil"], isStatement:true},
-        {statement:["usually"],answer:["generalmente"], isStatement:true},
-        {statement:["value"],answer:["valor"], isStatement:true},
-        {statement:["variety"],answer:["variedad"], isStatement:true},
-        {statement:["various"],answer:["varios"], isStatement:true},
-        {statement:["version"],answer:["versión"], isStatement:true},
-        {statement:["very"],answer:["muy"], isStatement:true},
-        {statement:["view"],answer:["ver"], isStatement:true},
-        {statement:["village"],answer:["pueblo"], isStatement:true},
-        {statement:["visit"],answer:["visitar"], isStatement:true},
-        {statement:["voice"],answer:["voz"], isStatement:true},
-        {statement:["vote"],answer:["votar"], isStatement:true},
-        {statement:["wait"],answer:["Espere"], isStatement:true},
-        {statement:["walk"],answer:["caminar"], isStatement:true},
-        {statement:["wall"],answer:["pared"], isStatement:true},
-        {statement:["want"],answer:["querer"], isStatement:true},
-        {statement:["war"],answer:["guerra"], isStatement:true},
-        {statement:["watch"],answer:["reloj"], isStatement:true},
-        {statement:["water"],answer:["agua"], isStatement:true},
-        {statement:["way"],answer:["camino"], isStatement:true},
-        {statement:["we"],answer:["nosotros"], isStatement:true},
-        {statement:["wear"],answer:["vestir"], isStatement:true},
-        {statement:["week"],answer:["semana"], isStatement:true},
-        {statement:["weekend"],answer:["fin de semana"], isStatement:true},
-        {statement:["weight"],answer:["peso"], isStatement:true},
-        {statement:["welcome"],answer:["bienvenido"], isStatement:true},
-        {statement:["well"],answer:["bien"], isStatement:true},
-        {statement:["what"],answer:["qué"], isStatement:true},
-        {statement:["whatever"],answer:["lo que sea"], isStatement:true},
-        {statement:["when"],answer:["cuando"], isStatement:true},
-        {statement:["where"],answer:["dónde"], isStatement:true},
-        {statement:["whether"],answer:["ya sea"], isStatement:true},
-        {statement:["which"],answer:["cual"], isStatement:true},
-        {statement:["while"],answer:["mientras"], isStatement:true},
-        {statement:["white"],answer:["blanco"], isStatement:true},
-        {statement:["who"],answer:["quien"], isStatement:true},
-        {statement:["whole"],answer:["todo"], isStatement:true},
-        {statement:["why"],answer:["por qué"], isStatement:true},
-        {statement:["wide"],answer:["amplio"], isStatement:true},
-        {statement:["wife"],answer:["esposa"], isStatement:true},
-        {statement:["will"],answer:["será"], isStatement:true},
-        {statement:["win"],answer:["ganar"], isStatement:true},
-        {statement:["window"],answer:["ventana"], isStatement:true},
-        {statement:["wish"],answer:["deseo"], isStatement:true},
-        {statement:["with"],answer:["con"], isStatement:true},
-        {statement:["within"],answer:["dentro"], isStatement:true},
-        {statement:["without"],answer:["sin"], isStatement:true},
-        {statement:["woman"],answer:["mujer"], isStatement:true},
-        {statement:["wonder"],answer:["preguntarse"], isStatement:true},
-        {statement:["word"],answer:["palabra"], isStatement:true},
-        {statement:["work"],answer:["trabajo"], isStatement:true},
-        {statement:["worker"],answer:["obrero"], isStatement:true},
-        {statement:["world"],answer:["mundo"], isStatement:true},
-        {statement:["worry"],answer:["preocupación"], isStatement:true},
-        {statement:["worth"],answer:["valor"], isStatement:true},
-        {statement:["would"],answer:["haría"], isStatement:true},
-        {statement:["write"],answer:["escribir"], isStatement:true},
-        {statement:["wrong"],answer:["incorrecto"], isStatement:true},
-        {statement:["yeah"],answer:["sí"], isStatement:true},
-        {statement:["year"],answer:["año"], isStatement:true},
-        {statement:["yes"],answer:["sí"], isStatement:true},
-        {statement:["yesterday"],answer:["ayer"], isStatement:true},
-        {statement:["yet"],answer:["todavía"], isStatement:true},
-        {statement:["you"],answer:["tú"], isStatement:true},
-        {statement:["young"],answer:["joven"], isStatement:true},
-        {statement:["yourself"],answer:["tú mismo"], isStatement:true},
-        {statement:["n’t"],answer:["No"], isStatement:true},
-        {statement:["his"],answer:["su"], isStatement:true},
-        {statement:["my"],answer:["mi"], isStatement:true},
-        {statement:["me"],answer:["me"], isStatement:true},
-        {statement:["your"],answer:["tu"], isStatement:true},
-        {statement:["their"],answer:["su"], isStatement:true},
-        {statement:["her"],answer:["ella"], isStatement:true},
-        {statement:["him"],answer:["él"], isStatement:true},
-        {statement:["them"],answer:["ellos"], isStatement:true},
-        {statement:["our"],answer:["nuestro"], isStatement:true},
-        {statement:["these"],answer:["estas"], isStatement:true},
-        {statement:["two"],answer:["dos"], isStatement:true},
-        {statement:["us"],answer:["nosotros"], isStatement:true},
-        {statement:["those"],answer:["aquellos"], isStatement:true},
-        {statement:["oh"],answer:["Oh"], isStatement:true},
-        {statement:["three"],answer:["Tres"], isStatement:true},
-        {statement:["its"],answer:["su"], isStatement:true},
-        {statement:["american"],answer:["americano"], isStatement:true},
-        {statement:["best"],answer:["mejor"], isStatement:true},
-        {statement:["hey"],answer:["Oye"], isStatement:true},
-        {statement:["four"],answer:["cuatro"], isStatement:true},
-        {statement:["later"],answer:["más tarde"], isStatement:true},
-        {statement:["five"],answer:["cinco"], isStatement:true},
-        {statement:["better"],answer:["mejor"], isStatement:true},
-        {statement:["including"],answer:["incluso"], isStatement:true},
-        {statement:["according"],answer:["según"], isStatement:true},
-        {statement:["republican"],answer:["republicano"], isStatement:true},
-        {statement:["thanks"],answer:["Gracias"], isStatement:true},
-        {statement:["six"],answer:["seis"], isStatement:true},
-        {statement:["million"],answer:["millón"], isStatement:true},
-        {statement:["federal"],answer:["federal"], isStatement:true},
-        {statement:["photo"],answer:["Foto"], isStatement:true},
-        {statement:["building"],answer:["edificio"], isStatement:true},
-        {statement:["media"],answer:["medios de comunicación"], isStatement:true},
-        {statement:["mom"],answer:["mamá"], isStatement:true},
-        {statement:["uh"],answer:["Oh"], isStatement:true},
-        {statement:["video"],answer:["video"], isStatement:true},
-        {statement:["third"],answer:["tercera"], isStatement:true},
-        {statement:["county"],answer:["condado"], isStatement:true},
-        {statement:["dad"],answer:["padre"], isStatement:true},
-        {statement:["whose"],answer:["cuyo"], isStatement:true},
-        {statement:["shoot"],answer:["disparo"], isStatement:true},
-        {statement:["truth"],answer:["verdad"], isStatement:true},
-        {statement:["thought"],answer:["pensamiento"], isStatement:true},
-        {statement:["north"],answer:["norte"], isStatement:true},
-        {statement:["blood"],answer:["sangre"], isStatement:true},
-        {statement:["medical"],answer:["médico"], isStatement:true},
-        {statement:["earth"],answer:["tierra"], isStatement:true},
-        {statement:["tonight"],answer:["esta noche"], isStatement:true},
-        {statement:["gun"],answer:["pistola"], isStatement:true},
-        {statement:["hell"],answer:["infierno"], isStatement:true},
-        {statement:["administration"],answer:["administración"], isStatement:true},
-        {statement:["congress"],answer:["congreso"], isStatement:true},
-        {statement:["defense"],answer:["defensa"], isStatement:true},
-        {statement:["sir"],answer:["señor"], isStatement:true},
-        {statement:["entire"],answer:["completo"], isStatement:true},
-        {statement:["democrat"],answer:["demócrata"], isStatement:true},
-        {statement:["sex"],answer:["sexo"], isStatement:true},
-        {statement:["south"],answer:["Sur"], isStatement:true},
-        {statement:["decade"],answer:["década"], isStatement:true},
-        {statement:["scene"],answer:["escena"], isStatement:true},
-        {statement:["interesting"],answer:["interesante"], isStatement:true},
-        {statement:["west"],answer:["Oeste"], isStatement:true},
-        {statement:["candidate"],answer:["candidato"], isStatement:true},
-        {statement:["hang"],answer:["colgar"], isStatement:true},
-        {statement:["tv"],answer:["televisor"], isStatement:true},
-        {statement:["left"],answer:["izquierda"], isStatement:true},
-        {statement:["meeting"],answer:["cita"], isStatement:true},
-        {statement:["feeling"],answer:["sentimiento"], isStatement:true},
-        {statement:["crime"],answer:["crimen"], isStatement:true},
-        {statement:["king"],answer:["Rey"], isStatement:true},
-        {statement:["seven"],answer:["Siete"], isStatement:true},
-        {statement:["lady"],answer:["señora"], isStatement:true},
-        {statement:["east"],answer:["este"], isStatement:true},
-        {statement:["district"],answer:["distrito"], isStatement:true},
-        {statement:["cup"],answer:["taza"], isStatement:true},
-        {statement:["physical"],answer:["físico"], isStatement:true},
-        {statement:["hi"],answer:["Hola"], isStatement:true},
-        {statement:["fan"],answer:["admirador"], isStatement:true},
-        {statement:["hurt"],answer:["herir"], isStatement:true},
-        {statement:["september"],answer:["septiembre"], isStatement:true},
-        {statement:["et"],answer:["et"], isStatement:true},
-        {statement:["lay"],answer:["poner"], isStatement:true},
-        {statement:["authority"],answer:["autoridad"], isStatement:true},
-        {statement:["perfect"],answer:["Perfecto"], isStatement:true},
-        {statement:["impact"],answer:["impacto"], isStatement:true},
-        {statement:["safe"],answer:["a salvo"], isStatement:true},
-        {statement:["committee"],answer:["comité"], isStatement:true},
-        {statement:["supposed"],answer:["supuesto"], isStatement:true},
-        {statement:["training"],answer:["capacitación"], isStatement:true},
-        {statement:["shit"],answer:["mierda"], isStatement:true},
-        {statement:["eight"],answer:["ocho"], isStatement:true},
-        {statement:["ten"],answer:["diez"], isStatement:true},
-        {statement:["remove"],answer:["retirar"], isStatement:true},
-        {statement:["union"],answer:["Unión"], isStatement:true},
-        {statement:["professor"],answer:["profesor"], isStatement:true},
-        {statement:["sun"],answer:["sol"], isStatement:true},
-        {statement:["pain"],answer:["dolor"], isStatement:true},
-        {statement:["artist"],answer:["artista"], isStatement:true},
-        {statement:["shot"],answer:["Disparo"], isStatement:true},
-        {statement:["hate"],answer:["odio"], isStatement:true},
-        {statement:["reality"],answer:["realidad"], isStatement:true},
-        {statement:["justice"],answer:["justicia"], isStatement:true},
-        {statement:["river"],answer:["río"], isStatement:true},
-        {statement:["brain"],answer:["cerebro"], isStatement:true},
-        {statement:["global"],answer:["global"], isStatement:true},
-        {statement:["nobody"],answer:["nadie"], isStatement:true},
-        {statement:["weapon"],answer:["arma"], isStatement:true},
-        {statement:["island"],answer:["isla"], isStatement:true},
-        {statement:["absolutely"],answer:["absolutamente"], isStatement:true},
-        {statement:["respond"],answer:["responder"], isStatement:true},
-        {statement:["army"],answer:["Ejército"], isStatement:true},
-
-
-
-      ] */
-    }
+export const GRAMMAR_QUESTIONS: string = `come;venir;2;verb;
+go;ir;2;verb;
+eat;comer;2;verb;
+drink;beber;2;verb;
+work;trabajar;2;verb;
+study;estudiar;2;verb;
+make;hacer / crear;2;verb;
+do;hacer;2;verb;
+have;tener;2;verb;
+be;ser / estar;2;verb;
+can;poder;2;modal_verb;
+must;deber;2;modal_verb;
+should;debería;2;modal_verb;
+will;futuro / voluntad;2;modal_verb;
+going to;ir a (futuro);2;future_structure;
+come on;vamos / anímate;2;phrasal_verb;
+get up;levantarse;2;phrasal_verb;
+look for;buscar;2;phrasal_verb;
+turn on;encender;2;phrasal_verb;
+turn off;apagar;2;phrasal_verb;
+give up;rendirse;2;phrasal_verb;
+have got;tener (posesión);2;structure_have_got;
+I;yo;2;pronoun_subject;
+you;tú / usted;2;pronoun_subject;
+he;él;2;pronoun_subject;
+she;ella;2;pronoun_subject;
+it;eso / ello;2;pronoun_subject;
+we;nosotros;2;pronoun_subject;
+they;ellos;2;pronoun_subject;
+me;me / mí;2;pronoun_object;
+him;lo / le;2;pronoun_object;
+her;la / le;2;pronoun_object;
+my;mi;2;possessive_adjective;
+your;tu / su;2;possessive_adjective;
+his;su (de él);2;possessive_adjective;
+her;su (de ella);2;possessive_adjective;
+mine;mío;2;possessive_pronoun;
+yours;tuyo;2;possessive_pronoun;
+this;este / esta;2;demonstrative;
+that;ese / esa;2;aquel;demonstrative
+these;estos / estas;2;demonstrative;
+those;esos / esas;2;aquellos;demonstrative
+big;grande;2;adjective;
+small;pequeño;2;adjective;
+good;bueno;2;adjective;
+bad;malo;2;adjective;
+easy;fácil;2;adjective;
+difficult;difícil;2;adjective;
+happy;feliz;2;adjective;
+tired;cansado;2;adjective;
+bigger;más grande;2;comparative_adjective;
+smaller;más pequeño;2;comparative_adjective;
+better;mejor;2;comparative_adjective;
+worse;peor;2;comparative_adjective;
+the biggest;el más grande;2;superlative_adjective;
+the best;el mejor;2;superlative_adjective;
+very;muy;2;adverb_intensity;
+too;demasiado;2;adverb_intensity;
+enough;suficiente;2;adverb_intensity;
+always;siempre;2;adverb_frequency;
+usually;usualmente;2;adverb_frequency;
+sometimes;a veces;2;adverb_frequency;
+never;nunca;2;adverb_frequency;
+now;ahora;2;adverb_time;
+today;hoy;2;adverb_time;
+tomorrow;mañana;2;adverb_time;
+here;aquí;2;adverb_place;
+there;allí;2;adverb_place;
+in;en;2;preposition;
+on;sobre / en;2;preposition;
+at;en (lugar/tiempo);2;preposition;
+to;a / hacia;2;preposition;
+from;de / desde;2;preposition;
+with;con;2;preposition;
+without;sin;2;preposition;
+for;para / por;2;preposition;
+about;sobre;2;preposition;
+and;y;2;conjunction;
+but;pero;2;conjunction;
+or;o;2;conjunction;
+because;porque;2;conjunction;
+if;si;2;conjunction;
+some;algunos;2;quantifier;
+any;algún / ninguno;2;quantifier;
+many;muchos;2;quantifier;
+much;mucho;2;quantifier;
+few;pocos;2;quantifier;
+little;poco;2;quantifier;
+how much;cuánto;2;question_structure;
+how many;cuántos;2;question_structure;
+what;qué;2;wh_word;
+where;dónde;2;wh_word;
+when;cuándo;2;wh_word;
+why;por qué;2;wh_word;
+how;cómo;2;wh_word;
+yes;sí;2;basic_answer;
+no;no;2;basic_answer;
+ok;vale / bien;2;common_expression;
+thank you;gracias;2;common_expression;
+you’re welcome;con gusto;2;common_expression;
+what’s up;qué tal;2;informal_expression;
+see you;nos vemos;2;common_expression;
+gonna;ir a (informal);2;informal_future;
+wanna;querer (informal);2;informal_structure;
+gotta;tener que (informal);2;informal_structure;
+start;empezar;2;verb;
+finish;terminar;2;verb;
+open;abrir;2;verb;
+close;cerrar;2;verb;
+buy;comprar;2;verb;
+sell;vender;2;verb;
+pay;pagar;2;verb;
+need;necesitar;2;verb;
+want;querer;2;verb;
+like;gustar / agradar;2;verb;
+know;saber / conocer;2;verb;
+think;pensar;2;verb;
+feel;sentir;2;verb;
+find;encontrar;2;verb;
+lose;perder;2;verb;
+bring;traer;2;verb;
+take;tomar / llevar;2;verb;
+put;poner;2;verb;
+keep;mantener;2;verb;
+leave;salir / dejar;2;verb;
+arrive;llegar;2;verb;
+wait;esperar;2;verb;
+help;ayudar;2;verb;
+try;intentar;2;verb;
+call;llamar;2;verb;
+ask;preguntar;2;verb;
+answer;responder;2;verb;
+say;decir;2;verb;
+tell;contar / decir;2;verb;
+speak;hablar;2;verb;
+talk;conversar;2;verb;
+listen;escuchar;2;verb;
+hear;oír;2;verb;
+watch;mirar;2;verb;
+see;ver;2;verb;
+run;correr;2;verb;
+walk;caminar;2;verb;
+drive;conducir;2;verb;
+travel;viajar;2;verb;
+stay;quedarse;2;verb;
+live;vivir;2;verb;
+move;mover / mudarse;2;verb;
+stop;detener;2;verb;
+continue;continuar;2;verb;
+change;cambiar;2;verb;
+use;usar;2;verb;
+clean;limpiar;2;verb;
+cook;cocinar;2;verb;
+eat out;comer fuera;2;phrasal_verb;
+wake up;despertarse;2;phrasal_verb;
+sit down;sentarse;2;phrasal_verb;
+stand up;ponerse de pie;2;phrasal_verb;
+go on;continuar;2;phrasal_verb;
+find out;averiguar;2;phrasal_verb;
+take off;quitar / despegar;2;phrasal_verb;
+put on;ponerse (ropa);2;phrasal_verb;
+pick up;recoger;2;phrasal_verb;
+drop off;dejar;2;phrasal_verb;
+get in;entrar;2;phrasal_verb;
+get out;salir;2;phrasal_verb;
+get back;regresar;2;phrasal_verb;
+at home;en casa;2;common_expression;
+right now;ahora mismo;2;time_expression;
+later;más tarde;2;time_expression;
+early;temprano;2;time_expression;
+late;tarde;2;time_expression;
+every day;cada día;2;time_expression;
+last night;anoche;2;time_expression;
+next week;la próxima semana;2;time_expression;
+a lot;mucho / mucho de;2;quantity_expression;
+a little;un poco;2;quantity_expression;
+a few;unos pocos;2;quantity_expression;
+one more;uno más;2;quantity_expression;
+too much;demasiado;2;quantity_expression;
+too many;demasiados;2;quantity_expression;
+there is;hay (singular);2;existential_structure;
+there are;hay (plural);2;existential_structure;
+used to;solía / acostumbraba;2;past_structure;
+be able to;ser capaz de;2;ability_structure;
+have to;tener que;2;obligation_structure;
+don’t have to;no tener que;2;obligation_structure;
+need to;necesitar;2;obligation_structure;
+want to;querer;2;verb_structure;
+like to;gustar;2;verb_structure;
+good morning;buenos días;2;greeting;
+good afternoon;buenas tardes;2;greeting;
+good evening;buenas noches;2;greeting;
+good night;buenas noches;2;farewell;
+excuse me;disculpe;2;polite_expression;
+sorry;lo siento;2;polite_expression;
+please;por favor;2;polite_expression;
+no problem;no hay problema;2;common_expression;
+of course;por supuesto;2;common_expression;
+maybe;tal vez;2;adverb;
+probably;probablemente;2;adverb;
+really;realmente;2;adverb;
+actually;en realidad;2;adverb;
+already;ya;2;adverb_time;
+still;todavía;2;a dverb_time;
+yet;aún / todavía;2;adverb_time;
+almost;casi;2;adverb;
+only;solo;2;adverb;
+same;mismo;2;adjective;
+different;diferente;2;adjective;
+new;nuevo;2;adjective;
+old;viejo;2;adjective;
+young;joven;2;adjective;
+long;largo;2;adjective;
+short;corto;2;adjective;
+fast;rápido;2;adjective;
+slow;lento;2;adjective;
+cheap;barato;2;adjective;
+expensive;caro;2;adjective;
+full;lleno;2;adjective;
+empty;vacío;2;adjective;
+ready;listo;2;adjective;
+busy;ocupado;2;adjective;
+free;libre;2;adjective;
+sure;seguro;2;adjective;
+true;VERDADERO;2;adjective;
+false;FALSO;2;adjective;
+more;más;2;comparison;
+less;menos;2;comparison;
+as…as;tan…como;2;comparison_structure;
+than;que (comparación);2;comparison_word;
+either;tampoco / cualquiera;2;connector;
+neither;ninguno / tampoco;2;connector;
+both;ambos;2;connector;
+each;cada uno;2;determiner;
+every;cada;2;determiner;
+another;otro;2;determiner;
+the same;el mismo;2;determiner;
+the other;el otro;2;determiner;
+something;algo;2;indefinite_pronoun;
+someone;alguien;2;indefinite_pronoun;
+somewhere;algún lugar;2;indefinite_pronoun;
+anything;cualquier cosa / nada;2;indefinite_pronoun;
+anyone;cualquiera / nadie;2;indefinite_pronoun;
+nothing;nada;2;indefinite_pronoun;
+nobody;nadie;2;indefinite_pronoun;
+everything;todo;2;indefinite_pronoun;
+everyone;todos;2;indefinite_pronoun;
+before;antes;2;preposition_time;
+after;después;2;preposition_time;
+during;durante;2;preposition_time;
+until;hasta;2;preposition_time;
+since;desde;2;preposition_time;
+above;encima de;2;preposition_place;
+below;debajo de;2;preposition_place;
+under;debajo;2;preposition_place;
+over;sobre / encima;2;preposition_place;
+between;entre;2;preposition_place;
+among;entre;2;preposition_place;
+inside;dentro;2;preposition_place;
+outside;fuera;2;preposition_place;
+near;cerca;2;preposition_place;
+far;lejos;2;preposition_place;
+around;alrededor;2;preposition_place;
+across;a través de;2;preposition_movement;
+along;a lo largo de;2;preposition_movement;
+towards;hacia;2;preposition_movement;
+away;lejos;2;adverb_place;
+back;de vuelta;2;adverb_place;
+up;arriba;2;adverb_place;
+down;abajo;2;adverb_place;
+again;otra vez;2;adverb;
+once;una vez;2;adverb;
+twice;dos veces;2;adverb;
+usually;normalmente;2;adverb_frequency;
+often;a menudo;2;adverb_frequency;
+rarely;rara vez;2;adverb_frequency;
+sometimes;a veces;2;adverb_frequency;
+almost never;casi nunca;2;adverb_frequency;
+right;derecha / correcto;2;adjective;
+left;izquierda;2;adjective;
+wrong;incorrecto;2;adjective;
+possible;posible;2;adjective;
+impossible;imposible;2;adjective;
+important;importante;2;adjective;
+necessary;necesario;2;adjective;
+optional;opcional;2;adjective;
+safe;seguro;2;adjective;
+dangerous;peligroso;2;adjective;
+simple;simple;2;adjective;
+complex;complejo;2;adjective;
+clear;claro;2;adjective;
+confusing;confuso;2;adjective;
+strong;fuerte;2;adjective;
+weak;débil;2;adjective;
+rich;rico;2;adjective;
+poor;pobre;2;adjective;
+early;temprano;2;adjective;
+late;tarde;2;adjective;
+first;primero;2;ordinal;
+second;segundo;2;ordinal;
+third;tercero;2;ordinal;
+last;último;2;ordinal;
+next;siguiente;2;ordinal;
+one;uno;2;number;
+two;dos;2;number;
+three;tres;2;number;
+four;cuatro;2;number;
+five;cinco;2;number;
+ten;diez;2;number;
+hundred;cien;2;number;
+thousand;mil;2;number;
+half;mitad;2;fraction;
+quarter;cuarto;2;fraction;
+more or less;más o menos;2;approximation;
+about;aproximadamente;2;approximation;
+around;alrededor de;2;approximation;
+at least;al menos;2;approximation;
+at most;como máximo;2;approximation;
+kind of;algo así;2;softener;
+sort of;más o menos;2;softener;
+maybe;quizás;2;softener;
+I think;creo que;2;opinion_chunk;
+I believe;creo;2;opinion_chunk;
+in my opinion;en mi opinión;2;opinion_chunk;
+it depends;depende;2;opinion_chunk;
+for example;por ejemplo;2;connector;
+for instance;por ejemplo;2;connector;
+that is;es decir;2;connector;
+in general;en general;2;connector;
+in fact;de hecho;2;connector;
+by the way;por cierto;2;connector;
+by myself;por mí mismo;2;reflexive_expression;
+yourself;tú mismo;2;reflexive_pronoun;
+himself;él mismo;2;reflexive_pronoun;
+herself;ella misma;2;reflexive_pronoun;
+itself;por sí mismo;2;reflexive_pronoun;
+ourselves;nosotros mismos;2;reflexive_pronoun;
+themselves;ellos mismos;2;reflexive_pronoun;
+make sense;tener sentido;2;common_expression;
+no idea;ni idea;2;common_expression;
+I agree;estoy de acuerdo;2;common_expression;
+I disagree;no estoy de acuerdo;2;common_expression;
+sounds good;suena bien;2;common_expression;
+sounds bad;suena mal;2;common_expression;
+it’s ok;está bien;2;common_expression;
+it’s fine;todo bien;2;common_expression;
+it’s up to you;depende de ti;2;common_expression;
+what do you mean;qué quieres decir;2;common_expression;
+what else;qué más;2;common_expression;
+nothing else;nada más;2;common_expression;
+just in case;por si acaso;2;common_expression;
+as soon as;tan pronto como;2;time_structure;
+as long as;siempre que;2;time_structure;
+right away;de inmediato;2;time_expression;
+from now on;de ahora en adelante;2;time_expression;
+so far;hasta ahora;2;time_expression;
+at the moment;en este momento;2;time_expression;
+in the past;en el pasado;2;time_expression;
+in the future;en el futuro;2;time_expression;
+used to;solía;2;past_habit_structure;
+would;solía (pasado);2;past_habit_structure;
+was going to;iba a;2;past_future_structure;
+have been;he estado;2;present_perfect;
+has gone;ha ido;2;present_perfect;
+have done;he hecho;2;present_perfect;
+did;núcleo pasado simple;2;past_simple;
+was;era / estaba;2;past_simple;
+were;eran / estaban;2;past_simple;
+will be;será / estará;2;future_simple;
+will have;habrá tenido;2;future_perfect;
+can’t;no poder;2;negative_modal;
+mustn’t;no deber;2;negative_modal;
+shouldn’t;no debería;2;negative_modal;
+don’t;auxiliar negativo;2;auxiliary;
+doesn’t;auxiliar negativo;2;auxiliary;
+didn’t;auxiliar negativo pasado;2;auxiliary;
+isn’t;no es / no está;2;auxiliary;
+aren’t;no son / no están;2;auxiliary;
+wasn’t;no era / no estaba;2;auxiliary;
+weren’t;no eran / no estaban;2;auxiliary;
+let’s;hagamos;2;suggestion;
+why not;por qué no;2;suggestion;
+how about;qué tal;2;suggestion;
+what if;y si;2;suggestion;
+sure;claro;2;agreement;
+okay;ok;2;agreement;
+fine;bien;2;agreement;
+maybe later;quizás luego;2;soft_refusal;
+not now;ahora no;2;soft_refusal;
+I’m busy;estoy ocupado;2;soft_refusal;
+I don’t know;no sé;2;basic_expression;
+I don’t care;no me importa;2;basic_expression;
+I don’t mind;no me molesta;2;basic_expression;
+I hope;espero;2;basic_expression;
+I guess;supongo;2;basic_expression;
+I mean;quiero decir;2;discourse_marker;
+you know;ya sabes;2;discourse_marker;
+well;bueno;2;discourse_marker;
+actually;en realidad;2;discourse_marker;
+basically;básicamente;2;discourse_marker;
+literally;literalmente;2;discourse_marker;
+get;obtener / conseguir;2;verb;
+get along;llevarse bien;2;phrasal_verb;
+get by;arreglárselas;2;phrasal_verb;
+get over;superar;2;phrasal_verb;
+get used to;acostumbrarse a;2;phrasal_verb;
+get rid of;deshacerse de;2;phrasal_verb;
+get back to;volver a;2;phrasal_verb;
+take;coger / tomar;2;verb;
+take care;cuidarse;2;phrasal_verb;
+take place;tener lugar;2;phrasal_verb;
+take off;quitar / despegar;2;phrasal_verb;
+take over;hacerse cargo;2;phrasal_verb;
+make sure;asegurarse;2;phrasal_verb;
+make sense;tener sentido;2;phrasal_verb;
+make up;inventar / reconciliarse;2;phrasal_verb;
+make it;lograrlo;2;phrasal_verb;
+do well;hacerlo bien;2;phrasal_verb;
+do badly;hacerlo mal;2;phrasal_verb;
+set;establecer / colocar;2;verb;
+set up;configurar / montar;2;phrasal_verb;
+set off;salir / detonar;2;phrasal_verb;
+keep;mantener;2;verb;
+keep on;seguir;2;phrasal_verb;
+keep up;mantener el ritmo;2;phrasal_verb;
+keep in mind;tener en cuenta;2;phrasal_verb;
+hold;sostener;2;verb;
+hold on;esperar;2;phrasal_verb;
+hold back;contener;2;phrasal_verb;
+run;funcionar / correr;2;verb;
+run out;quedarse sin;2;phrasal_verb;
+run into;encontrarse con;2;phrasal_verb;
+carry;llevar;2;cverb;
+carry on;continuar;2;phrasal_verb;
+deal with;tratar con;2;phrasal_verb;
+figure out;averiguar;2;phrasal_verb;
+point out;señalar;2;phrasal_verb;
+find out;descubrir;2;phrasal_verb;
+turn out;resultar;2;phrasal_verb;
+bring up;sacar el tema;2;phrasal_verb;
+come across;encontrarse con;2;phrasal_verb;
+go through;pasar por;2;phrasal_verb;
+cut down;reducir;2;phrasal_verb;
+put off;posponer;2;phrasal_verb;
+look forward to;esperar con ganas;2;phrasal_verb;
+feel like;tener ganas;2;phrasal_verb;
+be used to;estar acostumbrado a;2;structure;
+be about to;estar a punto de;2;structure;
+would rather;preferiría;2;structure;
+had better;sería mejor;2;structure;
+as if;como si;2;connector;
+even though;aunque;2;connector;
+unless;a menos que;2;connector;
+while;mientras;2;connector;
+whereas;mientras que;2;connector;
+instead of;en lugar de;2;connector;
+due to;debido a;2;connector;
+according to;según;2;connector;
+in order to;para;2;purpose_structure;
+so that;para que;2;purpose_structure;
+therefore;por lo tanto;2;connector;
+however;sin embargo;2;connector;
+otherwise;de lo contrario;2;connector;
+meanwhile;mientras tanto;2;connector;
+actually;en realidad;2;discourse_marker;
+apparently;aparentemente;2;discourse_marker;
+eventually;finalmente;2;discourse_marker;
+basically;básicamente;2;discourse_marker;
+honestly;honestamente;2;discourse_marker;
+seriously;en serio;2;discourse_marker;
+probably;probablemente;2;discourse_marker;
+it seems;parece;2;opinion_structure;
+it looks like;parece que;2;opinion_structure;
+I suppose;supongo;2;opinion_structure;
+I’m not sure;no estoy seguro;2;opinion_structure;
+I’d say;yo diría;2;opinion_structure;
+from my point of view;desde mi punto de vista;2;opinion_structure;
+as far as I know;hasta donde sé;2;opinion_structure;
+do you mind;te importa;2;polite_structure;
+would you mind;le importaría;2;polite_structure;
+could you;podrías;2;polite_structure;
+would you;podrías / le gustaría;2;polite_structure;
+is it okay;está bien si;2;polite_structure;
+no worries;no hay problema;2;informal_expression;
+fair enough;me parece bien;2;informal_expression;
+that’s fine;está bien;2;informal_expression;
+that works;funciona;2;informal_expression;
+I see;entiendo;2;informal_expression;
+makes sense;tiene sentido;2;informal_expression;
+not really;no realmente;2;soft_disagreement;
+I guess so;supongo que sí;2;soft_agreement;
+I don’t think so;no lo creo;2;soft_disagreement;
+maybe not;tal vez no;2;soft_disagreement;
+it depends;depende;2;soft_answer;
+more or less;más o menos;2;soft_answer;
+kind of;algo así;2;soft_answer;
+sort of;más o menos;2;soft_answer;
+get together;reunirse;2;phrasal_verb;
+catch up;ponerse al día;2;phrasal_verb;
+hang out;pasar el rato;2;phrasal_verb;
+show up;aparecer;2;phrasal_verb;
+check out;revisar / echar un vistazo;2;phrasal_verb;
+work out;funcionar / entrenar;2;phrasal_verb;
+break down;averiarse;2;phrasal_verb;
+break up;terminar (relación);2;phrasal_verb;
+bring about;provocar;2;phrasal_verb;
+call off;cancelar;2;phrasal_verb;
+come up;aparecer / surgir;2;phrasal_verb;
+end up;terminar;2;phrasal_verb;
+fall apart;desmoronarse;2;phrasal_verb;
+fill out;rellenar (formulario);2;phrasal_verb;
+find out;descubrir;2;phrasal_verb;
+give away;regalar / revelar;2;phrasal_verb;
+go ahead;adelante;2;phrasal_verb;
+grow up;crecer;2;phrasal_verb;
+hand in;entregar;2;phrasal_verb;
+let down;decepcionar;2;phrasal_verb;
+pass out;desmayarse / repartir;2;phrasal_verb;
+put away;guardar;2;phrasal_verb;
+set aside;reservar / apartar;2;phrasal_verb;
+sort out;resolver / organizar;2;phrasal_verb;
+take care of;cuidar de;2;phrasal_verb;
+turn down;rechazar / bajar;2;phrasal_verb;
+turn up;aparecer / subir;2;phrasal_verb;
+wipe out;eliminar;2;phrasal_verb;
+in the long run;a largo plazo;2;idiom;
+on the other hand;por otro lado;2;idiom;
+at the end of the day;al final del día;2;idiom;
+once in a while;de vez en cuando;2;idiom;
+sooner or later;tarde o temprano;2;idiom;
+by chance;por casualidad;2;idiom;
+on purpose;a propósito;2;idiom;
+in a hurry;con prisa;2;idiom;
+out of place;fuera de lugar;2;idiom;
+out of time;sin tiempo;2;idiom;
+I’m used to;estoy acostumbrado a;2;structure;
+I’d rather not;preferiría no;2;structure;
+I don’t feel like;no tengo ganas;2;structure;
+I’m not used to;no estoy acostumbrado a;2;structure;
+I was wondering;me preguntaba;2;polite_structure;
+would it be possible;sería posible;2;polite_structure;
+do you happen to;casualmente;2;polite_structure;
+as far as;en cuanto a;2;connector;
+no matter;no importa;2;connector;
+even if;aunque;2;connector;
+whatever;lo que sea;2;indefinite;
+whoever;quien sea;2;indefinite;
+whenever;cuando sea;2;indefinite;
+wherever;donde sea;2;indefinite;`

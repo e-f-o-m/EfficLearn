@@ -1,7 +1,8 @@
 $text: #ffffff;
 
 @mixin btn($primary, $gradient_bg, $b_top, $b_right, $t_shadow, $light) {
-    min-width: 2.46rem;
+    min-width: 3.15rem;
+    min-height: 2.8rem;
     background: linear-gradient(-45deg, $gradient_bg, $primary);
     border-radius: 1rem;
     border-top: solid 2px $b_top;
@@ -24,8 +25,8 @@ $text: #ffffff;
     
     img {
         filter: invert(1) hue-rotate(180deg) drop-shadow(-1px 1px 1px $t_shadow);; 
-        max-width: 1.22rem;
-        max-height: 1.22rem;
+        max-width: 1.5rem;
+        max-height: 1.5rem;
         font-weight: 600;
          
             /* 2px 0 $t_shadow,

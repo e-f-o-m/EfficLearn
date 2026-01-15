@@ -41,10 +41,4 @@ export class InputComponent {
   dataChange(target: any) {
     this.event?.emit(target.value)
   }
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-        this.miInput.nativeElement.focus();
-    }, 100);
-  }
 }

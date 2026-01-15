@@ -16,6 +16,7 @@ export class AlertComponent {
 
   cancel(event: any) {
     this.data?.cancel()
+    
   }
   accept(event: any) {
     event.preventDefault()

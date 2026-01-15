@@ -12,6 +12,7 @@ export class ButtonComponent {
   @Input() title = ""
   @Input() identifier = ""
   @Input() type:any = ""
+  @Input() disabled:boolean = false
   @Output() eventClick = new EventEmitter<string>();
 
 

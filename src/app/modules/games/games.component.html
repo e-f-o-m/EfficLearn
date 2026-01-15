@@ -1,25 +1,27 @@
 <div class="">
-    <div class="mt-1 w-full flex flex-row items-center flex-wrap sm:h-40 h-40 pb-8 ">
+    <div class="mt-1 w-full flex flex-row items-center flex-wrap sm:h-40 h-40 ">
         <div class="title pl-6 sm:pl-20 text-white">
-            <h1  class="mt-2 mb-2 mt-8 pb-0 text-3xl  font-bold">Inicio</h1>
+            <h1  class="mb-2 mt-8 pb-0 text-3xl  font-bold">Inicio</h1>
             <div class="mb-5 text-lg">Juegos y herramientas de aprendizaje</div>
         </div>
         <br>
     </div>
 
     <div class="games_list pb-8">
+      
+      
         <ul class="flex gap-12 justify-evenly mt-8 flex-wrap ">
-          <a class="sm:w-fit w-full px-4" routerLink="grammar">
-              <card-game img="bg-[url('/backgrounds/grammar.webp')]" class="w-fit" title="Gramática ingles" description="Gramática básica de ingles" />
-          </a>
           <a class="sm:w-fit w-full px-4" routerLink="games/cards">
-              <card-game img="bg-[url('/backgrounds/flashcards.webp')]" class="w-fit" title="Flash Cards" description="Tarjetas de preguntas y respuestas" />
-          </a>
-          <a class="sm:w-fit w-full px-4" routerLink="games/chat">
-            <card-game img="bg-[url('/backgrounds/chat-learn.webp')]" class="w-fit" title="Chat" description="Aprende chateando" />
+            <card-game img="bg-[url('/backgrounds/flashcards.webp')]" class="w-fit" title="Flash Cards" description="Tarjetas de preguntas y respuestas" />
           </a>
           <a class="sm:w-fit w-full px-4" routerLink="games/multiplecards">
             <card-game img="bg-[url('/backgrounds/mini-flash-cards.webp')]" class="w-fit" title="Multiple flash cards" description="Aprende con flah cards" />
+          </a>
+          <a class="sm:w-fit w-full px-4" routerLink="grammar">
+            <card-game img="bg-[url('/backgrounds/grammar.webp')]" class="w-fit" title="Gramática ingles" description="Gramática básica de ingles" />
+          </a>
+          <a class="sm:w-fit w-full px-4" [routerLink]="isLogin ? 'games/chat' : 'profile'">
+            <card-game img="bg-[url('/backgrounds/chat-learn.webp')]" class="w-fit" title="Chat" description="Aprende chateando" />
           </a>
           <!--<a class="sm:w-fit w-full px-4" routerLink="games/trivial">
             <card-game img="bg-[url('/backgrounds/trivial.png')]" class="w-fit" title="Trivial" description="Juego de preguntas y respuestas" />

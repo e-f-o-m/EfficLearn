@@ -32,6 +32,7 @@ export class GroupsComponent {
       if (!resGroups) return
       this.groups = resGroups.data
     }
+    this.groups.push({ name: 'Sin grupo', type: 'empty', questions: [] })
     this.changeDetectorRef.detectChanges()
   }
 

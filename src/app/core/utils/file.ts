@@ -1,4 +1,5 @@
 import { Question2 } from "src/app/core/models/QuestionSet";
+import { nowFormatYMDHMS } from "src/app/shared/date-time.utils";
 
 export async function fileToLinesLyric(file: File): Promise<Array<{ id: number, text: string, idOther: number }>> {
   return new Promise<Array<{ id: number, text: string, idOther: number }>>(resolve => {
@@ -74,11 +75,11 @@ export function transformNewTxt(text: string): string[] {
 export function textToQuestions(text: string, question_vault_id: number, group_id?: number): Question2[] {
   const textLines = text.split(/\r?\n/)
   const questions: Question2[] = []
-  const date = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 19).replace('T', ' ')
+  const date = nowFormatYMDHMS()
 
   let isQuestion=true
   let countQuestion = 0
-  let questionsBulid: {question: string, response: string, difficulty?: 0|1|2} [] = [{question: '', response: '', difficulty: 2}]
+  let questionsBulid: {question: string, response: string, difficulty?: 0|1|2, tag?: string} [] = [{question: '', response: '', difficulty: 2, tag: ''}]
   for (let line of textLines) {
     const isNewOrBlank = line.trim().length == 0
     if(isNewOrBlank){
@@ -89,7 +90,7 @@ export function textToQuestions(text: string, question_vault_id: number, group_i
     if(isQuestion){
       isQuestion = false;
       if(!questionsBulid[countQuestion]){
-        questionsBulid[countQuestion] = {question: '', response: '', difficulty: 2}
+        questionsBulid[countQuestion] = {question: '', response: '', difficulty: 2, tag: ''}
       }
       let separator = line.includes(';') ? ';' : line.includes('|') ? '|' : null
       if(separator){
@@ -102,6 +103,9 @@ export function textToQuestions(text: string, question_vault_id: number, group_i
         }
         if(lineQuestionSplit?.[2]?.length > 0){
           questionsBulid[countQuestion].difficulty = Number(lineQuestionSplit[2]) as 0|1|2
+        }
+        if(lineQuestionSplit?.[3]?.length > 0){
+          questionsBulid[countQuestion].tag = lineQuestionSplit[3]
         }
         isQuestion = true;
         countQuestion++;
@@ -120,7 +124,7 @@ export function textToQuestions(text: string, question_vault_id: number, group_i
       entry_b: lineObj.response,
       /* description?: string */
       difficulty: lineObj.difficulty,
-      /* tags?: string[], */
+      tags: [lineObj?.tag || ''],
       cycle: 0,
       create_at: date,
       group_id: group_id,

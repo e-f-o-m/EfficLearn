@@ -56,7 +56,6 @@ export class ReadComponent {
         let dataUrl = this.router.parseUrl(url).queryParams;
         if (dataUrl["nav"]) {
             this.isShowNav = "true" == dataUrl["nav"]
-            console.log('>> >>: paser', this.isShowNav);
         }
     }
 

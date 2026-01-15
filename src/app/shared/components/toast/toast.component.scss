@@ -7,18 +7,18 @@
     width: 100%;
     pointer-events: none;
     --bg-content: #F0F4F9;
-
+    z-index: 100000;
 }
 //fuera del for
 .main-container {
     position: absolute;
     bottom: 1.1rem;
     right: 0;
-    z-index: 1001;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    z-index: 100000;
 }
 //dentro del for
 .toast__container {

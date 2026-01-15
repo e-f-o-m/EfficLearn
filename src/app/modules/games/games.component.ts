@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { QuestionSet } from 'src/app/core/models/QuestionSet';
-import { getNameListsLS } from 'src/app/core/services/localstorange/LS.list';
+import { RouterModule } from '@angular/router';
 import { CardGameComponent } from 'src/app/shared/components/card-game/card-game.component';
-import { LocalstorageService } from 'src/app/core/services/localstorange/localstorange.service';
+import { FirebaseService } from 'src/app/core/firebase/firebase.service';
 
 @Component({
   selector: 'app-games',
@@ -14,13 +12,13 @@ import { LocalstorageService } from 'src/app/core/services/localstorange/localst
   styleUrls: ['./games.component.scss']
 })
 export class GamesComponent {
-
-  constructor(private readonly _localstorageService: LocalstorageService) {}
-
-  lists: QuestionSet[] = [];
-
-  ngOnInit() {
-    this.lists = getNameListsLS()
-    this._localstorageService.gameSelected = ''
+  isLogin = false;
+  
+  constructor(private readonly firebaseServices: FirebaseService){
+    this.firebaseServices.auth$.subscribe(res=>{
+      if(res.loading) return
+      if(!res.user) return
+      this.isLogin = true;
+    })
   }
 }

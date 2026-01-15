@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Question, Question2, Question_vault, QuestionSet } from 'src/app/core/models/QuestionSet';
+import { Question2, Question_vault } from 'src/app/core/models/QuestionSet';
 import { GeneralTableResponse } from 'src/app/shared/components/general-table/GeneralTableResponse';
 import { PorcentChartComponent } from 'src/app/shared/components/porcent-chart/porcent-chart.component';
 import { AlertComponent, IAlert } from 'src/app/shared/modals/alert/alert.component';
@@ -21,15 +21,15 @@ import { ToastService } from 'src/app/core/services/toast/toast.service';
   styleUrl: './list.component.scss'
 })
 export class ListComponent {
-  lists: QuestionSet[] = [];
+  //lists: QuestionSet[] = [];
   tableData: Array<Array<GeneralTableResponse>> = [];
   isEditResource = false
   isEditItem = false
   isFreeResource = false
   isTableResouces = true
   generalTableItemSelected = new GeneralTableResponse()
-  dataItemResource: Question = {}
-  listsResources: QuestionSet[] = []
+  //dataItemResource: Question = {}
+  //listsResources: QuestionSet[] = []
   alert?: IAlert
   questionForm?: IQuestionForm
   question_vaults: Question_vault[] = []
@@ -48,12 +48,10 @@ export class ListComponent {
       title: 'Agregar lista de ejemplo',
       accept: async () => {
         this.alert = undefined
-        const newList = await this._indexeddbService.insertQuestion_vault({ name: 'Grammar', quantity: 0, completed: 0, })
+        const newList = await this._indexeddbService.insertQuestion_vault({ name: 'Mi vocabulario', quantity: 0, completed: 0, })
         const questions = textToQuestions(GRAMMAR_QUESTIONS, newList.data!)
-        for (const question of questions) {
-          const data = await this._indexeddbService.insertQuestion(question)
-          if (!data) throw new Error('Error insert questions')
-        }
+        const data = await this._indexeddbService.upsertQuestions(questions)
+        if (!data) throw new Error('Error insert questions')
 
         await this.getData()
 
@@ -81,7 +79,6 @@ export class ListComponent {
     } else {
       this.router.navigate([''])
     }
-
   }
 
   add() {
@@ -145,10 +142,8 @@ export class ListComponent {
         this.questionForm = undefined
       },
       massive: async (questions: Question2[]) => {
-        for (const question of questions) {
-          const data = await this._indexeddbService.insertQuestion(question)
-          if (!data) throw new Error('Error insert question', data)
-        }
+        const data = await this._indexeddbService.upsertQuestions(questions)
+        if (!data) throw new Error('Error insert question', data)
         await this.getData()
         this.toastService.setToast({ type: 's', timeS: 1.5, title: "Preguntas añadidas con exito!" })
         this.questionForm = undefined

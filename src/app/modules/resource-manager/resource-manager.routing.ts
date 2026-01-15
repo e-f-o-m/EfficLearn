@@ -13,7 +13,8 @@ const folderResolver = (route: ActivatedRouteSnapshot, state: RouterStateSnapsho
     
     return Promise.all([p1,p2]).then(resEnd => {
         _resourceManagerService.question_vault_id = Number(route.paramMap.get('question_vault_id'))
-        _resourceManagerService.setQuestionsToGroups()
+        //FIEMX 3
+        _resourceManagerService.setQuestionsToGroups(_resourceManagerService.question_vault_id)
     }).catch(error => {
         const parentUrl = state.url.split('/').slice(0, -1).join('/');
         // Navigate to there

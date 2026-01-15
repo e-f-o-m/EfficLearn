@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { ResolveFn, Routes } from '@angular/router';
 
 import { GamesComponent } from './modules/games/games.component';
 import { MultiplecardsComponent } from './modules/games/multiplecards/multiplecards.component';
@@ -9,11 +9,19 @@ import { ChatComponent } from './modules/games/chat/chat.component';
 import { GrammarComponent } from './modules/grammar/grammar.component';
 import MainLayoutComponent from './layouts/main-layout/main-layout.component';
 import { TrivialComponent } from './modules/games/trivial/trivial.component';
+import { inject } from '@angular/core';
+import { QuestionService } from './core/firebase/question.service';
+import { ProfileComponent } from './modules/profile/profile.component';
+
+export const questionsResolver: ResolveFn<void> = () => {
+  inject(QuestionService);
+};
 
 export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    resolve: { questionsResolver },
     children: [
       { path: '', component: GamesComponent },
       { path: 'games', component: GamesComponent },
@@ -25,6 +33,7 @@ export const routes: Routes = [
       { path: 'grammar', component: GrammarComponent },
       { path: 'resource-manager', loadChildren: () => import('./modules/resource-manager/resource-manager.routing') },
       { path: 'read', component: ReadComponent },
+      { path: 'profile', component: ProfileComponent },
     ]
   },
 ];

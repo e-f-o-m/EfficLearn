@@ -1,6 +1,171 @@
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    ".read": false,
+    ".write": false,
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "userName": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+        },
+        "rooms": {
+          "$roomId": {
+            ".validate": "newData.isString() && newData.val().length > 0"
+          }
+        },
+        "questions_size": {
+          ".validate": "!newData.exists() || (newData.isNumber() && newData.val() >= 0)"
+        },
+          
+        "last_update": {
+        	".validate": "newData.isNumber()"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "chat_learn": {
+      "rooms": {
+        "$roomId": {
+          ".read": "auth != null",
+          ".write": "auth != null",
+          "chat": {
+            "$messageId": {
+              ".write": "auth != null && newData.child('user').val() === auth.uid",
+              "createAt": {
+                ".validate": "newData.isNumber()"
+              },
+              "user": {
+                ".validate": "newData.isString() && newData.val() === auth.uid"
+              },
+              "userName": {
+                ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 100)"
+              },
+              "state": {
+                ".validate": "newData.val() === 'sent'"
+              },
+              "type": {
+                ".validate": "newData.val() === 'normal'"
+              },
+              "value": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 500"
+              },
+              "$other": {
+                ".validate": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "question_system": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "question_vault": {
+          ".read": "auth != null",
+          ".write": "auth != null",
+            
+          "$vaultId": {
+            "question_vault_id": {
+              ".validate": "newData.exists() && newData.isNumber()"
+            },
+            "name": {
+              ".validate": "newData.exists() && (newData.isString() && newData.val().length > 0 && newData.val().length <= 200)"
+            },
+            "quantity": {
+              ".validate": "!newData.exists() || (newData.isNumber() && newData.val() >= 0)"
+            },
+            "completed": {
+              ".validate": "!newData.exists() || (newData.isNumber() && newData.val() >= 0)"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "questions": {
+          ".read": "auth != null",
+          ".write": "auth != null",
+          "$questionId": {
+            
+            "question_id": {
+              ".validate": "newData.isNumber()"
+            },
+            "description": {
+              ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 1000)"
+            },
+            "entry_a": {
+              ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 500"
+            },
+            "entry_b": {
+              ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 500"
+            },
+            "difficulty": {
+              ".validate": "newData.val() === 0 || newData.val() === 1 || newData.val() === 2"
+            },
+            "tags": {
+              "$tag": {
+              	".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 1000)"
+              }
+            },
+            "cycle": {
+              ".validate": "newData.isNumber() && newData.val() >= 0"
+            },
+            "create_at": {
+              ".validate": "!newData.exists() || newData.isString()"
+            },
+            "group_id": {
+              ".validate": "!newData.exists() || newData.isNumber()"
+            },
+            "state": {
+              ".validate": "newData.val() === 'review' || newData.val() === 'due' || newData.val() === 'completed' || newData.val() === 'suspend'"
+            },
+            "question_vault_id": {
+              ".validate": "newData.isNumber()"
+            },
+            "review_count": {
+              ".validate": "!newData.exists() || newData.isNumber()"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "groups": {
+          ".read": "auth != null",
+          ".write": "auth != null",
+          
+          "$groupId": {
+            "group_id": {
+              ".validate": "newData.exists() && newData.isNumber()"
+            },
+            "name": {
+              ".validate": "newData.exists() && (newData.isString() && newData.val().length > 0 && newData.val().length <= 200)"
+            },
+            "cycle": {
+              ".validate": "!newData.exists() || (newData.isNumber() && newData.val() >= 0)"
+            },
+            "create_at": {
+              ".validate": "!newData.exists() || newData.isString()"
+            },
+            "type": {
+              ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 50)"
+            },
+            "question_vault_id": {
+              ".validate": "newData.exists() && newData.isNumber()"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
   }
 }

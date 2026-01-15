@@ -1,8 +1,8 @@
 <div class="main-container">
-    <div class="xheader">
+    <div class="xheader pl-4 pt-12 pb-12">
         <div class="title pl-4 sm:pl-20">
             <h1>EDITAR LISTA</h1>
-            <div>Listas</div>
+            <div>{{this.question_vaults?.name}}</div>
         </div>
 
         <div class="buttons_actions ml-12">
@@ -16,49 +16,72 @@
     <div class="w-full sm:p-8 flex items-start justify-evenly flex-wrap gap-8 sm:-mt-16 text-white">
 
         <!-- QUESTIONS -->
-        <div class="mcard card min-w-[390px] max-w-[700px] grow ">
-            <div class="flex flex-row gap-4 mt-1 mb-6 items-center">
+        <div class=" relative bg-[#141b1b] rounded-2xl min-w-[390px] max-w-[700px] grow border-2 border-cyan-950">
+            <div class="flex flex-row gap-4 items-center px-8 pt-5 pb-5 mb-2 border-b-2 border-b-cyan-950">
                 <h2 class="font-semibold">Preguntas</h2>
                 <app-input (event)="serach($event)" [data]="{placeholder: '🔍 Buscar', id: 'search', values: [''], typeFormControl: 'input-text'}" />
-
             </div>
 
-            <div class="content mb-8">
-                @for (group of groups; track $index) {
-                    <div class="w-full text-green-100 mt-4 -mb-1">
-                        {{group.name}}
+            @if(isEditMode){
+            <div class="flex gap-4 justify-center mt-3 mb-2">
+                <button class="bg-[#1d543cc4] w-9 h-9 leading-10 rounded-lg cursor-pointer hover:contrast-[1.1]">🗑️</button>
+                <button class="bg-[#1d543cc4] w-9 h-9 leading-10 rounded-lg cursor-pointer hover:contrast-[1.1]">📋</button>
+                <button (click)="moveToGroup()"      class="bg-[#1d543cc4] w-9 h-9 leading-10 rounded-lg cursor-pointer hover:contrast-[1.1]">↔️</button>
+            </div>
+            }
+            <div class=" content mb-8 {{viewAll? '': 'max-h-[80dvh] overflow-y-scroll'}} custom-scrollbar px-6">
+                
+                @for (group of groups; track group; let indexGroup = $index) {
+                    <div class="w-full mt-4 -mb-1 {{(group.questions||[]).length>0?'text-green-100':'text-gray-300'}}" (click)="toggleGroup(group.group_id||-1)">
+                        {{group.name}} <span class="ml-1 text-xs">{{selectedGroups[group.group_id||-1]? '▲':'▼'}}</span>
                     </div>
-                    @for (question of group.questions; track $index) {
+                    @if(selectedGroups[group.group_id||-1]){
+                    @for (question of group.questions; track question; let indexQestion = $index) {
 
-                    @if (!search || (question.entry_a+' '+question.entry_b).includes(search) ) {
-                        <div class=" flex flex-col gap-1 mt-2 bg-[#1E2624] w-full p-2 rounded-xl cursor-pointer" (click)="editQuestion(question)">
+                    @if (!search || (question.entry_a?.toLowerCase()+' '+question.entry_b?.toLowerCase()).includes(search?.toLowerCase() || '') ) {
+                        <div class=" flex flex-col mt-2 bg-[#1E2624] border-2 border-gray-700 w-full py-2 px-3 rounded-xl cursor-pointer relative" 
+                        (click)="editQuestion(question)">
                             <div class="flex gap-2">
-                                <div class="px-[5px] py-[3px] rounded-md bg-[#14542E] text-slate-300 text-[12px] w-fit">
+                                <span>#{{indexQestion+1}}</span>
+                                <div class="px-[5px] leading-1 py-2 rounded-md bg-[#14542E] text-slate-300 text-[11px] w-fit">
                                     {{group.name}}
                                 </div>
-                                <div class="px-[5px] py-[3px] rounded-md bg-[#74582B] text-slate-300 text-[12px] w-fit">
+                                <div class="px-[5px] leading-1 py-2 rounded-md bg-[#353e3e] text-slate-300 text-[11px] w-fit difficulty{{question.difficulty}}">
                                     Dificultad: {{question.difficulty}}
                                 </div>
                             </div>
 
-                            <div class="flex felx-row gap-3 items-center">
+                            <div class="flex felx-row gap-3 items-center mt-1">
                                 <div class="h-2 w-2 bg-[#0A513F] rounded-full"></div>
                                 <div class="text-slate-300 w-full truncate ...">{{question.entry_a}}</div>
                             </div>
 
                             <div class="flex felx-row gap-3 items-center">
-                                <div class="h-2 w-2 bg-[#0A513F] rounded-full"></div>
+                                <div class="h-2 w-2 bg-[#2a443e] rounded-full"></div>
                                 <div class="text-slate-400 text-sm w-full truncate ...">{{question.entry_b}}</div>
                             </div>
+
+                            <div class="pointer-events-none absolute right-1.5 top-1.5 w-6 h-6 ">
+                                <button (click)="selectQuestion(question.question_id); $event.stopPropagation()" 
+                                    class="{{selectedQuestions[question.question_id||'']? 'border-[#5ecae0c3] bg-[#8cb0b05b]': 'border-[#51696d21] bg-[#3e44440b]'}} h-6 w-6 pointer-events-auto border-[1px] hover:border-[#7b868781] rounded-full">
+                                </button>
+                            </div>
+
                         </div>
+                    }
+                    }@empty {
+                        <span class="opacity-45 font-normal">-- Sin registros --</span>
                     }
                     }
                 }
             </div>
+            @if(!viewAll){
+                <a (click)="toggleViewAll()" class="text-blue-300 text-center absolute bottom-0 left-0 cursor-pointer w-full italic">Ver todo</a>
+            }
         </div>
 
         <!-- GRUPOS -->
-        <div class="mcard card max-w-[850px] min-w-96">
+        <div class="mcard card max-w-[850px] min-w-96 border-2 border-cyan-950">
             <div class="flex flex-row gap-4 mt-1 mb-6 items-center">
                 <h2 class="font-semibold">Grupos</h2>
                 <app-input (event)="serach($event)" [data]="{placeholder: '🔍 Buscar', id: 'search', values: [''], typeFormControl: 'input-text'}" />
@@ -68,13 +91,14 @@
             </div>
 
             <div class="content gap-4 flex flex-row flex-wrap justify-around pb-8">
-                @for (group of groups; track $index) {
-                <div class="basis-60 grow flex flex-row items-center justify-between gap-4 mt-2 bg-[#1E2624] w-full px-4 py-2 rounded-xl ">
+                @if (countChange) {
+                @for (group of groups; track group) {
+                <div class="basis-60 grow flex flex-row items-center justify-between gap-4 mt-2 bg-[#1E2624] w-full px-4 py-2 rounded-xl border-2 border-gray-700">
 
-                    <app-porcent-chart-xs [data]="{value: countStars(group), goal: (group.questions?.length!*5), type: 'porcent'}"></app-porcent-chart-xs>
+                    <app-porcent-chart-xs [data]="{value: countStars(group), goal: (group.questions?.length!), type: 'porcent'}"></app-porcent-chart-xs>
 
                     <div class="flex flex-col gap-2">
-                        <div class="text-green-300/50 text-xs">{{(group.questions?.length || 0) +' / '+ 10}}</div>
+                        <div class="text-green-300/50 text-xs">{{(countCompleted(group) || 0) +' / '+ (group.questions?.length || 0)}}</div>
                         <div class="text-slate-300 w-full truncate ...">{{group.name}}</div>
                     </div>
 
@@ -85,12 +109,16 @@
 
                 </div>
                 }
+                }
             </div>
         </div>
 
 
     </div>
 
+    @if (groupModal) {
+        <app-groups [data]="groupModal"></app-groups>
+    }
     @if (this.alert) {
     <alert [data]="this.alert" />
     }

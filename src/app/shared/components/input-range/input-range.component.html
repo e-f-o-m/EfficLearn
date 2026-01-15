@@ -4,11 +4,11 @@
     <label
         class="mlabel2"
         [for]="data?.id">
-    <input class="rating" max="3" name="rangeCopleted"
+    <input class="rating" max="2" name="rangeCopleted"
         oninput="this.style.setProperty('--value', this.value)" 
         [style.--value]="data?.values![0]"
         step="1"
-        style="--stars:3;--value:0" 
+        style="--stars:2;--value:0" 
         type="range" 
         [name]="data?.id" 
         (input)="dataChange($event.target)"
