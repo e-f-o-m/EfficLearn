@@ -5,9 +5,14 @@
             <div>{{this.question_vaults?.name}}</div>
         </div>
 
-        <div class="buttons_actions ml-12">
+        <div class="buttons_actions ml-12 flex flex-row items-center">
             <div class="bg-[#1D542E] w-11 h-11 rounded-xl p-1 cursor-pointer hover:contrast-[1.1]" (click)="add()">
                 <img class="invert" src="/add.svg" alt="">
+            </div>
+            <div class="bg-[#2E5D1D] w-11 h-11 rounded-xl p-1 cursor-pointer hover:contrast-[1.1] ml-2" (click)="exportToCsv()" title="Exportar a CSV">
+                <svg class="invert w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
             </div>
         </div>
         <br>
@@ -24,7 +29,7 @@
 
             @if(isEditMode){
             <div class="flex gap-4 justify-center mt-3 mb-2">
-                <button class="bg-[#1d543cc4] w-9 h-9 leading-10 rounded-lg cursor-pointer hover:contrast-[1.1]">🗑️</button>
+                <button (click)="deleteSelected()" class="bg-[#1d543cc4] w-9 h-9 leading-10 rounded-lg cursor-pointer hover:contrast-[1.1]">🗑️</button>
                 <button class="bg-[#1d543cc4] w-9 h-9 leading-10 rounded-lg cursor-pointer hover:contrast-[1.1]">📋</button>
                 <button (click)="moveToGroup()"      class="bg-[#1d543cc4] w-9 h-9 leading-10 rounded-lg cursor-pointer hover:contrast-[1.1]">↔️</button>
             </div>

@@ -22,7 +22,9 @@
                     }
                 }
                 <div class="actions">
-                    <app-button class="invert" [title]="'Eliminar'" (eventClick)="deleteX()" type="button"></app-button>
+                     @if (this.data?.delete) {
+                         <app-button class="invert" [title]="'Eliminar'" (eventClick)="deleteX()" type="button"></app-button>
+                     }
                     <app-button [title]="'Cancelar'" (eventClick)="cancel()"></app-button>
                     <app-button [title]="'Aceptar'" type="submit" ></app-button>
                 </div>

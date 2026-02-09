@@ -94,7 +94,6 @@ export class QuestionService {
           }
           this._localstorageService.setIsUpdateQuestions(false);
         } else {
-
           console.log('>> >>: Current',);
         }
       }

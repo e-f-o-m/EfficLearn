@@ -345,4 +345,68 @@ export class EditComponent {
       this.toastService.setToast({ type: 's', timeS: 1.5, title: "Successful", message: "Updated" });
     }
   }
+
+  exportToCsv() {
+    if (!this.groups || this.groups.length === 0) {
+      this.toastService.setToast({ type: 'w', timeS: 2, title: "No hay datos para exportar", message: "" });
+      return;
+    }
+
+    let csvContent = 'Grupo;Entrada A;Entrada B;Descripcion;Dificultad\n';
+
+    for (const group of this.groups) {
+      if (group.questions) {
+        for (const question of group.questions) {
+          const row = [
+            group.name || '',
+            question.entry_a || '',
+            question.entry_b || '',
+            question.description || '',
+            question.difficulty?.toString() || '0'
+          ].map(val => `"${val.replace(/"/g, '""')}"`).join(';');
+          csvContent += row + '\n';
+        }
+      }
+    }
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    const fileName = `export_${this.question_vaults?.name || 'resource'}_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.setAttribute('href', url);
+    link.setAttribute('download', fileName);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    this.toastService.setToast({ type: 's', timeS: 1.5, title: "¡Exportación completada!", message: `Se ha descargado ${fileName}` });
+  }
+
+  deleteSelected() {
+    this.alertEdit = {
+      title: 'Eliminar preguntas', 
+      message: '¿Estás seguro de que deseas eliminar las preguntas seleccionadas?', 
+      accept: async () => {
+        this.alertEdit = undefined;
+        for (const [key, value] of Object.entries(this.selectedQuestions)) {
+          if (value === true) {
+            let questionDelete = this.questions?.find(_question => _question.question_id + "" == key)
+            if (questionDelete) {
+              await this._indexeddbService.deleteQuestion(questionDelete.question_id!)
+            }
+            this.selectedQuestions[key] = false;
+          }
+        }
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "¡Preguntas eliminadas con exito!", message: "" });
+        this.isEditMode = false
+        await this.getData();
+      }, 
+      cancel: () => {
+        this.alertEdit = undefined;
+      }
+    }
+  }
+
 }
