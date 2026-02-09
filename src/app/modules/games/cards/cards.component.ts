@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Group, Question2, STATES_QUESTION } from 'src/app/core/models/QuestionSet';
-import { LogicGameCards } from 'src/app/core/utils/LogicGameCards';
 import { BtnGameComponent } from 'src/app/shared/components/btn-game/btn-game.component';
 import { BtnImgComponent } from 'src/app/shared/components/btn-img/btn-img.component';
 import { BrPipe } from 'src/app/shared/pipes/br.pipe';
@@ -118,10 +117,10 @@ export class CardsComponent {
     this.changeDetectorRef.detectChanges();
   }
 
-  openGroups() {
+  openGroups(): void {
     this.groupModal = {
       question_vault_id: this._localstorageService.getQuestionVaultSelected()!,
-      accept: async (_group: Group) => {
+      accept: (_group: Group) => {
         if (!_group) return
         this._cardsService.setPosGroup(_group.group_id);
         this.groupSelected = this._cardsService.getCurrentGroup();
@@ -135,25 +134,25 @@ export class CardsComponent {
     }
   }
 
-  decrease() {
+  decrease(): void {
     this.fontSizeCard = this.fontSizeCard - 0.2
   }
-  increase() {
+  increase(): void {
     this.fontSizeCard = this.fontSizeCard + 0.2
   }
 
-  openMode() {
+  openMode(): void {
     this.modeModal = {
       title: '',
       message: this._cardsService.mode + '',
-      accept: async (data: EModes) => {
+      accept: (data: EModes) => {
         if (!data) return
         this._cardsService.changeMode(data);
         this.mode = data;
         this.groupSelected = this._cardsService.getCurrentGroup();
         this.startGame();
         this.changeItem(0)
-        this.isMenuOptions = false; 
+        this.isMenuOptions = false;
         this.modeModal = undefined
       }, cancel: () => {
         this.modeModal = undefined
@@ -161,12 +160,21 @@ export class CardsComponent {
     }
   }
 
-  routeSelectResourse() {
+  routeSelectResourse(): void {
     //Ir a seleccionar otro recurso
     this.router.navigate(['resource-manager'])
   }
 
   sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  async toggleSpeack() {
+    this.speack = !this.speack
+    if (!this.groupSelected?.questions) { return };
+    if (this.speack) {
+      //pronunciar ingles
+      await speak(this.groupSelected.questions[this.posItem].entry_a!, "en-US")
+    }
+  }
 
   async speak() {
     if (!this.groupSelected?.questions?.[this.posItem]) { return };
@@ -197,6 +205,7 @@ export class CardsComponent {
 
       //voltear tarjeta
       this.isEntableToggle = true;
+      this.reviewed = true;
       this.toggleCard()
       this.changeDetectorRef.detectChanges();
       if (this.speack) {
@@ -245,10 +254,13 @@ export class CardsComponent {
     this.complete()
   }
 
+  reviewed = false
   countGroupsMode = 0
   countQuestionsMode = 0
   changeItem(newPos: number) {
+
     if (!this.groupSelected?.questions) { return };
+    this.reviewed = false;
 
     //Mismo grupo
     if ((this.posItem + newPos) < this.groupSelected.questions.length && (this.posItem + newPos) >= 0) {
@@ -278,7 +290,7 @@ export class CardsComponent {
     //Si es todos los groups, siguiente grupo, si está vacío 
     if ((this.mode == EModes.everything || this.mode == EModes.onlyHardGroups || this.mode == EModes.onlyMediumGroups || this.mode == EModes.onlyEasyGroups)) {
       //Siguiente grupo, recorrido en circulo
-      if(this.posItem == 0){
+      if (this.posItem == 0) {
         this.groupSelected = this._cardsService.nextGroup();
         this.countQuestionsMode = 0;
       }
@@ -295,9 +307,9 @@ export class CardsComponent {
         || (this.groupSelected.questions && !this.groupSelected.group_id && this.mode !== EModes.everything)
         || (this.groupSelected.questions && this.groupSelected.questions.length == 0)) {
 
-          this.countGroupsMode++;
-          this.changeItem(0);
-          return;
+        this.countGroupsMode++;
+        this.changeItem(0);
+        return;
       } else {
         this.countGroupsMode = 0;
       }
@@ -324,10 +336,19 @@ export class CardsComponent {
     }
   }
 
-  toggleCard() {
+  async toggleCard() {
     if (this.isEntableToggle) {
       this.isFront = !this.isFront
     }
+    
+    if (!this.groupSelected?.questions) { return };
+    if (!this.reviewed) {
+      if (this.speack) {
+        //pronunciar ingles
+        await speak(this.groupSelected.questions[this.posItem].entry_b!, "es-ES")
+      }
+    }
+    this.reviewed = true;
   }
 
   random() {
@@ -361,7 +382,7 @@ export class CardsComponent {
     setTimeout(() => {
       this.setTransform(0, 0, 0, 0)
       this.initCard(this.current.nativeElement)
-      setTimeout(() => {
+      setTimeout(async () => {
         if (!this.groupSelected?.questions?.[this.posItem]) { return };
         let q = this.groupSelected.questions[this.posItem];
         this.current.nativeElement.style.transition = ''
@@ -380,37 +401,109 @@ export class CardsComponent {
         this._cardsService.updateQuestion(this.groupSelected.questions[this.posItem])
         this.changeItem(1)
 
+
         this.moveX = 0
         this.moveY = 0
         this.stars = 0
         this.isEntableToggle = true
         this.changeDetectorRef.detectChanges();
+        if (this.speack) {
+          //pronunciar ingles
+          await speak(this.groupSelected.questions[this.posItem].entry_a!, "en-US")
+        }
       })
     }, 200)
   }
 
   editQuestion(question: Question2) {
+    const originalGroupId = question.group_id;
     this.questionForm = {
       title: 'Editar pregunta',
-      question: question,
+      question: { ...question }, // Clonar para evitar mutaciones
       question_vault_id: question.question_vault_id!,
-      delete: async (question: Question2) => {
-        if (!question) return;
+      delete: async (questionToDelete: Question2) => {
+        if (!questionToDelete) return;
         this.questionForm = undefined;
-        const data = await this._indexeddbService.deleteQuestion(question.question_id!);
+        const data = await this._indexeddbService.deleteQuestion(questionToDelete.question_id!);
         if (!data) return;
-        await this.getData();
-        this.isMenuOptions = false; 
-        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "" });
+
+        // Remover la pregunta del grupo actual en memoria
+        if (this.groupSelected?.questions) {
+          const questionIndex = this.groupSelected.questions.findIndex(
+            q => q.question_id === questionToDelete.question_id
+          );
+          if (questionIndex !== -1) {
+            this.groupSelected.questions.splice(questionIndex, 1);
+          }
+        }
+
+        // Si el grupo quedó vacío y estamos en un modo diferente a "Este grupo", cambiar al siguiente
+        if (this.mode !== EModes.thisGroup && (!this.groupSelected?.questions || this.groupSelected.questions.length === 0)) {
+          this.groupSelected = this._cardsService.nextGroup();
+        }
+
+        // Ajustar posición si es necesario
+        if (this.groupSelected?.questions && this.posItem >= this.groupSelected.questions.length) {
+          this.posItem = Math.max(0, this.groupSelected.questions.length - 1);
+          this.posItemNext = this.posItem + 1 < this.groupSelected.questions.length ? this.posItem + 1 : 0;
+        }
+
+        this.isMenuOptions = false;
+        this.changeDetectorRef.detectChanges();
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta eliminada con éxito!", message: "" });
       },
-      accept: async (question: Question2) => {
-        if (!question) return;
+      accept: async (updatedQuestion: Question2) => {
+        if (!updatedQuestion) return;
         this.questionForm = undefined;
-        const data = await this._indexeddbService.updateQuestion(question);
+        const data = await this._indexeddbService.updateQuestion(updatedQuestion);
         if (!data) return;
-        await this.getData();
-        this.isMenuOptions = false; 
-        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta actualizada con exito!", message: "" });
+
+        // Verificar si el grupo cambió
+        const groupChanged = originalGroupId !== updatedQuestion.group_id;
+
+        if (groupChanged) {
+          // Remover la pregunta del grupo actual en memoria
+          if (this.groupSelected?.questions) {
+            const questionIndex = this.groupSelected.questions.findIndex(
+              q => q.question_id === updatedQuestion.question_id
+            );
+            if (questionIndex !== -1) {
+              this.groupSelected.questions.splice(questionIndex, 1);
+            }
+          }
+
+          // Actualizar el grupo en el servicio también
+          const targetGroup = this._cardsService.groups.find(g => g.group_id === updatedQuestion.group_id);
+          if (targetGroup) {
+            if (!targetGroup.questions) targetGroup.questions = [];
+            targetGroup.questions.push(updatedQuestion);
+          }
+
+          // Si el grupo actual quedó vacío y estamos en un modo diferente a "Este grupo"
+          if (this.mode !== EModes.thisGroup && (!this.groupSelected?.questions || this.groupSelected.questions.length === 0)) {
+            this.groupSelected = this._cardsService.nextGroup();
+            this.posItem = 0;
+            this.posItemNext = 1;
+          } else if (this.groupSelected?.questions && this.posItem >= this.groupSelected.questions.length) {
+            // Ajustar posición si es necesario
+            this.posItem = Math.max(0, this.groupSelected.questions.length - 1);
+            this.posItemNext = this.posItem + 1 < this.groupSelected.questions.length ? this.posItem + 1 : 0;
+          }
+        } else {
+          // Si el grupo no cambió, actualizar la pregunta en el array actual
+          if (this.groupSelected?.questions) {
+            const questionIndex = this.groupSelected.questions.findIndex(
+              q => q.question_id === updatedQuestion.question_id
+            );
+            if (questionIndex !== -1) {
+              this.groupSelected.questions[questionIndex] = updatedQuestion;
+            }
+          }
+        }
+
+        this.isMenuOptions = false;
+        this.changeDetectorRef.detectChanges();
+        this.toastService.setToast({ type: 's', timeS: 1.5, title: "Pregunta actualizada con éxito!", message: "" });
       }, cancel: () => {
         this.questionForm = undefined
       },

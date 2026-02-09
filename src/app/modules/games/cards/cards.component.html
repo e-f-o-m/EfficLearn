@@ -19,8 +19,8 @@
                     <input class="b-2" type="number" name="time-s" placeholder="5" (input)="onInputTimeS($event.target)">
                 </label>
 
-                <button (click)="speack=!speack" class="btn mb-3">
-                    <span>{{speack ? 'Sin narración' : 'Con narración'}}</span>
+                <button (click)="toggleSpeack()" class="btn mb-3">
+                    <span>{{speack ? 'Narración activa' : 'Narración inactiva'}}</span>
                 </button>
             
                 <div class="flex relative z-[101] mt-3">
