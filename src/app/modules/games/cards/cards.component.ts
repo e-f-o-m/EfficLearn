@@ -54,6 +54,7 @@ export class CardsComponent {
   a = false
   isDragging = false;
   question_vault_id: number | null = null;
+  private keyboardHandler: (event: KeyboardEvent) => void;
 
   constructor(
     private readonly toastService: ToastService,
@@ -64,6 +65,7 @@ export class CardsComponent {
     private readonly _localstorageService: LocalstorageService) {
     this._localstorageService.gameSelected = 'games/cards'
     this.question_vault_id = this._localstorageService.getQuestionVaultSelected()
+    this.keyboardHandler = this.handleKeyboard.bind(this);
     if (!this.question_vault_id) {
       this.router.navigate(['resource-manager'])
     }
@@ -72,6 +74,7 @@ export class CardsComponent {
   async ngAfterViewInit() {
     await this.getData()
     this.startGame();
+    window.addEventListener('keydown', this.keyboardHandler);
   }
 
   ngOnDestroy() {
@@ -79,6 +82,7 @@ export class CardsComponent {
     this.isListResources = false;
     this.isMenuOptions = false;
     this.speack = false;
+    window.removeEventListener('keydown', this.keyboardHandler);
   }
 
   //Start component, change mode
@@ -179,7 +183,12 @@ export class CardsComponent {
   async speak() {
     if (!this.groupSelected?.questions?.[this.posItem]) { return };
     if (!this.groupSelected.questions[this.posItem]?.entry_a) { return };
-    await speak(this.groupSelected.questions[this.posItem].entry_a!, "en-US")
+    if (this.isFront) {
+      await speak(this.groupSelected.questions[this.posItem].entry_a!, "en-US")
+    }else{
+      //pronunciar en español
+      await speak(this.groupSelected.questions[this.posItem].entry_b!, "es-ES")
+    }
   }
   async startPause() {
     if (!this.groupSelected?.questions) { return };
@@ -271,10 +280,10 @@ export class CardsComponent {
         this.posItemNext = 0;
       }
     } else {
-      //Finaliza gropo
+      //Finaliza grupo
       this.posItemNext = 1;
       this.posItem = 0;
-      if (this.groupSelected?.cycle) {
+      if (!this.groupSelected?.cycle) {
         this.groupSelected['cycle'] = 0;
       }
       if (this.mode == EModes.thisGroup) {
@@ -361,6 +370,38 @@ export class CardsComponent {
     }
     this.groupSelected.questions = shuffledArray
     this.isMenuOptions = false
+    this.changeDetectorRef.detectChanges();
+  }
+
+  handleKeyboard(event: KeyboardEvent) {
+    // No procesar si hay modales abiertos
+    if (this.questionForm || this.groupModal || this.modeModal) {
+      return;
+    }
+
+    switch (event.key) {
+      case 'ArrowLeft':
+        event.preventDefault();
+        this.hard();
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.medium();
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.toggleCard();
+        break;
+      case 'ArrowRight':
+        event.preventDefault();
+        this.easy();
+        break;
+      case ' ':
+      case 'Space':
+        event.preventDefault();
+        this.speak();
+        break;
+    }
     this.changeDetectorRef.detectChanges();
   }
 
